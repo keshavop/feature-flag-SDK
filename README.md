@@ -10,8 +10,28 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **design phase**. The documents below describe the architecture; implementation follows the
-> [implementation plan](docs/implementation-plan.md).
+> Status: **Phase 0 (build & release pipeline)**. The documents below describe the architecture; implementation
+> follows the [implementation plan](docs/implementation-plan.md).
+
+## Packages
+
+| Platform | Package | Registry |
+|---|---|---|
+| Kotlin Multiplatform / JVM / iOS | `io.github.keshavop:feature-flags-core` | Maven Central |
+| Web (browser / Node) | `@keshavop/feature-flags` | npm |
+
+## Building
+
+Requires JDK 17+ (CI uses 21). iOS targets compile on any host; iOS tests run on macOS only.
+
+```sh
+./gradlew build                       # compile all targets, ktlint, API check, JVM + JS tests
+./gradlew apiDump                     # after an intended public API change
+./gradlew :ff-web:prepareNpmPackage   # npm package in ff-web/build/npm
+./gradlew publishToMavenLocal         # Maven artifacts in ~/.m2
+```
+
+Releases are cut by pushing a `v*` tag; see [docs/releasing.md](docs/releasing.md).
 
 ## Design documents
 

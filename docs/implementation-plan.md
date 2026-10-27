@@ -45,6 +45,17 @@ Phases 3–5 can run in parallel once `ff-client-common` lands (first PR of Phas
 **Exit criteria:** `./gradlew build` green on all targets in CI; size numbers recorded.
 **Risks:** macOS runner cost → run iOS job on `main` + labelled PRs only.
 
+**Status (delivered in one PR, `feat-phase0-build-bootstrap`):**
+- Gradle 9.8.1 wrapper, version catalog, `build-logic` convention plugins (`ff.kmp-library`, `ff.lint`, `ff.maven-publish`).
+- `ff-core` (JVM, JS, iosArm64/iosSimulatorArm64/iosX64) and `ff-web` (JS ES-module library + `.d.ts`) with a
+  generated `SdkInfo.version`, so the pipeline publishes something real.
+- CI: build + ktlint + API check + JVM/JS tests on Linux, iOS simulator tests on macOS, npm package dry run.
+- Release on `v*` tags: Maven Central (`io.github.keshavop:feature-flags-core`) and npm (`@keshavop/feature-flags`);
+  see [releasing.md](./releasing.md).
+- Deviations: the Android target is added with AGP in Phase 3 (JVM artifacts already work on Android);
+  detekt waits for a stable release that supports Kotlin 2.4, ktlint covers formatting meanwhile; the size spike
+  (0.4) moves to the end of Phase 1, when `ff-core` has real code to measure.
+
 ## Phase 1 — `ff-core` (3 weeks)
 
 | PR | Title | Contents |
