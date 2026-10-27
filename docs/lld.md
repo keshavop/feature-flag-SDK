@@ -125,11 +125,13 @@ data class VariationOrRollout(val variation: Int? = null, val rollout: Rollout? 
 
 @Serializable
 data class Rollout(
+    val kind: RolloutKind = RolloutKind.ROLLOUT,
     val bucketBy: String = "key",
     val contextKind: String = "user",
-    val weights: List<WeightedVariation>,  // weights sum to 100_000
+    val weights: List<WeightedVariation>,  // ordered ranges; sum to 100_000; treatment first, control LAST (§4.4)
     val seed: Int? = null,                 // experiments: overrides flag key + salt
 )
+@Serializable enum class RolloutKind { ROLLOUT, EXPERIMENT }
 @Serializable data class WeightedVariation(val variation: Int, val weight: Int)
 
 @Serializable
@@ -383,19 +385,99 @@ internal object Bucketer {
 }
 ```
 
-- `bucketByValue`: attribute value stringified (`Int`/`Long` → decimal; other types → not bucketable → bucket 0).
-- With `rollout.seed` set (experiments): input = `"$seed.$bucketByValue"` so re-salting doesn't depend on flag key.
+- `bucketByValue`: attribute value stringified (`String` as-is, integral numbers → decimal). Missing attribute or
+  other types → *not bucketable* → the context is served the **last (control) range** (§4.4), never treatment.
+- With `rollout.seed` set (experiments): input = `"$seed..$bucketByValue"` (empty salt) so assignment is independent of the flag key.
 - Pure-Kotlin `Murmur3.hash32x86` in `commonMain` → identical across all targets (no platform hashing).
 - Conformance vectors: ≥ 200 `(input, expectedHash, expectedBucket)` triples in `conformance/bucketing.json`.
 
-### 4.4 Typed accessors
+### 4.4 Percentage rollouts
+
+See [HLD §6.5](./hld.md#65-percentage-rollouts) and [ADR-006](./adr/ADR-006-percentage-rollout-model.md).
+
+**Percent → weight.** Weights are integers in units of 0.001 % (100 000 = 100 %).
+
+```kotlin
+object Percent {
+    const val SCALE = 1_000                                   // 1 % = 1 000 buckets
+    fun toWeight(percent: Double): Int {
+        require(percent in 0.0..100.0) { "percentage must be within 0..100, was $percent" }
+        return (percent * SCALE).roundToInt()                 // 1.0 → 1 000, 30.0 → 30 000, 0.5 → 500
+    }
+}
+
+/** Convenience builder for the common two-way rollout: `percent` get [treatment], the rest get [control]. */
+fun percentageRollout(
+    percent: Double, treatment: Int, control: Int,
+    bucketBy: String = "key", contextKind: String = "user",
+): Rollout {
+    val w = Percent.toWeight(percent)
+    return Rollout(
+        bucketBy = bucketBy, contextKind = contextKind,
+        weights = listOf(WeightedVariation(treatment, w), WeightedVariation(control, Bucketer.BUCKETS - w)),
+    )
+}
+```
+
+**Resolution** (`resolve()` in §4.1):
+
+```kotlin
+private fun resolveRollout(flag: FlagConfig, r: Rollout, ctx: EvaluationContext): Pair<Int, Boolean> {
+    val bucketValue = ctx.kind(r.contextKind)?.bucketableValue(r.bucketBy)
+        ?: return r.weights.last().variation to false          // not bucketable → control, not in experiment
+    val b = if (r.seed != null) Bucketer.bucket(r.seed.toString(), "", bucketValue)   // "$seed..$value"
+            else Bucketer.bucket(flag.key, flag.salt, bucketValue)
+    val variation = Bucketer.pick(r.weights, b)
+    return variation to (r.kind == RolloutKind.EXPERIMENT)
+}
+```
+
+**Invariants (validated on decode; invalid flag → `MALFORMED_FLAG`, caller default):**
+- `weights` non-empty, each `weight >= 0`, `sum == 100_000` (a sum < 100 000 is tolerated: remainder → last range,
+  logged once; > 100 000 is malformed).
+- Every `variation` index exists in `flag.variations`.
+
+**Monotonic ramp guarantee.** For a two-range rollout `[(T, w), (C, 100 000 − w)]`, a context is in treatment iff
+`bucket < w`. Since `bucket` depends only on `(flagKey, salt, bucketByValue)`, raising `w` from 1 000 (1 %) to
+30 000 (30 %) keeps every context with `bucket < 1 000` in treatment. The control plane must therefore:
+- keep the treatment range first and control last when editing percentages;
+- never change `salt` during a ramp (changing salt = deliberate full re-shuffle);
+- warn when re-weighting a multi-variant `EXPERIMENT` (middle ranges shift → some users reassigned).
+
+**Examples (wire form):**
+
+```json
+// 1 % of everyone gets `true`
+"fallthrough": { "rollout": { "weights": [ {"variation": 1, "weight": 1000}, {"variation": 0, "weight": 99000} ] } }
+
+// rule: 30 % of users in India; account-level bucketing
+"rules": [{ "id": "in-30", "clauses": [{"attribute": "country", "op": "IN", "values": ["IN"]}],
+            "variationOrRollout": { "rollout": { "contextKind": "organization", "bucketBy": "key",
+              "weights": [ {"variation": 1, "weight": 30000}, {"variation": 0, "weight": 70000} ] } } }]
+
+// A/B/n experiment, independent of other flags
+"fallthrough": { "rollout": { "kind": "EXPERIMENT", "seed": 61,
+  "weights": [ {"variation": 1, "weight": 10000}, {"variation": 2, "weight": 10000}, {"variation": 0, "weight": 80000} ] } }
+```
+
+**Client SDKs** receive the already-resolved variation in their evaluated snapshot; the evaluation service runs this
+same `ff-core` code, so a user's bucket is identical whether evaluated on the server SDK, the evaluation endpoint or
+(in filtered-rules mode) on the device.
+
+**Testing helper** for consumer apps (`TestDataSource`):
+
+```kotlin
+td.update(td.flag("new-checkout").booleanFlag().fallthroughPercentage(30.0))   // 30 % true
+```
+
+### 4.5 Typed accessors
 
 `boolVariation` etc. call `evaluate` then convert `JsonElement` → `T`. A failed conversion returns the caller's
 default with `Error(WRONG_TYPE)`. `intVariation` accepts JSON numbers with integral value only; `doubleVariation`
 accepts any number. All public entry points are wrapped in `runCatching` → default + `Error(EXCEPTION)`;
 **evaluation never throws to callers**.
 
-### 4.5 Hooks
+### 4.6 Hooks
 
 ```kotlin
 interface EvaluationHook {
@@ -655,7 +737,8 @@ internal class EventProcessor(
 |---|---|---|
 | Unit (common) | kotlin-test, Kotest property tests | operators, evaluator branches, store version rules, backoff math |
 | **Conformance** | `conformance/*.json` + runner per target (JVM, Android unit, iOS sim, JS/Node) | same inputs → same outputs on every platform; the single source of truth for semantics |
-| Bucketing distribution | property test | 1M random keys → each 10 % bucket within ±0.3 %; cross-platform hash vectors |
+| Bucketing distribution | property test | 1M random keys → each 10 % bucket within ±0.3 %; 1 % rollout serves 1 % ± 0.05 %; cross-platform hash vectors |
+| Rollout monotonicity | property test + conformance | for random keys and `p1 < p2`, `inTreatment(p1) ⇒ inTreatment(p2)`; missing `bucketBy` → control |
 | Concurrency | `kotlinx-lincheck`, stress tests | linearizability of `FlagStore`; 64 reader threads + writer, no torn reads |
 | Data sources | MockWebServer (JVM), Ktor MockEngine (common) | SSE parsing, reconnect, 304, 401 stop, fallback to polling |
 | Performance | JMH (`benchmarks/`) | eval latency/allocations; CI regression gate (> 10 % slower fails) |

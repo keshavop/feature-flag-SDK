@@ -5,6 +5,8 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 
 - **Client SDKs (Web / Android / iOS):** download a per-user snapshot, persist it, and evaluate locally —
   zero network latency, offline-first.
+- **Percentage rollouts:** release to a configurable share of users (e.g. 1 %, then 30 %, then 100 %) with
+  sticky, cross-platform-consistent bucketing — users already included stay included as you ramp up.
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
@@ -28,6 +30,7 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 | [ADR-003](docs/adr/ADR-003-realtime-sync-sse-with-polling-fallback.md) | SSE streaming with polling fallback |
 | [ADR-004](docs/adr/ADR-004-deterministic-bucketing-murmur3.md) | MurmurHash3 deterministic bucketing |
 | [ADR-005](docs/adr/ADR-005-backend-concurrency-model.md) | Immutable snapshot + atomic swap concurrency |
+| [ADR-006](docs/adr/ADR-006-percentage-rollout-model.md) | Configurable, sticky percentage rollouts (1 %, 30 %, …) |
 
 ## Planned modules
 

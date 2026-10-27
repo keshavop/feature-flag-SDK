@@ -53,12 +53,14 @@ Phases 3–5 can run in parallel once `ff-client-common` lands (first PR of Phas
 | 1.2 | `feat(core): add EvaluationContext with multi-kind support` | builder, validation, private attrs, attribute path resolution |
 | 1.3 | `feat(core): implement MurmurHash3 bucketing` | `Murmur3`, `Bucketer`, conformance vectors, distribution test |
 | 1.4 | `feat(core): implement clause operators` | string/number/date/semver/regex operators |
-| 1.5 | `feat(core): implement evaluator with prerequisites, targets, rules and rollouts` | algorithm per LLD §4, reasons, typed accessors |
+| 1.5 | `feat(core): implement evaluator with prerequisites, targets and rules` | algorithm per LLD §4.1–4.2, reasons, typed accessors |
+| 1.5a | `feat(core): add configurable percentage rollouts with sticky monotonic bucketing` | `Rollout`/`Percent`/`percentageRollout`, weight validation, control-range fallback, monotonic-ramp property tests (LLD §4.4, ADR-006) |
 | 1.6 | `feat(core): add InMemoryFlagStore with atomic snapshot swap` | versioned upserts, tombstones, `ChangeSet`, dependency graph |
 | 1.7 | `test(conformance): add shared conformance suite and runners` | `conformance/*.json`, runners on JVM/JS/iOS |
 | 1.8 | `feat(core): add evaluation hooks and logger abstraction` | hooks, `Logger`, log-once |
 
-**Exit criteria:** conformance suite passes identically on JVM, JS and iOS simulator; ≥ 90 % line coverage on `ff-core`.
+**Exit criteria:** conformance suite passes identically on JVM, JS and iOS simulator; ≥ 90 % line coverage on `ff-core`;
+1 % / 30 % rollouts serve within ±0.05 % / ±0.3 % over 1M keys and ramping up never drops a previously included key.
 
 ## Phase 2 — Server JVM SDK (3 weeks)
 

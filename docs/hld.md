@@ -51,7 +51,9 @@ The two families of consumers have opposite constraints:
 |---|---|
 | FR-1 | Typed variations: `Boolean`, `String`, `Int`, `Double`, `JSON`. |
 | FR-2 | Targeting: individual targets, attribute rules (equals, in, contains, startsWith, regex, semver, number/date compare), segment membership, prerequisites. |
-| FR-3 | Percentage rollouts & experiments with deterministic, sticky bucketing on any context attribute. |
+| FR-3 | **Configurable percentage rollouts** (e.g. 1 %, 5 %, 30 %, 0.001 % granularity) of the whole user base or of a targeted subset, with deterministic, sticky bucketing on any context attribute; ramping up never removes already-included users (see §6.5). |
+| FR-3a | Multi-variant splits & experiments (e.g. 10 % A / 10 % B / 80 % control). |
+| FR-3b | Staged ramps (1 % → 5 % → 30 % → 100 %) scheduled in the control plane and propagated as normal updates; instant rollback to 0 %. |
 | FR-4 | Multi-kind evaluation context (user, device, organization, …) with private attributes. |
 | FR-5 | Evaluation detail (`value`, `variationIndex`, `reason`) for debugging & analytics. |
 | FR-6 | Change listeners (per flag and global). |
@@ -195,6 +197,46 @@ Evaluation order (identical on every platform):
 Bucketing is deterministic: `murmur3_x86_32(flagKey + "." + salt + "." + bucketBy) mod 100_000`
 ([ADR-004](./adr/ADR-004-deterministic-bucketing-murmur3.md)), giving 0.001 % rollout granularity and
 stickiness across platforms.
+
+### 6.5 Percentage rollouts
+
+Percentage rollouts let a team expose a feature to a configurable share of users — e.g. **1 % of the user base**,
+then **30 %**, then everyone — without storing any per-user state ([ADR-006](./adr/ADR-006-percentage-rollout-model.md)).
+
+**How a user is placed.** Each context gets a bucket in `[0, 100 000)` from
+`murmur3(flagKey.salt.bucketByValue)`. A rollout is an ordered list of ranges over those buckets:
+
+```
+ 30 % rollout of "new-checkout"            bucket 0                30 000                       99 999
+                                           |=== true (treatment) ===|======== false (control) ========|
+ ramp to 50 %                              |========== true ===============|===== false =============|
+```
+
+- `percentage → weight = round(p × 1000)`; e.g. 1 % = 1 000 buckets, 30 % = 30 000, 0.5 % = 500.
+- The treatment range always starts at bucket 0 and control is always the last range, so **increasing the
+  percentage only adds users** (a user in the 1 % is guaranteed to be in the 30 %); decreasing removes the most
+  recently added users first.
+- Same user ⇒ same bucket on every platform and every evaluation (pure function, shared KMP code).
+
+**What "1 % of base users" can mean (all supported):**
+
+| Scenario | Configuration |
+|---|---|
+| 1 % of all users | fallthrough = rollout `{true: 1 %, false: 99 %}` |
+| 30 % of users in India, nobody else | rule `country in [IN]` → rollout `{true: 30 %, false: 70 %}`; fallthrough = `false` |
+| 30 % of beta segment, 100 % of employees | target/rule `segment employees` → `true`; rule `segment beta` → rollout 30 % |
+| Account-level rollout (all users of an org together) | `bucketBy = key`, `contextKind = organization` |
+| Anonymous/logged-out traffic | `bucketBy = key`, `contextKind = device` |
+| A/B/n experiment | rollout `{A: 10 %, B: 10 %, control: 80 %}` with `seed` (independent of other flags) |
+
+**Ramping & rollback.** Stages (1 % → 5 % → 30 % → 100 %) are scheduled in the flag management service, which
+publishes a normal flag `patch` at each stage — servers pick it up within ≤ 1 s (SSE), clients on the next
+refresh. Rollback = set the percentage to 0 % or turn the flag off (kill switch). The SDK never reads a clock to
+decide rollout stages, so devices with skewed clocks cannot disagree.
+
+**Edge cases.** Context missing the `bucketBy` attribute → control (last) range, never treatment. Individual
+targets and earlier rules win over the rollout. The evaluation reason reports `inExperiment` for experiment
+rollouts so analytics only counts users actually bucketed.
 
 ## 7. Delivery contract (what the SDK depends on)
 
@@ -341,3 +383,4 @@ comparing a context generation counter.
 | [ADR-003](./adr/ADR-003-realtime-sync-sse-with-polling-fallback.md) | SSE streaming with polling fallback; polling-first on clients |
 | [ADR-004](./adr/ADR-004-deterministic-bucketing-murmur3.md) | MurmurHash3 32-bit bucketing over 100,000 buckets |
 | [ADR-005](./adr/ADR-005-backend-concurrency-model.md) | Immutable snapshot + atomic reference swap; lock-free reads |
+| [ADR-006](./adr/ADR-006-percentage-rollout-model.md) | Sticky, monotonic percentage rollouts; ramp schedules in the control plane |
