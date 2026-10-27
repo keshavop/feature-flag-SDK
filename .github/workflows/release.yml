@@ -1,0 +1,61 @@
+# Publishes a release when a version tag (v1.2.3, v1.2.3-alpha.1) is pushed:
+#   - Kotlin Multiplatform artifacts to Maven Central (io.github.keshavop:feature-flags-*)
+#   - the Web SDK to npm (@keshavop/feature-flags)
+# Required repository secrets are listed in docs/releasing.md.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  maven-central:
+    name: Publish to Maven Central
+    # Apple targets are built and published from a macOS host
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Publish
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: ./gradlew publishToMavenCentral -PVERSION_NAME="${GITHUB_REF_NAME#v}" --no-configuration-cache
+
+  npm:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm provenance
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Assemble npm package
+        run: ./gradlew :ff-web:prepareNpmPackage -PVERSION_NAME="${GITHUB_REF_NAME#v}"
+      - name: Publish
+        working-directory: ff-web/build/npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          # pre-releases (1.0.0-alpha.1) go to the "next" dist-tag so they never become "latest"
+          if [[ "$version" == *-* ]]; then tag=next; else tag=latest; fi
+          npm publish --provenance --access public --tag "$tag"
