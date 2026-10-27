@@ -1,0 +1,17 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <feature-flag-sdk:ff-core>
+final object io.github.keshavop.featureflags.core/SdkInfo { // io.github.keshavop.featureflags.core/SdkInfo|null[0]
+    final const val NAME // io.github.keshavop.featureflags.core/SdkInfo.NAME|{}NAME[0]
+        final fun <get-NAME>(): kotlin/String // io.github.keshavop.featureflags.core/SdkInfo.NAME.<get-NAME>|<get-NAME>(){}[0]
+
+    final val version // io.github.keshavop.featureflags.core/SdkInfo.version|{}version[0]
+        final fun <get-version>(): kotlin/String // io.github.keshavop.featureflags.core/SdkInfo.version.<get-version>|<get-version>(){}[0]
+
+    final fun userAgent(kotlin/String): kotlin/String // io.github.keshavop.featureflags.core/SdkInfo.userAgent|userAgent(kotlin.String){}[0]
+}
