@@ -42,3 +42,6 @@ kotlin {
         }
     }
 }
+
+// API docs; the Dokka plugin comes from the root project's classpath
+pluginManager.apply("org.jetbrains.dokka")

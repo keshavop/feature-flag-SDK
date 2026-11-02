@@ -24,6 +24,17 @@ buildscript {
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.binary.compatibility.validator)
+    alias(libs.plugins.dokka)
+}
+
+// API reference for the published Kotlin modules: ./gradlew :dokkaGenerate → build/dokka/html (published to GitHub Pages)
+dokka {
+    moduleName.set("Feature Flag SDK")
+}
+
+dependencies {
+    listOf("ff-core", "ff-sync", "ff-events", "ff-client-common", "ff-transport-okhttp", "ff-server-jvm", "ff-otel")
+        .forEach { dokka(project(":$it")) }
 }
 
 apiValidation {
