@@ -12,18 +12,27 @@ kotlin {
         browser {
             testTask { enabled = false }
         }
-        nodejs()
+        nodejs {
+            testTask {
+                useMocha { timeout = "30s" }
+            }
+        }
         binaries.library()
         useEsModules()
         generateTypeScriptDefinitions()
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.js.ExperimentalJsExport")
+            languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+        }
         jsMain.dependencies {
-            implementation(project(":ff-core"))
+            implementation(project(":ff-client-common"))
         }
         jsTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }

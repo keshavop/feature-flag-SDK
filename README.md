@@ -10,7 +10,7 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **Phase 4 (iOS SDK)** — server, Android and iOS SDKs are usable; the Web SDK follows in Phase 5.
+> Status: **Phase 5 (Web SDK)** — server, Android, iOS and Web SDKs are usable; Phase 6 hardening is next.
 > The design documents below describe the architecture; implementation follows the
 > [implementation plan](docs/implementation-plan.md).
 
@@ -53,6 +53,17 @@ let flags = FeatureFlags.shared.start(
     baseUri: "https://flags.example.com")
 if flags.boolVariation(key: "new-checkout", default: false) { /* … */ }
 let result = try await flags.identify(newContext: FeatureFlags.shared.userContext(key: newUserId, attributes: [:]))
+```
+
+## Web quick start
+
+```js
+import { initialize } from "@keshavop/feature-flags";
+
+const flags = await initialize("cli-key", { kind: "user", key: "user-42", plan: "pro" },
+  { baseUri: "https://flags.example.com", bootstrap: window.__FLAGS__ /* optional, from allFlagsState */ });
+if (flags.boolVariation("new-checkout", false)) { /* … */ }
+const stop = flags.on("change:new-checkout", (value) => render(value));
 ```
 
 ## Packages

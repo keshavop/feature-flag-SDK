@@ -733,8 +733,14 @@ internal class EventProcessor(
   `NWPathMonitor`, `NSLog` logger.
 
 ### 10.3 Web (`ff-web`)
-- Kotlin/JS IR, `@JsExport` façade, generated `.d.ts`; published as ESM + CJS to npm (`@keshavop/feature-flags`).
-- Browser transport uses `fetch` + `EventSource` directly (no Ktor) to keep bundle small.
+- Kotlin/JS IR, `@JsExport` façade (`initialize`, `WebClient`, `sdkVersion`), generated `.d.mts`; published as an
+  ES module package to npm (`@keshavop/feature-flags`).
+- `FetchTransport` on standard `fetch` (no Ktor). Streaming reads the response body incrementally instead of
+  `EventSource`, which cannot send an `Authorization` header. Event POSTs use `keepalive`, which replaces `sendBeacon`
+  for flushes while the page is being hidden. JavaScript errors are converted to Kotlin exceptions at this boundary.
+- `LocalStorageStore` (in-memory fallback where storage is unavailable); `visibilitychange` lifecycle; `online`/`offline`.
+- JS-facing values are plain JavaScript values; contexts are plain objects in the wire format; listeners via
+  `on("change" | "change:<flag>", handler)` returning an unsubscribe function.
 - `bootstrap` option accepts `allFlagsState` JSON from the server SDK for SSR hydration (no flicker).
 - React bindings (`useFlag`) are a follow-up package.
 
