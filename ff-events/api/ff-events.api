@@ -1,0 +1,118 @@
+public final class io/github/keshavop/featureflags/events/EventProcessor {
+	public static final field RETRY_DELAY_MILLIS J
+	public fun <init> (Lio/github/keshavop/featureflags/events/EventsConfig;Lio/github/keshavop/featureflags/events/EventSender;Lkotlinx/coroutines/CoroutineScope;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;)V
+	public synthetic fun <init> (Lio/github/keshavop/featureflags/events/EventsConfig;Lio/github/keshavop/featureflags/events/EventSender;Lkotlinx/coroutines/CoroutineScope;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun close (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun flush (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getDroppedEvents ()I
+	public final fun isDisabled ()Z
+	public final fun record (Lio/github/keshavop/featureflags/events/InputEvent;)V
+}
+
+public abstract interface class io/github/keshavop/featureflags/events/EventSender {
+	public abstract fun send (Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/github/keshavop/featureflags/events/EventsConfig {
+	public fun <init> ()V
+	public fun <init> (IJIILjava/util/Set;Z)V
+	public synthetic fun <init> (IJIILjava/util/Set;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()J
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/util/Set;
+	public final fun component6 ()Z
+	public final fun copy (IJIILjava/util/Set;Z)Lio/github/keshavop/featureflags/events/EventsConfig;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/events/EventsConfig;IJIILjava/util/Set;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/events/EventsConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAllAttributesPrivate ()Z
+	public final fun getBatchSize ()I
+	public final fun getCapacity ()I
+	public final fun getDedupeCapacity ()I
+	public final fun getFlushIntervalMillis ()J
+	public final fun getPrivateAttributes ()Ljava/util/Set;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/events/HttpEventSender : io/github/keshavop/featureflags/events/EventSender {
+	public fun <init> (Lio/github/keshavop/featureflags/sync/HttpTransport;Ljava/lang/String;Ljava/util/Map;)V
+	public fun send (Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class io/github/keshavop/featureflags/events/InputEvent {
+	public abstract fun getContext ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public abstract fun getCreationDate ()J
+}
+
+public final class io/github/keshavop/featureflags/events/InputEvent$Custom : io/github/keshavop/featureflags/events/InputEvent {
+	public fun <init> (JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Double;)V
+	public synthetic fun <init> (JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Double;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lkotlinx/serialization/json/JsonElement;
+	public final fun component5 ()Ljava/lang/Double;
+	public final fun copy (JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Double;)Lio/github/keshavop/featureflags/events/InputEvent$Custom;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/events/InputEvent$Custom;JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Double;ILjava/lang/Object;)Lio/github/keshavop/featureflags/events/InputEvent$Custom;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getContext ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public fun getCreationDate ()J
+	public final fun getData ()Lkotlinx/serialization/json/JsonElement;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getMetricValue ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/events/InputEvent$Evaluation : io/github/keshavop/featureflags/events/InputEvent {
+	public fun <init> (JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/keshavop/featureflags/core/eval/EvaluationReason;Z)V
+	public final fun component1 ()J
+	public final fun component2 ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lkotlinx/serialization/json/JsonElement;
+	public final fun component5 ()Lkotlinx/serialization/json/JsonElement;
+	public final fun component6 ()Ljava/lang/Integer;
+	public final fun component7 ()Ljava/lang/Long;
+	public final fun component8 ()Lio/github/keshavop/featureflags/core/eval/EvaluationReason;
+	public final fun component9 ()Z
+	public final fun copy (JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/keshavop/featureflags/core/eval/EvaluationReason;Z)Lio/github/keshavop/featureflags/events/InputEvent$Evaluation;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/events/InputEvent$Evaluation;JLio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/keshavop/featureflags/core/eval/EvaluationReason;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/events/InputEvent$Evaluation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getContext ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public fun getCreationDate ()J
+	public final fun getDefault ()Lkotlinx/serialization/json/JsonElement;
+	public final fun getExposure ()Z
+	public final fun getFlagKey ()Ljava/lang/String;
+	public final fun getReason ()Lio/github/keshavop/featureflags/core/eval/EvaluationReason;
+	public final fun getValue ()Lkotlinx/serialization/json/JsonElement;
+	public final fun getVariation ()Ljava/lang/Integer;
+	public final fun getVersion ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/events/InputEvent$Identify : io/github/keshavop/featureflags/events/InputEvent {
+	public fun <init> (JLio/github/keshavop/featureflags/core/context/EvaluationContext;)V
+	public final fun component1 ()J
+	public final fun component2 ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun copy (JLio/github/keshavop/featureflags/core/context/EvaluationContext;)Lio/github/keshavop/featureflags/events/InputEvent$Identify;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/events/InputEvent$Identify;JLio/github/keshavop/featureflags/core/context/EvaluationContext;ILjava/lang/Object;)Lio/github/keshavop/featureflags/events/InputEvent$Identify;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getContext ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public fun getCreationDate ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/events/SendResult : java/lang/Enum {
+	public static final field DISABLE Lio/github/keshavop/featureflags/events/SendResult;
+	public static final field DROP Lio/github/keshavop/featureflags/events/SendResult;
+	public static final field RETRY Lio/github/keshavop/featureflags/events/SendResult;
+	public static final field SENT Lio/github/keshavop/featureflags/events/SendResult;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/keshavop/featureflags/events/SendResult;
+	public static fun values ()[Lio/github/keshavop/featureflags/events/SendResult;
+}
+

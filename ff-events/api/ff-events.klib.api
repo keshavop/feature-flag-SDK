@@ -1,0 +1,156 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <feature-flag-sdk:ff-events>
+final enum class io.github.keshavop.featureflags.events/SendResult : kotlin/Enum<io.github.keshavop.featureflags.events/SendResult> { // io.github.keshavop.featureflags.events/SendResult|null[0]
+    enum entry DISABLE // io.github.keshavop.featureflags.events/SendResult.DISABLE|null[0]
+    enum entry DROP // io.github.keshavop.featureflags.events/SendResult.DROP|null[0]
+    enum entry RETRY // io.github.keshavop.featureflags.events/SendResult.RETRY|null[0]
+    enum entry SENT // io.github.keshavop.featureflags.events/SendResult.SENT|null[0]
+
+    final val entries // io.github.keshavop.featureflags.events/SendResult.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.keshavop.featureflags.events/SendResult> // io.github.keshavop.featureflags.events/SendResult.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.keshavop.featureflags.events/SendResult // io.github.keshavop.featureflags.events/SendResult.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.keshavop.featureflags.events/SendResult> // io.github.keshavop.featureflags.events/SendResult.values|values#static(){}[0]
+}
+
+abstract fun interface io.github.keshavop.featureflags.events/EventSender { // io.github.keshavop.featureflags.events/EventSender|null[0]
+    abstract suspend fun send(kotlin/String, kotlin/String): io.github.keshavop.featureflags.events/SendResult // io.github.keshavop.featureflags.events/EventSender.send|send(kotlin.String;kotlin.String){}[0]
+}
+
+sealed interface io.github.keshavop.featureflags.events/InputEvent { // io.github.keshavop.featureflags.events/InputEvent|null[0]
+    abstract val context // io.github.keshavop.featureflags.events/InputEvent.context|{}context[0]
+        abstract fun <get-context>(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.context.<get-context>|<get-context>(){}[0]
+    abstract val creationDate // io.github.keshavop.featureflags.events/InputEvent.creationDate|{}creationDate[0]
+        abstract fun <get-creationDate>(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.creationDate.<get-creationDate>|<get-creationDate>(){}[0]
+
+    final class Custom : io.github.keshavop.featureflags.events/InputEvent { // io.github.keshavop.featureflags.events/InputEvent.Custom|null[0]
+        constructor <init>(kotlin/Long, io.github.keshavop.featureflags.core.context/EvaluationContext, kotlin/String, kotlinx.serialization.json/JsonElement? = ..., kotlin/Double? = ...) // io.github.keshavop.featureflags.events/InputEvent.Custom.<init>|<init>(kotlin.Long;io.github.keshavop.featureflags.core.context.EvaluationContext;kotlin.String;kotlinx.serialization.json.JsonElement?;kotlin.Double?){}[0]
+
+        final val context // io.github.keshavop.featureflags.events/InputEvent.Custom.context|{}context[0]
+            final fun <get-context>(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.Custom.context.<get-context>|<get-context>(){}[0]
+        final val creationDate // io.github.keshavop.featureflags.events/InputEvent.Custom.creationDate|{}creationDate[0]
+            final fun <get-creationDate>(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.Custom.creationDate.<get-creationDate>|<get-creationDate>(){}[0]
+        final val data // io.github.keshavop.featureflags.events/InputEvent.Custom.data|{}data[0]
+            final fun <get-data>(): kotlinx.serialization.json/JsonElement? // io.github.keshavop.featureflags.events/InputEvent.Custom.data.<get-data>|<get-data>(){}[0]
+        final val key // io.github.keshavop.featureflags.events/InputEvent.Custom.key|{}key[0]
+            final fun <get-key>(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Custom.key.<get-key>|<get-key>(){}[0]
+        final val metricValue // io.github.keshavop.featureflags.events/InputEvent.Custom.metricValue|{}metricValue[0]
+            final fun <get-metricValue>(): kotlin/Double? // io.github.keshavop.featureflags.events/InputEvent.Custom.metricValue.<get-metricValue>|<get-metricValue>(){}[0]
+
+        final fun component1(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.Custom.component1|component1(){}[0]
+        final fun component2(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.Custom.component2|component2(){}[0]
+        final fun component3(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Custom.component3|component3(){}[0]
+        final fun component4(): kotlinx.serialization.json/JsonElement? // io.github.keshavop.featureflags.events/InputEvent.Custom.component4|component4(){}[0]
+        final fun component5(): kotlin/Double? // io.github.keshavop.featureflags.events/InputEvent.Custom.component5|component5(){}[0]
+        final fun copy(kotlin/Long = ..., io.github.keshavop.featureflags.core.context/EvaluationContext = ..., kotlin/String = ..., kotlinx.serialization.json/JsonElement? = ..., kotlin/Double? = ...): io.github.keshavop.featureflags.events/InputEvent.Custom // io.github.keshavop.featureflags.events/InputEvent.Custom.copy|copy(kotlin.Long;io.github.keshavop.featureflags.core.context.EvaluationContext;kotlin.String;kotlinx.serialization.json.JsonElement?;kotlin.Double?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.events/InputEvent.Custom.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.events/InputEvent.Custom.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Custom.toString|toString(){}[0]
+    }
+
+    final class Evaluation : io.github.keshavop.featureflags.events/InputEvent { // io.github.keshavop.featureflags.events/InputEvent.Evaluation|null[0]
+        constructor <init>(kotlin/Long, io.github.keshavop.featureflags.core.context/EvaluationContext, kotlin/String, kotlinx.serialization.json/JsonElement, kotlinx.serialization.json/JsonElement, kotlin/Int?, kotlin/Long?, io.github.keshavop.featureflags.core.eval/EvaluationReason?, kotlin/Boolean) // io.github.keshavop.featureflags.events/InputEvent.Evaluation.<init>|<init>(kotlin.Long;io.github.keshavop.featureflags.core.context.EvaluationContext;kotlin.String;kotlinx.serialization.json.JsonElement;kotlinx.serialization.json.JsonElement;kotlin.Int?;kotlin.Long?;io.github.keshavop.featureflags.core.eval.EvaluationReason?;kotlin.Boolean){}[0]
+
+        final val context // io.github.keshavop.featureflags.events/InputEvent.Evaluation.context|{}context[0]
+            final fun <get-context>(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.Evaluation.context.<get-context>|<get-context>(){}[0]
+        final val creationDate // io.github.keshavop.featureflags.events/InputEvent.Evaluation.creationDate|{}creationDate[0]
+            final fun <get-creationDate>(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.Evaluation.creationDate.<get-creationDate>|<get-creationDate>(){}[0]
+        final val default // io.github.keshavop.featureflags.events/InputEvent.Evaluation.default|{}default[0]
+            final fun <get-default>(): kotlinx.serialization.json/JsonElement // io.github.keshavop.featureflags.events/InputEvent.Evaluation.default.<get-default>|<get-default>(){}[0]
+        final val exposure // io.github.keshavop.featureflags.events/InputEvent.Evaluation.exposure|{}exposure[0]
+            final fun <get-exposure>(): kotlin/Boolean // io.github.keshavop.featureflags.events/InputEvent.Evaluation.exposure.<get-exposure>|<get-exposure>(){}[0]
+        final val flagKey // io.github.keshavop.featureflags.events/InputEvent.Evaluation.flagKey|{}flagKey[0]
+            final fun <get-flagKey>(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Evaluation.flagKey.<get-flagKey>|<get-flagKey>(){}[0]
+        final val reason // io.github.keshavop.featureflags.events/InputEvent.Evaluation.reason|{}reason[0]
+            final fun <get-reason>(): io.github.keshavop.featureflags.core.eval/EvaluationReason? // io.github.keshavop.featureflags.events/InputEvent.Evaluation.reason.<get-reason>|<get-reason>(){}[0]
+        final val value // io.github.keshavop.featureflags.events/InputEvent.Evaluation.value|{}value[0]
+            final fun <get-value>(): kotlinx.serialization.json/JsonElement // io.github.keshavop.featureflags.events/InputEvent.Evaluation.value.<get-value>|<get-value>(){}[0]
+        final val variation // io.github.keshavop.featureflags.events/InputEvent.Evaluation.variation|{}variation[0]
+            final fun <get-variation>(): kotlin/Int? // io.github.keshavop.featureflags.events/InputEvent.Evaluation.variation.<get-variation>|<get-variation>(){}[0]
+        final val version // io.github.keshavop.featureflags.events/InputEvent.Evaluation.version|{}version[0]
+            final fun <get-version>(): kotlin/Long? // io.github.keshavop.featureflags.events/InputEvent.Evaluation.version.<get-version>|<get-version>(){}[0]
+
+        final fun component1(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component1|component1(){}[0]
+        final fun component2(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component2|component2(){}[0]
+        final fun component3(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component3|component3(){}[0]
+        final fun component4(): kotlinx.serialization.json/JsonElement // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component4|component4(){}[0]
+        final fun component5(): kotlinx.serialization.json/JsonElement // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component5|component5(){}[0]
+        final fun component6(): kotlin/Int? // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component6|component6(){}[0]
+        final fun component7(): kotlin/Long? // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component7|component7(){}[0]
+        final fun component8(): io.github.keshavop.featureflags.core.eval/EvaluationReason? // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component8|component8(){}[0]
+        final fun component9(): kotlin/Boolean // io.github.keshavop.featureflags.events/InputEvent.Evaluation.component9|component9(){}[0]
+        final fun copy(kotlin/Long = ..., io.github.keshavop.featureflags.core.context/EvaluationContext = ..., kotlin/String = ..., kotlinx.serialization.json/JsonElement = ..., kotlinx.serialization.json/JsonElement = ..., kotlin/Int? = ..., kotlin/Long? = ..., io.github.keshavop.featureflags.core.eval/EvaluationReason? = ..., kotlin/Boolean = ...): io.github.keshavop.featureflags.events/InputEvent.Evaluation // io.github.keshavop.featureflags.events/InputEvent.Evaluation.copy|copy(kotlin.Long;io.github.keshavop.featureflags.core.context.EvaluationContext;kotlin.String;kotlinx.serialization.json.JsonElement;kotlinx.serialization.json.JsonElement;kotlin.Int?;kotlin.Long?;io.github.keshavop.featureflags.core.eval.EvaluationReason?;kotlin.Boolean){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.events/InputEvent.Evaluation.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.events/InputEvent.Evaluation.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Evaluation.toString|toString(){}[0]
+    }
+
+    final class Identify : io.github.keshavop.featureflags.events/InputEvent { // io.github.keshavop.featureflags.events/InputEvent.Identify|null[0]
+        constructor <init>(kotlin/Long, io.github.keshavop.featureflags.core.context/EvaluationContext) // io.github.keshavop.featureflags.events/InputEvent.Identify.<init>|<init>(kotlin.Long;io.github.keshavop.featureflags.core.context.EvaluationContext){}[0]
+
+        final val context // io.github.keshavop.featureflags.events/InputEvent.Identify.context|{}context[0]
+            final fun <get-context>(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.Identify.context.<get-context>|<get-context>(){}[0]
+        final val creationDate // io.github.keshavop.featureflags.events/InputEvent.Identify.creationDate|{}creationDate[0]
+            final fun <get-creationDate>(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.Identify.creationDate.<get-creationDate>|<get-creationDate>(){}[0]
+
+        final fun component1(): kotlin/Long // io.github.keshavop.featureflags.events/InputEvent.Identify.component1|component1(){}[0]
+        final fun component2(): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.events/InputEvent.Identify.component2|component2(){}[0]
+        final fun copy(kotlin/Long = ..., io.github.keshavop.featureflags.core.context/EvaluationContext = ...): io.github.keshavop.featureflags.events/InputEvent.Identify // io.github.keshavop.featureflags.events/InputEvent.Identify.copy|copy(kotlin.Long;io.github.keshavop.featureflags.core.context.EvaluationContext){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.events/InputEvent.Identify.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.events/InputEvent.Identify.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.keshavop.featureflags.events/InputEvent.Identify.toString|toString(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.events/EventProcessor { // io.github.keshavop.featureflags.events/EventProcessor|null[0]
+    constructor <init>(io.github.keshavop.featureflags.events/EventsConfig, io.github.keshavop.featureflags.events/EventSender, kotlinx.coroutines/CoroutineScope, io.github.keshavop.featureflags.core.log/FeatureFlagsLogger = ...) // io.github.keshavop.featureflags.events/EventProcessor.<init>|<init>(io.github.keshavop.featureflags.events.EventsConfig;io.github.keshavop.featureflags.events.EventSender;kotlinx.coroutines.CoroutineScope;io.github.keshavop.featureflags.core.log.FeatureFlagsLogger){}[0]
+
+    final val droppedEvents // io.github.keshavop.featureflags.events/EventProcessor.droppedEvents|{}droppedEvents[0]
+        final fun <get-droppedEvents>(): kotlin/Int // io.github.keshavop.featureflags.events/EventProcessor.droppedEvents.<get-droppedEvents>|<get-droppedEvents>(){}[0]
+    final val isDisabled // io.github.keshavop.featureflags.events/EventProcessor.isDisabled|{}isDisabled[0]
+        final fun <get-isDisabled>(): kotlin/Boolean // io.github.keshavop.featureflags.events/EventProcessor.isDisabled.<get-isDisabled>|<get-isDisabled>(){}[0]
+
+    final fun record(io.github.keshavop.featureflags.events/InputEvent) // io.github.keshavop.featureflags.events/EventProcessor.record|record(io.github.keshavop.featureflags.events.InputEvent){}[0]
+    final suspend fun close() // io.github.keshavop.featureflags.events/EventProcessor.close|close(){}[0]
+    final suspend fun flush() // io.github.keshavop.featureflags.events/EventProcessor.flush|flush(){}[0]
+}
+
+final class io.github.keshavop.featureflags.events/EventsConfig { // io.github.keshavop.featureflags.events/EventsConfig|null[0]
+    constructor <init>(kotlin/Int = ..., kotlin/Long = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin.collections/Set<kotlin/String> = ..., kotlin/Boolean = ...) // io.github.keshavop.featureflags.events/EventsConfig.<init>|<init>(kotlin.Int;kotlin.Long;kotlin.Int;kotlin.Int;kotlin.collections.Set<kotlin.String>;kotlin.Boolean){}[0]
+
+    final val allAttributesPrivate // io.github.keshavop.featureflags.events/EventsConfig.allAttributesPrivate|{}allAttributesPrivate[0]
+        final fun <get-allAttributesPrivate>(): kotlin/Boolean // io.github.keshavop.featureflags.events/EventsConfig.allAttributesPrivate.<get-allAttributesPrivate>|<get-allAttributesPrivate>(){}[0]
+    final val batchSize // io.github.keshavop.featureflags.events/EventsConfig.batchSize|{}batchSize[0]
+        final fun <get-batchSize>(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.batchSize.<get-batchSize>|<get-batchSize>(){}[0]
+    final val capacity // io.github.keshavop.featureflags.events/EventsConfig.capacity|{}capacity[0]
+        final fun <get-capacity>(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.capacity.<get-capacity>|<get-capacity>(){}[0]
+    final val dedupeCapacity // io.github.keshavop.featureflags.events/EventsConfig.dedupeCapacity|{}dedupeCapacity[0]
+        final fun <get-dedupeCapacity>(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.dedupeCapacity.<get-dedupeCapacity>|<get-dedupeCapacity>(){}[0]
+    final val flushIntervalMillis // io.github.keshavop.featureflags.events/EventsConfig.flushIntervalMillis|{}flushIntervalMillis[0]
+        final fun <get-flushIntervalMillis>(): kotlin/Long // io.github.keshavop.featureflags.events/EventsConfig.flushIntervalMillis.<get-flushIntervalMillis>|<get-flushIntervalMillis>(){}[0]
+    final val privateAttributes // io.github.keshavop.featureflags.events/EventsConfig.privateAttributes|{}privateAttributes[0]
+        final fun <get-privateAttributes>(): kotlin.collections/Set<kotlin/String> // io.github.keshavop.featureflags.events/EventsConfig.privateAttributes.<get-privateAttributes>|<get-privateAttributes>(){}[0]
+
+    final fun component1(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // io.github.keshavop.featureflags.events/EventsConfig.component2|component2(){}[0]
+    final fun component3(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.component3|component3(){}[0]
+    final fun component4(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.component4|component4(){}[0]
+    final fun component5(): kotlin.collections/Set<kotlin/String> // io.github.keshavop.featureflags.events/EventsConfig.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean // io.github.keshavop.featureflags.events/EventsConfig.component6|component6(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/Long = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin.collections/Set<kotlin/String> = ..., kotlin/Boolean = ...): io.github.keshavop.featureflags.events/EventsConfig // io.github.keshavop.featureflags.events/EventsConfig.copy|copy(kotlin.Int;kotlin.Long;kotlin.Int;kotlin.Int;kotlin.collections.Set<kotlin.String>;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.events/EventsConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.events/EventsConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.events/EventsConfig.toString|toString(){}[0]
+}
+
+final class io.github.keshavop.featureflags.events/HttpEventSender : io.github.keshavop.featureflags.events/EventSender { // io.github.keshavop.featureflags.events/HttpEventSender|null[0]
+    constructor <init>(io.github.keshavop.featureflags.sync/HttpTransport, kotlin/String, kotlin.collections/Map<kotlin/String, kotlin/String>) // io.github.keshavop.featureflags.events/HttpEventSender.<init>|<init>(io.github.keshavop.featureflags.sync.HttpTransport;kotlin.String;kotlin.collections.Map<kotlin.String,kotlin.String>){}[0]
+
+    final suspend fun send(kotlin/String, kotlin/String): io.github.keshavop.featureflags.events/SendResult // io.github.keshavop.featureflags.events/HttpEventSender.send|send(kotlin.String;kotlin.String){}[0]
+}

@@ -1,0 +1,256 @@
+public abstract interface class io/github/keshavop/featureflags/server/DataSourceStatusListener {
+	public abstract fun onStatusChange (Lio/github/keshavop/featureflags/sync/DataSourceStatus;)V
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/DataSourceStatusProvider {
+	public abstract fun addStatusListener (Lio/github/keshavop/featureflags/server/DataSourceStatusListener;)Lio/github/keshavop/featureflags/server/ListenerHandle;
+	public abstract fun getStatus ()Lio/github/keshavop/featureflags/sync/DataSourceStatus;
+	public abstract fun waitFor (Lio/github/keshavop/featureflags/sync/DataSourceStatus$State;Ljava/time/Duration;)Z
+}
+
+public final class io/github/keshavop/featureflags/server/FeatureFlagServer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/server/FeatureFlagServer;
+	public static final fun create (Ljava/lang/String;)Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;
+	public static final fun create (Ljava/lang/String;Lio/github/keshavop/featureflags/server/ServerConfig;)Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;
+	public static synthetic fun create$default (Ljava/lang/String;Lio/github/keshavop/featureflags/server/ServerConfig;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;
+	public static final fun createAsync (Ljava/lang/String;)Ljava/util/concurrent/CompletableFuture;
+	public static final fun createAsync (Ljava/lang/String;Lio/github/keshavop/featureflags/server/ServerConfig;)Ljava/util/concurrent/CompletableFuture;
+	public static synthetic fun createAsync$default (Ljava/lang/String;Lio/github/keshavop/featureflags/server/ServerConfig;ILjava/lang/Object;)Ljava/util/concurrent/CompletableFuture;
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/FeatureFlagServerClient : java/io/Closeable {
+	public abstract fun allFlagsState (Lio/github/keshavop/featureflags/core/context/EvaluationContext;Z)Lio/github/keshavop/featureflags/core/model/EvaluatedSnapshot;
+	public static synthetic fun allFlagsState$default (Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;Lio/github/keshavop/featureflags/core/context/EvaluationContext;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/EvaluatedSnapshot;
+	public abstract fun boolVariation (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Z)Z
+	public abstract fun boolVariationDetail (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Z)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public abstract fun close ()V
+	public abstract fun doubleVariation (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;D)D
+	public abstract fun doubleVariationDetail (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;D)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public abstract fun flush ()V
+	public abstract fun getDataSourceStatus ()Lio/github/keshavop/featureflags/server/DataSourceStatusProvider;
+	public abstract fun getFlagTracker ()Lio/github/keshavop/featureflags/server/FlagTracker;
+	public abstract fun intVariation (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;I)I
+	public abstract fun intVariationDetail (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;I)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public abstract fun isInitialized ()Z
+	public abstract fun jsonVariation (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lkotlinx/serialization/json/JsonElement;)Lkotlinx/serialization/json/JsonElement;
+	public abstract fun jsonVariationDetail (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lkotlinx/serialization/json/JsonElement;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public abstract fun stringVariation (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun stringVariationDetail (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Ljava/lang/String;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public fun track (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;)V
+	public abstract fun track (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lkotlinx/serialization/json/JsonElement;Ljava/lang/Double;)V
+}
+
+public final class io/github/keshavop/featureflags/server/FeatureFlagServerClient$DefaultImpls {
+	public static synthetic fun allFlagsState$default (Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;Lio/github/keshavop/featureflags/core/context/EvaluationContext;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/EvaluatedSnapshot;
+	public static fun track (Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;)V
+}
+
+public final class io/github/keshavop/featureflags/server/FileDataSource : io/github/keshavop/featureflags/sync/DataSource {
+	public static final field Companion Lio/github/keshavop/featureflags/server/FileDataSource$Companion;
+	public synthetic fun <init> (Ljava/nio/file/Path;Ljava/time/Duration;Lio/github/keshavop/featureflags/sync/DataSourceContext;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final fun factory (Ljava/nio/file/Path;)Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+	public static final fun factory (Ljava/nio/file/Path;Ljava/time/Duration;)Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+	public fun getStatus ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun start (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun stop ()V
+}
+
+public final class io/github/keshavop/featureflags/server/FileDataSource$Companion {
+	public final fun factory (Ljava/nio/file/Path;)Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+	public final fun factory (Ljava/nio/file/Path;Ljava/time/Duration;)Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+	public static synthetic fun factory$default (Lio/github/keshavop/featureflags/server/FileDataSource$Companion;Ljava/nio/file/Path;Ljava/time/Duration;ILjava/lang/Object;)Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+}
+
+public final class io/github/keshavop/featureflags/server/FlagChangeEvent {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/keshavop/featureflags/server/FlagChangeEvent;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/FlagChangeEvent;Ljava/lang/String;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/FlagChangeEvent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/FlagChangeListener {
+	public abstract fun onFlagChange (Lio/github/keshavop/featureflags/server/FlagChangeEvent;)V
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/FlagTracker {
+	public abstract fun addFlagChangeListener (Lio/github/keshavop/featureflags/server/FlagChangeListener;)Lio/github/keshavop/featureflags/server/ListenerHandle;
+	public abstract fun addFlagValueChangeListener (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lio/github/keshavop/featureflags/server/FlagValueChangeListener;)Lio/github/keshavop/featureflags/server/ListenerHandle;
+}
+
+public final class io/github/keshavop/featureflags/server/FlagValueChangeEvent {
+	public fun <init> (Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Lkotlinx/serialization/json/JsonElement;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lkotlinx/serialization/json/JsonElement;
+	public final fun component3 ()Lkotlinx/serialization/json/JsonElement;
+	public final fun copy (Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Lkotlinx/serialization/json/JsonElement;)Lio/github/keshavop/featureflags/server/FlagValueChangeEvent;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/FlagValueChangeEvent;Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;Lkotlinx/serialization/json/JsonElement;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/FlagValueChangeEvent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getNewValue ()Lkotlinx/serialization/json/JsonElement;
+	public final fun getOldValue ()Lkotlinx/serialization/json/JsonElement;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/FlagValueChangeListener {
+	public abstract fun onFlagValueChange (Lio/github/keshavop/featureflags/server/FlagValueChangeEvent;)V
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/ListenerHandle : java/io/Closeable {
+	public abstract fun close ()V
+}
+
+public final class io/github/keshavop/featureflags/server/ServerConfig {
+	public static final field Companion Lio/github/keshavop/featureflags/server/ServerConfig$Companion;
+	public static final field DEFAULT Lio/github/keshavop/featureflags/server/ServerConfig;
+	public fun <init> ()V
+	public fun <init> (Lio/github/keshavop/featureflags/server/ServerEndpoints;Lio/github/keshavop/featureflags/server/ServerDataSource;Ljava/time/Duration;Lio/github/keshavop/featureflags/server/ServerEventsConfig;Ljava/util/List;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Lio/github/keshavop/featureflags/sync/HttpTransport;)V
+	public synthetic fun <init> (Lio/github/keshavop/featureflags/server/ServerEndpoints;Lio/github/keshavop/featureflags/server/ServerDataSource;Ljava/time/Duration;Lio/github/keshavop/featureflags/server/ServerEventsConfig;Ljava/util/List;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Lio/github/keshavop/featureflags/sync/HttpTransport;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final fun builder ()Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun component1 ()Lio/github/keshavop/featureflags/server/ServerEndpoints;
+	public final fun component2 ()Lio/github/keshavop/featureflags/server/ServerDataSource;
+	public final fun component3 ()Ljava/time/Duration;
+	public final fun component4 ()Lio/github/keshavop/featureflags/server/ServerEventsConfig;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;
+	public final fun component7 ()Lio/github/keshavop/featureflags/sync/HttpTransport;
+	public final fun copy (Lio/github/keshavop/featureflags/server/ServerEndpoints;Lio/github/keshavop/featureflags/server/ServerDataSource;Ljava/time/Duration;Lio/github/keshavop/featureflags/server/ServerEventsConfig;Ljava/util/List;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Lio/github/keshavop/featureflags/sync/HttpTransport;)Lio/github/keshavop/featureflags/server/ServerConfig;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/ServerConfig;Lio/github/keshavop/featureflags/server/ServerEndpoints;Lio/github/keshavop/featureflags/server/ServerDataSource;Ljava/time/Duration;Lio/github/keshavop/featureflags/server/ServerEventsConfig;Ljava/util/List;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Lio/github/keshavop/featureflags/sync/HttpTransport;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/ServerConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDataSource ()Lio/github/keshavop/featureflags/server/ServerDataSource;
+	public final fun getEndpoints ()Lio/github/keshavop/featureflags/server/ServerEndpoints;
+	public final fun getEvents ()Lio/github/keshavop/featureflags/server/ServerEventsConfig;
+	public final fun getHooks ()Ljava/util/List;
+	public final fun getLogger ()Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;
+	public final fun getStartWait ()Ljava/time/Duration;
+	public final fun getTransport ()Lio/github/keshavop/featureflags/sync/HttpTransport;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerConfig$Builder {
+	public fun <init> ()V
+	public final fun build ()Lio/github/keshavop/featureflags/server/ServerConfig;
+	public final fun dataSource (Lio/github/keshavop/featureflags/server/ServerDataSource;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun endpoints (Lio/github/keshavop/featureflags/server/ServerEndpoints;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun events (Lio/github/keshavop/featureflags/server/ServerEventsConfig;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun hooks (Ljava/util/List;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun logger (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun startWait (Ljava/time/Duration;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+	public final fun transport (Lio/github/keshavop/featureflags/sync/HttpTransport;)Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerConfig$Companion {
+	public final fun builder ()Lio/github/keshavop/featureflags/server/ServerConfig$Builder;
+}
+
+public abstract interface class io/github/keshavop/featureflags/server/ServerDataSource {
+	public static final field Companion Lio/github/keshavop/featureflags/server/ServerDataSource$Companion;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerDataSource$Companion {
+}
+
+public final class io/github/keshavop/featureflags/server/ServerDataSource$Custom : io/github/keshavop/featureflags/server/ServerDataSource {
+	public fun <init> (Lio/github/keshavop/featureflags/sync/DataSourceFactory;)V
+	public final fun component1 ()Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+	public final fun copy (Lio/github/keshavop/featureflags/sync/DataSourceFactory;)Lio/github/keshavop/featureflags/server/ServerDataSource$Custom;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/ServerDataSource$Custom;Lio/github/keshavop/featureflags/sync/DataSourceFactory;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/ServerDataSource$Custom;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFactory ()Lio/github/keshavop/featureflags/sync/DataSourceFactory;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerDataSource$Polling : io/github/keshavop/featureflags/server/ServerDataSource {
+	public fun <init> ()V
+	public fun <init> (Ljava/time/Duration;)V
+	public synthetic fun <init> (Ljava/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/time/Duration;
+	public final fun copy (Ljava/time/Duration;)Lio/github/keshavop/featureflags/server/ServerDataSource$Polling;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/ServerDataSource$Polling;Ljava/time/Duration;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/ServerDataSource$Polling;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPollInterval ()Ljava/time/Duration;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerDataSource$Streaming : io/github/keshavop/featureflags/server/ServerDataSource {
+	public fun <init> ()V
+	public fun <init> (Ljava/time/Duration;)V
+	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/time/Duration;
+	public final fun component2 ()Ljava/time/Duration;
+	public final fun copy (Ljava/time/Duration;Ljava/time/Duration;)Lio/github/keshavop/featureflags/server/ServerDataSource$Streaming;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/ServerDataSource$Streaming;Ljava/time/Duration;Ljava/time/Duration;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/ServerDataSource$Streaming;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFallbackPollInterval ()Ljava/time/Duration;
+	public final fun getInitialReconnectDelay ()Ljava/time/Duration;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerEndpoints {
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/keshavop/featureflags/server/ServerEndpoints;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/ServerEndpoints;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/keshavop/featureflags/server/ServerEndpoints;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBaseUri ()Ljava/lang/String;
+	public final fun getEventsUri ()Ljava/lang/String;
+	public final fun getStreamUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/server/ServerEventsConfig {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public fun <init> (ZI)V
+	public fun <init> (ZILjava/time/Duration;)V
+	public fun <init> (ZILjava/time/Duration;Ljava/util/Set;)V
+	public fun <init> (ZILjava/time/Duration;Ljava/util/Set;Z)V
+	public synthetic fun <init> (ZILjava/time/Duration;Ljava/util/Set;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/time/Duration;
+	public final fun component4 ()Ljava/util/Set;
+	public final fun component5 ()Z
+	public final fun copy (ZILjava/time/Duration;Ljava/util/Set;Z)Lio/github/keshavop/featureflags/server/ServerEventsConfig;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/server/ServerEventsConfig;ZILjava/time/Duration;Ljava/util/Set;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/server/ServerEventsConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAllAttributesPrivate ()Z
+	public final fun getCapacity ()I
+	public final fun getEnabled ()Z
+	public final fun getFlushInterval ()Ljava/time/Duration;
+	public final fun getPrivateAttributes ()Ljava/util/Set;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/server/Slf4jLogger : io/github/keshavop/featureflags/core/log/FeatureFlagsLogger {
+	public fun <init> ()V
+	public fun <init> (Lorg/slf4j/Logger;)V
+	public synthetic fun <init> (Lorg/slf4j/Logger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun debug (Ljava/lang/String;)V
+	public fun error (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun info (Ljava/lang/String;)V
+	public fun warn (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class io/github/keshavop/featureflags/server/metrics/MicrometerMetrics {
+	public fun <init> (Lio/micrometer/core/instrument/MeterRegistry;)V
+	public final fun bind (Lio/github/keshavop/featureflags/server/FeatureFlagServerClient;)V
+	public final fun getHook ()Lio/github/keshavop/featureflags/core/hooks/EvaluationHook;
+}
+

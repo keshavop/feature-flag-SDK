@@ -12,6 +12,7 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
+import kotlin.jvm.JvmStatic
 
 /**
  * Who a flag is evaluated for: one or more kinds (user, device, organization, …), each with a key and attributes.
@@ -98,14 +99,17 @@ public class EvaluationContext private constructor(
         private val KIND_PATTERN = Regex("[a-zA-Z0-9._-]+")
         internal val RESERVED = setOf("kind", "key", "anonymous", "_meta")
 
+        @JvmStatic
         public fun user(key: String): Builder = Builder(ContextKinds.USER, key)
 
+        @JvmStatic
         public fun builder(
             kind: String,
             key: String,
         ): Builder = Builder(kind, key)
 
         /** Combines single-kind contexts, e.g. a user and the organization they belong to. */
+        @JvmStatic
         public fun multi(vararg contexts: EvaluationContext): EvaluationContext {
             val merged = LinkedHashMap<String, ContextKind>()
             for (context in contexts) {
@@ -118,6 +122,7 @@ public class EvaluationContext private constructor(
         }
 
         /** Parses the wire JSON form produced by [toJson]. */
+        @JvmStatic
         public fun fromJson(json: JsonObject): EvaluationContext {
             val kind = json["kind"]?.jsonPrimitive?.contentOrNull ?: ContextKinds.USER
             if (kind != ContextKinds.MULTI) return EvaluationContext(mapOf(kind to parseKind(kind, json)))

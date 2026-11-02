@@ -10,14 +10,30 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **Phase 1 (evaluation engine)** — `ff-core` evaluates flags, rules, segments and percentage rollouts. The documents below describe the architecture; implementation
-> follows the [implementation plan](docs/implementation-plan.md).
+> Status: **Phase 2 (server SDK)** — the Kotlin/JVM server SDK is usable; client SDKs follow in Phases 3–5.
+> The design documents below describe the architecture; implementation follows the
+> [implementation plan](docs/implementation-plan.md).
+
+## Server SDK quick start
+
+```kotlin
+val client = FeatureFlagServer.create(
+    sdkKey = System.getenv("FF_SERVER_KEY"),
+    config = ServerConfig(endpoints = ServerEndpoints("https://flags.example.com")),
+)
+val user = EvaluationContext.user("user-42").set("country", "IN").build()
+if (client.boolVariation("new-checkout", user, default = false)) { /* new flow */ }
+client.close()   // on shutdown: flushes analytics events
+```
+
+For tests, use `ServerDataSource.Custom(TestDataSource())`; see `samples/server-jvm`.
 
 ## Packages
 
 | Platform | Package | Registry |
 |---|---|---|
 | Kotlin Multiplatform / JVM / iOS | `io.github.keshavop:feature-flags-core` | Maven Central |
+| Kotlin/Java server | `io.github.keshavop:feature-flags-server-jvm` | Maven Central |
 | Web (browser / Node) | `@keshavop/feature-flags` | npm |
 
 ## Building

@@ -359,6 +359,78 @@ final class io.github.keshavop.featureflags.core.model/Clause { // io.github.kes
     }
 }
 
+final class io.github.keshavop.featureflags.core.model/EvaluatedFlag { // io.github.keshavop.featureflags.core.model/EvaluatedFlag|null[0]
+    constructor <init>(kotlinx.serialization.json/JsonElement, kotlin/Int? = ..., kotlin/Long = ..., io.github.keshavop.featureflags.core.model/SerializedReason? = ..., kotlin/Boolean = ...) // io.github.keshavop.featureflags.core.model/EvaluatedFlag.<init>|<init>(kotlinx.serialization.json.JsonElement;kotlin.Int?;kotlin.Long;io.github.keshavop.featureflags.core.model.SerializedReason?;kotlin.Boolean){}[0]
+
+    final val reason // io.github.keshavop.featureflags.core.model/EvaluatedFlag.reason|{}reason[0]
+        final fun <get-reason>(): io.github.keshavop.featureflags.core.model/SerializedReason? // io.github.keshavop.featureflags.core.model/EvaluatedFlag.reason.<get-reason>|<get-reason>(){}[0]
+    final val trackEvents // io.github.keshavop.featureflags.core.model/EvaluatedFlag.trackEvents|{}trackEvents[0]
+        final fun <get-trackEvents>(): kotlin/Boolean // io.github.keshavop.featureflags.core.model/EvaluatedFlag.trackEvents.<get-trackEvents>|<get-trackEvents>(){}[0]
+    final val value // io.github.keshavop.featureflags.core.model/EvaluatedFlag.value|{}value[0]
+        final fun <get-value>(): kotlinx.serialization.json/JsonElement // io.github.keshavop.featureflags.core.model/EvaluatedFlag.value.<get-value>|<get-value>(){}[0]
+    final val variation // io.github.keshavop.featureflags.core.model/EvaluatedFlag.variation|{}variation[0]
+        final fun <get-variation>(): kotlin/Int? // io.github.keshavop.featureflags.core.model/EvaluatedFlag.variation.<get-variation>|<get-variation>(){}[0]
+    final val version // io.github.keshavop.featureflags.core.model/EvaluatedFlag.version|{}version[0]
+        final fun <get-version>(): kotlin/Long // io.github.keshavop.featureflags.core.model/EvaluatedFlag.version.<get-version>|<get-version>(){}[0]
+
+    final fun component1(): kotlinx.serialization.json/JsonElement // io.github.keshavop.featureflags.core.model/EvaluatedFlag.component1|component1(){}[0]
+    final fun component2(): kotlin/Int? // io.github.keshavop.featureflags.core.model/EvaluatedFlag.component2|component2(){}[0]
+    final fun component3(): kotlin/Long // io.github.keshavop.featureflags.core.model/EvaluatedFlag.component3|component3(){}[0]
+    final fun component4(): io.github.keshavop.featureflags.core.model/SerializedReason? // io.github.keshavop.featureflags.core.model/EvaluatedFlag.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean // io.github.keshavop.featureflags.core.model/EvaluatedFlag.component5|component5(){}[0]
+    final fun copy(kotlinx.serialization.json/JsonElement = ..., kotlin/Int? = ..., kotlin/Long = ..., io.github.keshavop.featureflags.core.model/SerializedReason? = ..., kotlin/Boolean = ...): io.github.keshavop.featureflags.core.model/EvaluatedFlag // io.github.keshavop.featureflags.core.model/EvaluatedFlag.copy|copy(kotlinx.serialization.json.JsonElement;kotlin.Int?;kotlin.Long;io.github.keshavop.featureflags.core.model.SerializedReason?;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.core.model/EvaluatedFlag.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.core.model/EvaluatedFlag.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.core.model/EvaluatedFlag.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.keshavop.featureflags.core.model/EvaluatedFlag> { // io.github.keshavop.featureflags.core.model/EvaluatedFlag.$serializer|null[0]
+        final val descriptor // io.github.keshavop.featureflags.core.model/EvaluatedFlag.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.keshavop.featureflags.core.model/EvaluatedFlag.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.keshavop.featureflags.core.model/EvaluatedFlag.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.keshavop.featureflags.core.model/EvaluatedFlag // io.github.keshavop.featureflags.core.model/EvaluatedFlag.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.keshavop.featureflags.core.model/EvaluatedFlag) // io.github.keshavop.featureflags.core.model/EvaluatedFlag.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.keshavop.featureflags.core.model.EvaluatedFlag){}[0]
+    }
+
+    final object Companion { // io.github.keshavop.featureflags.core.model/EvaluatedFlag.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<io.github.keshavop.featureflags.core.model/EvaluatedFlag> // io.github.keshavop.featureflags.core.model/EvaluatedFlag.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.core.model/EvaluatedSnapshot { // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot|null[0]
+    constructor <init>(kotlin/Int = ..., kotlin/String? = ..., kotlin.collections/Map<kotlin/String, io.github.keshavop.featureflags.core.model/EvaluatedFlag> = ...) // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.<init>|<init>(kotlin.Int;kotlin.String?;kotlin.collections.Map<kotlin.String,io.github.keshavop.featureflags.core.model.EvaluatedFlag>){}[0]
+
+    final val contextHash // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.contextHash|{}contextHash[0]
+        final fun <get-contextHash>(): kotlin/String? // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.contextHash.<get-contextHash>|<get-contextHash>(){}[0]
+    final val flags // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.flags|{}flags[0]
+        final fun <get-flags>(): kotlin.collections/Map<kotlin/String, io.github.keshavop.featureflags.core.model/EvaluatedFlag> // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.flags.<get-flags>|<get-flags>(){}[0]
+    final val schemaVersion // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.schemaVersion|{}schemaVersion[0]
+        final fun <get-schemaVersion>(): kotlin/Int // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.schemaVersion.<get-schemaVersion>|<get-schemaVersion>(){}[0]
+
+    final fun component1(): kotlin/Int // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.component1|component1(){}[0]
+    final fun component2(): kotlin/String? // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.component2|component2(){}[0]
+    final fun component3(): kotlin.collections/Map<kotlin/String, io.github.keshavop.featureflags.core.model/EvaluatedFlag> // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.component3|component3(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/String? = ..., kotlin.collections/Map<kotlin/String, io.github.keshavop.featureflags.core.model/EvaluatedFlag> = ...): io.github.keshavop.featureflags.core.model/EvaluatedSnapshot // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.copy|copy(kotlin.Int;kotlin.String?;kotlin.collections.Map<kotlin.String,io.github.keshavop.featureflags.core.model.EvaluatedFlag>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.keshavop.featureflags.core.model/EvaluatedSnapshot> { // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.$serializer|null[0]
+        final val descriptor // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.keshavop.featureflags.core.model/EvaluatedSnapshot // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.keshavop.featureflags.core.model/EvaluatedSnapshot) // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.keshavop.featureflags.core.model.EvaluatedSnapshot){}[0]
+    }
+
+    final object Companion { // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.Companion|null[0]
+        final val $childSerializers // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<io.github.keshavop.featureflags.core.model/EvaluatedSnapshot> // io.github.keshavop.featureflags.core.model/EvaluatedSnapshot.Companion.serializer|serializer(){}[0]
+    }
+}
+
 final class io.github.keshavop.featureflags.core.model/FlagConfig { // io.github.keshavop.featureflags.core.model/FlagConfig|null[0]
     constructor <init>(kotlin/String, kotlin/Long, kotlin/Boolean = ..., kotlin.collections/List<kotlinx.serialization.json/JsonElement> = ..., kotlin/Int? = ..., kotlin.collections/List<io.github.keshavop.featureflags.core.model/Prerequisite> = ..., kotlin.collections/List<io.github.keshavop.featureflags.core.model/Target> = ..., kotlin.collections/List<io.github.keshavop.featureflags.core.model/Rule> = ..., io.github.keshavop.featureflags.core.model/VariationOrRollout = ..., kotlin/String = ..., kotlin/Boolean = ..., kotlin/Boolean = ...) // io.github.keshavop.featureflags.core.model/FlagConfig.<init>|<init>(kotlin.String;kotlin.Long;kotlin.Boolean;kotlin.collections.List<kotlinx.serialization.json.JsonElement>;kotlin.Int?;kotlin.collections.List<io.github.keshavop.featureflags.core.model.Prerequisite>;kotlin.collections.List<io.github.keshavop.featureflags.core.model.Target>;kotlin.collections.List<io.github.keshavop.featureflags.core.model.Rule>;io.github.keshavop.featureflags.core.model.VariationOrRollout;kotlin.String;kotlin.Boolean;kotlin.Boolean){}[0]
 
@@ -609,6 +681,49 @@ final class io.github.keshavop.featureflags.core.model/SegmentRule { // io.githu
         final val $childSerializers // io.github.keshavop.featureflags.core.model/SegmentRule.Companion.$childSerializers|{}$childSerializers[0]
 
         final fun serializer(): kotlinx.serialization/KSerializer<io.github.keshavop.featureflags.core.model/SegmentRule> // io.github.keshavop.featureflags.core.model/SegmentRule.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.core.model/SerializedReason { // io.github.keshavop.featureflags.core.model/SerializedReason|null[0]
+    constructor <init>(kotlin/String, kotlin/Int? = ..., kotlin/String? = ..., kotlin/Boolean? = ..., kotlin/String? = ..., kotlin/String? = ...) // io.github.keshavop.featureflags.core.model/SerializedReason.<init>|<init>(kotlin.String;kotlin.Int?;kotlin.String?;kotlin.Boolean?;kotlin.String?;kotlin.String?){}[0]
+
+    final val errorKind // io.github.keshavop.featureflags.core.model/SerializedReason.errorKind|{}errorKind[0]
+        final fun <get-errorKind>(): kotlin/String? // io.github.keshavop.featureflags.core.model/SerializedReason.errorKind.<get-errorKind>|<get-errorKind>(){}[0]
+    final val inExperiment // io.github.keshavop.featureflags.core.model/SerializedReason.inExperiment|{}inExperiment[0]
+        final fun <get-inExperiment>(): kotlin/Boolean? // io.github.keshavop.featureflags.core.model/SerializedReason.inExperiment.<get-inExperiment>|<get-inExperiment>(){}[0]
+    final val kind // io.github.keshavop.featureflags.core.model/SerializedReason.kind|{}kind[0]
+        final fun <get-kind>(): kotlin/String // io.github.keshavop.featureflags.core.model/SerializedReason.kind.<get-kind>|<get-kind>(){}[0]
+    final val prerequisiteKey // io.github.keshavop.featureflags.core.model/SerializedReason.prerequisiteKey|{}prerequisiteKey[0]
+        final fun <get-prerequisiteKey>(): kotlin/String? // io.github.keshavop.featureflags.core.model/SerializedReason.prerequisiteKey.<get-prerequisiteKey>|<get-prerequisiteKey>(){}[0]
+    final val ruleId // io.github.keshavop.featureflags.core.model/SerializedReason.ruleId|{}ruleId[0]
+        final fun <get-ruleId>(): kotlin/String? // io.github.keshavop.featureflags.core.model/SerializedReason.ruleId.<get-ruleId>|<get-ruleId>(){}[0]
+    final val ruleIndex // io.github.keshavop.featureflags.core.model/SerializedReason.ruleIndex|{}ruleIndex[0]
+        final fun <get-ruleIndex>(): kotlin/Int? // io.github.keshavop.featureflags.core.model/SerializedReason.ruleIndex.<get-ruleIndex>|<get-ruleIndex>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.keshavop.featureflags.core.model/SerializedReason.component1|component1(){}[0]
+    final fun component2(): kotlin/Int? // io.github.keshavop.featureflags.core.model/SerializedReason.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // io.github.keshavop.featureflags.core.model/SerializedReason.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean? // io.github.keshavop.featureflags.core.model/SerializedReason.component4|component4(){}[0]
+    final fun component5(): kotlin/String? // io.github.keshavop.featureflags.core.model/SerializedReason.component5|component5(){}[0]
+    final fun component6(): kotlin/String? // io.github.keshavop.featureflags.core.model/SerializedReason.component6|component6(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Int? = ..., kotlin/String? = ..., kotlin/Boolean? = ..., kotlin/String? = ..., kotlin/String? = ...): io.github.keshavop.featureflags.core.model/SerializedReason // io.github.keshavop.featureflags.core.model/SerializedReason.copy|copy(kotlin.String;kotlin.Int?;kotlin.String?;kotlin.Boolean?;kotlin.String?;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.core.model/SerializedReason.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.core.model/SerializedReason.hashCode|hashCode(){}[0]
+    final fun toReason(): io.github.keshavop.featureflags.core.eval/EvaluationReason // io.github.keshavop.featureflags.core.model/SerializedReason.toReason|toReason(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.core.model/SerializedReason.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.keshavop.featureflags.core.model/SerializedReason> { // io.github.keshavop.featureflags.core.model/SerializedReason.$serializer|null[0]
+        final val descriptor // io.github.keshavop.featureflags.core.model/SerializedReason.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.keshavop.featureflags.core.model/SerializedReason.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.keshavop.featureflags.core.model/SerializedReason.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.keshavop.featureflags.core.model/SerializedReason // io.github.keshavop.featureflags.core.model/SerializedReason.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.keshavop.featureflags.core.model/SerializedReason) // io.github.keshavop.featureflags.core.model/SerializedReason.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.keshavop.featureflags.core.model.SerializedReason){}[0]
+    }
+
+    final object Companion { // io.github.keshavop.featureflags.core.model/SerializedReason.Companion|null[0]
+        final fun of(io.github.keshavop.featureflags.core.eval/EvaluationReason): io.github.keshavop.featureflags.core.model/SerializedReason // io.github.keshavop.featureflags.core.model/SerializedReason.Companion.of|of(io.github.keshavop.featureflags.core.eval.EvaluationReason){}[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<io.github.keshavop.featureflags.core.model/SerializedReason> // io.github.keshavop.featureflags.core.model/SerializedReason.Companion.serializer|serializer(){}[0]
     }
 }
 
