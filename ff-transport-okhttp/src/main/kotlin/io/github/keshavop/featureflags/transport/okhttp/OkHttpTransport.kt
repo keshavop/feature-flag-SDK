@@ -1,4 +1,4 @@
-package io.github.keshavop.featureflags.server.internal
+package io.github.keshavop.featureflags.transport.okhttp
 
 import io.github.keshavop.featureflags.sync.HttpRequest
 import io.github.keshavop.featureflags.sync.HttpResponse
@@ -24,8 +24,11 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-/** [HttpTransport] on OkHttp. Streams use a 5 minute read timeout to detect half-open connections (LLD §7.1). */
-internal class OkHttpTransport(
+/**
+ * [HttpTransport] on OkHttp, shared by the server SDK and the Android SDK. Streams use a 5 minute read timeout to detect
+ * half-open connections (LLD §7.1). Pass your own [base] client to reuse its connection pool, proxy or TLS settings.
+ */
+public class OkHttpTransport(
     userAgent: String,
     base: OkHttpClient = OkHttpClient(),
 ) : HttpTransport {

@@ -6,7 +6,7 @@ plugins {
 dependencies {
     api(project(":ff-sync"))
     api(project(":ff-events"))
-    implementation(libs.okhttp)
+    implementation(project(":ff-transport-okhttp"))
     implementation(libs.slf4j.api)
     // optional: only needed by applications that use MicrometerMetrics
     compileOnly(libs.micrometer.core)

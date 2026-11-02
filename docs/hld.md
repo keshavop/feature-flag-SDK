@@ -125,7 +125,7 @@ lifecycle and idiomatic APIs. See [ADR-001](./adr/ADR-001-kotlin-multiplatform-c
 flowchart TB
     subgraph Platform shells
         JVM["ff-server-jvm<br/>Java/Kotlin API, CompletableFuture,<br/>OkHttp SSE, JMX/Micrometer"]
-        ANDR["ff-android<br/>Lifecycle, Connectivity,<br/>DataStore cache"]
+        ANDR["ff-android<br/>Lifecycle, Connectivity,<br/>file cache"]
         IOSS["ff-ios<br/>Swift facade (SKIE), async/await,<br/>UIApplication notifications, file cache"]
         WEBS["ff-web<br/>@JsExport TS API, visibility API,<br/>IndexedDB/localStorage cache"]
     end
@@ -135,7 +135,7 @@ flowchart TB
         SERVER["ff-server-common<br/>multi-context server orchestration"]
         SYNC["ff-sync<br/>DataSource: polling / streaming / file,<br/>backoff, ETag"]
         EVENTS["ff-events<br/>EventProcessor, batching, dedupe"]
-        CACHE["ff-cache<br/>PersistentCache expect/actual"]
+        CACHE["cache (in ff-client-common)<br/>PersistentCache + KeyValueStore"]
         CORE["ff-core<br/>models · evaluator · bucketing ·<br/>operators · FlagStore · hooks"]
     end
 
@@ -172,7 +172,7 @@ which keeps it trivially testable and small.
   (which may contain other users' identifiers) never reach the device. An optional *filtered-rules* mode ships
   rules that reference only the current context's attributes, enabling on-device re-evaluation after
   local attribute changes. Either way, evaluation is a local map lookup → zero network latency.
-- **Persistent cache**: last-known-good snapshot per context hash (DataStore on Android, file in Application Support
+- **Persistent cache**: last-known-good snapshot per context hash (files in `noBackupFilesDir` on Android, file in Application Support
   on iOS, IndexedDB with localStorage fallback on Web). Cold start serves the cache immediately
   (stale-while-revalidate), then refreshes in the background.
 - **Refresh**: conditional `GET`/`POST` with `If-None-Match`; polling interval (default 5 min background-safe,
@@ -245,7 +245,7 @@ rollouts so analytics only counts users actually bucketed.
 | `GET /sdk/v1/server/snapshot` | Server | Full flags + segments; `ETag`; gzip |
 | `GET /sdk/v1/server/stream` | Server | SSE: `put`, `patch`, `delete`, heartbeat comments every 30 s |
 | `POST /sdk/v1/client/evaluate` | Client | Body: context; returns evaluated snapshot; `ETag` |
-| `GET /sdk/v1/client/stream?ctx=` | Client (opt.) | SSE "ping"/"patch" for this context |
+| `GET /sdk/v1/client/stream` | Client (opt.) | SSE `ping` = "flags changed, refetch"; no context in the URL |
 | `POST /sdk/v1/events/bulk` | All | Batched events, gzip, `X-SDK-Payload-Id` for idempotent retry |
 
 Every request carries the SDK key in the `Authorization` header — never in the URL, so keys do not end up in proxy

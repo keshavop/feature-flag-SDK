@@ -10,7 +10,7 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **Phase 2 (server SDK)** — the Kotlin/JVM server SDK is usable; client SDKs follow in Phases 3–5.
+> Status: **Phase 3 (Android SDK)** — server and Android SDKs are usable; iOS and Web follow in Phases 4–5.
 > The design documents below describe the architecture; implementation follows the
 > [implementation plan](docs/implementation-plan.md).
 
@@ -28,12 +28,27 @@ client.close()   // on shutdown: flushes analytics events
 
 For tests, use `ServerDataSource.Custom(TestDataSource())`; see `samples/server-jvm`.
 
+## Android quick start
+
+```kotlin
+class App : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        FeatureFlags.init(this, "mob-key", EvaluationContext.user(currentUserId).build(),
+            ClientConfig(endpoints = ClientEndpoints("https://flags.example.com")))
+    }
+}
+// anywhere, on any thread — a local lookup, never a network call
+if (FeatureFlags.get().boolVariation("new-checkout", false)) { /* … */ }
+```
+
 ## Packages
 
 | Platform | Package | Registry |
 |---|---|---|
 | Kotlin Multiplatform / JVM / iOS | `io.github.keshavop:feature-flags-core` | Maven Central |
 | Kotlin/Java server | `io.github.keshavop:feature-flags-server-jvm` | Maven Central |
+| Android | `io.github.keshavop:feature-flags-android` | Maven Central |
 | Web (browser / Node) | `@keshavop/feature-flags` | npm |
 
 ## Building
