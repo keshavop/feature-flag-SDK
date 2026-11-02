@@ -1,0 +1,7 @@
+public final class io/github/keshavop/featureflags/core/SdkInfo {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/SdkInfo;
+	public static final field NAME Ljava/lang/String;
+	public final fun getVersion ()Ljava/lang/String;
+	public final fun userAgent (Ljava/lang/String;)Ljava/lang/String;
+}
+
