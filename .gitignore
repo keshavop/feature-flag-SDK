@@ -6,3 +6,4 @@ local.properties
 *.iml
 .DS_Store
 node_modules/
+ff-web/e2e/node_modules/

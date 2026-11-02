@@ -182,6 +182,20 @@ AAR < 300 KB.
 
 **Exit criteria:** Playwright tests green; core bundle < 25 KB gz; bootstrap hydrates without flicker.
 
+**Status (delivered in one PR, `feat-phase5-web-sdk`):**
+- `ff-web`: `initialize(clientKey, context, options): Promise<WebClient>`, typed/JSON/detail variations, `allFlags`,
+  `identify`, `on(...)` listeners, `track`, `refresh`, `flush`, `setOffline`, `status`; `FetchTransport`,
+  `LocalStorageStore`, visibility/online tracking, console logger.
+- Verification: Kotlin/JS tests on Node 22 with a stubbed `fetch` (values, bootstrap offline, listeners + identify,
+  streamed body line splitting, error handling) and `ff-web/e2e/smoke.mjs`, which loads the built npm package in
+  headless Chromium against a fake flag service — it found two browser-only bugs (detached `fetch` call; JS errors
+  bypassing Kotlin `catch (e: Exception)`), both fixed. CI runs the smoke test.
+- **Open issue — bundle size:** the package is 276 KiB gzipped (Kotlin stdlib, coroutines and serialization included,
+  no tree shaking), far above the 25 KB target. Options, in order of expected impact: drop coroutines/serialization from
+  the JS path (hand-written JSON over `JSON.parse`, callbacks instead of flows), Kotlin/JS per-file output so bundlers can
+  tree-shake, or the HLD fallback of a small TypeScript client over a minimal Kotlin evaluator.
+- Deviations: localStorage instead of IndexedDB (snapshots are small); ES module only (no CJS build); no sample app.
+
 ## Phase 6 — Hardening & GA (2 weeks)
 
 | PR | Title | Contents |
