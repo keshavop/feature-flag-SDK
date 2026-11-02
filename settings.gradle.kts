@@ -41,8 +41,8 @@ include(":samples:server-jvm")
 
 // The Android SDK module needs an Android SDK (CI runners have one); other modules build without it.
 val androidSdk =
-    providers.environmentVariable("ANDROID_HOME").orNull
-        ?: providers.environmentVariable("ANDROID_SDK_ROOT").orNull
+    providers.environmentVariable("ANDROID_HOME").orNull?.takeIf { it.isNotBlank() }
+        ?: providers.environmentVariable("ANDROID_SDK_ROOT").orNull?.takeIf { it.isNotBlank() }
         ?: file("local.properties").takeIf { it.isFile }?.readLines()?.firstOrNull { it.startsWith("sdk.dir=") }?.substringAfter("=")
 if (androidSdk != null && file(androidSdk).isDirectory) {
     include(":ff-android")

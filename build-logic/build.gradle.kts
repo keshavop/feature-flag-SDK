@@ -16,6 +16,15 @@ fun androidSdkPresent(): Boolean {
     val fromProperties =
         rootDir.resolve("../local.properties").takeIf { it.isFile }?.readLines()
             ?.firstOrNull { it.startsWith("sdk.dir=") }?.substringAfter("=")
-    val sdk = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT") ?: fromProperties
+    val sdk = listOf(System.getenv("ANDROID_HOME"), System.getenv("ANDROID_SDK_ROOT"), fromProperties).firstOrNull { !it.isNullOrBlank() }
     return sdk != null && File(sdk).isDirectory
+}
+
+gradlePlugin {
+    plugins {
+        create("androidLibrary") {
+            id = "ff.android-library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+    }
 }
