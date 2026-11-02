@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // Android SDK shell (LLD §10.1): lifecycle- and connectivity-aware client on top of ff-client-common.
-// Uses AGP's built-in Kotlin support; no AndroidX dependencies.
+// No AndroidX dependencies.
 plugins {
     id("ff.android-library")
     id("ff.lint")
