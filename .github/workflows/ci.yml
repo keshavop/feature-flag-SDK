@@ -24,7 +24,7 @@ jobs:
           java-version: 21
       - uses: gradle/actions/setup-gradle@v5
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace
       - name: Assemble npm package
         run: ./gradlew :ff-web:prepareNpmPackage
       - name: Check npm package contents

@@ -32,6 +32,7 @@ import io.github.keshavop.featureflags.sync.HttpRequest
 import io.github.keshavop.featureflags.sync.PollingDataSource
 import io.github.keshavop.featureflags.sync.StoreUpdater
 import io.github.keshavop.featureflags.sync.StreamingDataSource
+import io.github.keshavop.featureflags.transport.okhttp.OkHttpTransport
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

@@ -130,6 +130,23 @@ a mock SSE server; `close()` flushes events.
 **Exit criteria:** cached flags available < 10 ms after `init`; polling paused in background (Robolectric test);
 AAR < 300 KB.
 
+**Status (delivered in one PR, `feat-phase3-android-sdk`):**
+- `ff-client-common` (KMP): `FeatureFlagClient` (typed + detail variations, `allFlags`, `identify`, listeners,
+  `flagUpdates` flow, `status`, `setOffline`, `refresh`, `track`), evaluated-snapshot store swapped atomically, cache-first
+  start, ETag polling paused in background / offline, optional SSE change pings, stale responses discarded via a
+  generation counter, events (identify, summaries, exposures) flushed on background. Persistence: `KeyValueStore`,
+  `PersistentCache` (hashed keys, LRU of 5 contexts), `FileKeyValueStore` (JVM/Android).
+- `ff-transport-okhttp`: the OkHttp transport, now shared by `ff-server-jvm` and `ff-android`.
+- `ff-android`: `FeatureFlags.init/get/identify`, activity-callback foreground tracking, `ConnectivityManager`
+  online tracking, Logcat logger, main-thread listeners, consumer R8 rules. Included only when an Android SDK is present.
+- Verification: 12 common client tests on JVM and JS (virtual time), including a mutation-checked identify race test;
+  Android unit tests for foreground tracking run in CI.
+- Deviations: no Ktor (OkHttp on Android, `NSURLSession` on iOS, `fetch` on Web keeps mobile binaries small); no
+  AndroidX/DataStore (plain files + activity callbacks, so the AAR needs nothing from Google besides the build plugin);
+  the cache lives in `ff-client-common` instead of a separate `ff-cache` module; no Compose sample app yet; Android
+  code is compiled and tested in CI only, because this development sandbox cannot reach Google's Maven repository; AAR
+  size and init-time numbers are not measured yet.
+
 ## Phase 4 — iOS SDK (3 weeks)
 
 | PR | Title | Contents |

@@ -23,11 +23,11 @@ feature-flag-SDK/
 ├── ff-core/                             # pure semantics, no I/O
 ├── ff-sync/                             # DataSource implementations (polling, SSE, file)
 ├── ff-events/                           # EventProcessor
-├── ff-cache/                            # PersistentCache expect/actual
 ├── ff-client-common/                    # single-context client orchestration (mobile + web)
 ├── ff-server-common/                    # multi-context orchestration (JVM)
 ├── ff-server-jvm/                       # public JVM/Java API, OkHttp transport, Micrometer
-├── ff-android/                          # Android AAR (lifecycle, connectivity, DataStore)
+├── ff-transport-okhttp/                 # OkHttp HttpTransport shared by server and Android
+├── ff-android/                          # Android AAR (lifecycle, connectivity, file cache)
 ├── ff-ios/                              # XCFramework + Swift facade (SKIE), SPM Package.swift
 ├── ff-web/                              # JS/TS export, npm package
 ├── conformance/                         # shared JSON test vectors + runners per target
@@ -40,9 +40,9 @@ feature-flag-SDK/
 | Module | commonMain | jvm | android | iosArm64 / iosSimulatorArm64 / iosX64 | js (IR, browser) |
 |---|---|---|---|---|---|
 | ff-core | ✔ | ✔ | ✔ | ✔ | ✔ |
-| ff-sync | ✔ (interfaces, backoff, parsers) | OkHttp SSE | Ktor-OkHttp | Ktor-Darwin | browser `fetch` + `EventSource` |
+| ff-sync | ✔ (interfaces, backoff, SSE parser) | OkHttp (ff-transport-okhttp) | OkHttp (ff-transport-okhttp) | `NSURLSession` | browser `fetch` + `EventSource` |
 | ff-events | ✔ | ✔ | ✔ | ✔ | ✔ |
-| ff-cache | expect | file | DataStore | `NSFileManager` | IndexedDB / localStorage |
+| cache (ff-client-common) | `KeyValueStore` interface | `FileKeyValueStore` | `FileKeyValueStore` in `noBackupFilesDir` | `NSFileManager` | localStorage |
 | ff-client-common | ✔ | – | ✔ | ✔ | ✔ |
 | ff-server-common | – | ✔ | – | – | – |
 
@@ -53,9 +53,9 @@ feature-flag-SDK/
 | kotlinx-serialization-json | wire formats | core, sync, events |
 | kotlinx-coroutines-core | async, dispatchers, `Mutex`, `Channel` | sync, events, client, server |
 | kotlinx-atomicfu | multiplatform atomics | core |
-| Ktor client (OkHttp / Darwin engines) | HTTP on mobile | sync (android, ios) |
+| OkHttp | HTTP on JVM and Android | ff-transport-okhttp |
 | OkHttp + okhttp-sse | HTTP + SSE on JVM server | sync (jvm) |
-| AndroidX Lifecycle, DataStore | lifecycle, cache | android |
+| kotlinx-coroutines-android | main-thread dispatcher | android (no AndroidX dependency) |
 | SKIE | Swift-friendly suspend/Flow/sealed interop | ios |
 | Micrometer (optional, `compileOnly`) | metrics | server-jvm |
 
@@ -650,7 +650,7 @@ stateDiagram-v2
 
 - `If-None-Match: <etag>`; 304 → no-op, status `VALID`.
 - Interval jittered ±10 % to avoid thundering herd after deploys.
-- Client: polling suspended in background (Android `ProcessLifecycleOwner` `ON_STOP`, iOS
+- Client: polling suspended in background (Android activity start/stop count with a 700 ms grace period, iOS
   `didEnterBackgroundNotification`, Web `visibilitychange`), immediate refresh on foreground if last fetch older than
   interval; immediate refresh on connectivity regain.
 
@@ -660,7 +660,7 @@ stateDiagram-v2
 - `TestDataSource`: programmatic builder (`td.update(td.flag("x").variationForAll(true))`) for unit tests in
   consumer apps — first-class, documented.
 
-## 8. Persistence (`ff-cache`, client only)
+## 8. Persistence (in `ff-client-common`, client only)
 
 ```kotlin
 expect class PlatformKeyValueStore {
@@ -679,7 +679,7 @@ class PersistentCache(private val kv: PlatformKeyValueStore, private val maxCont
 
 | Platform | Storage | Notes |
 |---|---|---|
-| Android | Jetpack DataStore (Preferences) or files in `noBackupFilesDir` | excluded from cloud backup |
+| Android | `FileKeyValueStore` in `noBackupFilesDir` (temp file + atomic rename) | excluded from cloud backup |
 | iOS | file in `Application Support/FeatureFlags/`, `isExcludedFromBackup` | atomic writes |
 | Web | IndexedDB (`idb` wrapper in Kotlin/JS); localStorage fallback | quota errors swallowed |
 | JVM | none by default (optional file cache for server cold start without network) | |
@@ -717,7 +717,7 @@ internal class EventProcessor(
 
 ### 10.1 Android (`ff-android`)
 - `FeatureFlags.init(application, mobileKey, context, config)` – idempotent singleton + `FeatureFlags.get()`.
-- Observers: `ProcessLifecycleOwner` (foreground/background), `ConnectivityManager.NetworkCallback`.
+- Observers: `Application.ActivityLifecycleCallbacks` (foreground/background, 700 ms grace for rotation), `ConnectivityManager.NetworkCallback`. No AndroidX dependency.
 - Main-thread listener dispatch; `StateFlow<Map<String, JsonElement>>` for Compose (`collectAsState()`).
 - Consumer ProGuard/R8 rules shipped in AAR. No reflection (kotlinx.serialization is codegen).
 
@@ -764,7 +764,7 @@ internal class EventProcessor(
 | Bucketing distribution | property test | 1M random keys → each 10 % bucket within ±0.3 %; 1 % rollout serves 1 % ± 0.05 %; cross-platform hash vectors |
 | Rollout monotonicity | property test + conformance | for random keys and `p1 < p2`, `inTreatment(p1) ⇒ inTreatment(p2)`; missing `bucketBy` → control |
 | Concurrency | `kotlinx-lincheck`, stress tests | linearizability of `FlagStore`; 64 reader threads + writer, no torn reads |
-| Data sources | MockWebServer (JVM), Ktor MockEngine (common) | SSE parsing, reconnect, 304, 401 stop, fallback to polling |
+| Data sources | MockWebServer (JVM), scripted fake transports on virtual time (common) | SSE parsing, reconnect, 304, 401 stop, fallback to polling |
 | Performance | JMH (`benchmarks/`) | eval latency/allocations; CI regression gate (> 10 % slower fails) |
 | Platform | Robolectric / instrumentation, XCTest, Playwright | lifecycle, persistence, main-thread delivery |
 | Contract | JSON-schema fixtures in `conformance/schema/` | wire-format compatibility with the delivery service |

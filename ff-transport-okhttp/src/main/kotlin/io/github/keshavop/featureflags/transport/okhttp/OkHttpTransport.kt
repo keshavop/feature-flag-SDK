@@ -1,4 +1,4 @@
-package io.github.keshavop.featureflags.server.internal
+package io.github.keshavop.featureflags.transport.okhttp
 
 import io.github.keshavop.featureflags.sync.HttpRequest
 import io.github.keshavop.featureflags.sync.HttpResponse
@@ -24,8 +24,11 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-/** [HttpTransport] on OkHttp. Streams use a 5 minute read timeout to detect half-open connections (LLD §7.1). */
-internal class OkHttpTransport(
+/**
+ * [HttpTransport] on OkHttp, shared by the server SDK and the Android SDK. Streams use a 5 minute read timeout to detect
+ * half-open connections (LLD §7.1). Pass your own [base] client to reuse its connection pool, proxy or TLS settings.
+ */
+public class OkHttpTransport(
     userAgent: String,
     base: OkHttpClient = OkHttpClient(),
 ) : HttpTransport {
@@ -48,7 +51,7 @@ internal class OkHttpTransport(
     override suspend fun execute(request: HttpRequest): HttpResponse {
         val call = client.newCall(request.toOkHttp())
         val response = call.await()
-        return response.use { HttpResponse(it.code, it.headers.toMap(), withContext(Dispatchers.IO) { it.body.string() }) }
+        return response.use { HttpResponse(it.code, it.headers.toMap(), withContext(Dispatchers.IO) { it.body?.string().orEmpty() }) }
     }
 
     override suspend fun openStream(request: HttpRequest): StreamResponse {
@@ -58,7 +61,7 @@ internal class OkHttpTransport(
             response.close()
             return StreamResponse(response.code, flow { })
         }
-        val source = response.body.source()
+        val source = response.body?.source() ?: return StreamResponse(response.code, flow { }).also { response.close() }
         val lines =
             flow {
                 while (true) {
