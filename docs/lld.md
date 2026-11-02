@@ -722,11 +722,15 @@ internal class EventProcessor(
 - Consumer ProGuard/R8 rules shipped in AAR. No reflection (kotlinx.serialization is codegen).
 
 ### 10.2 iOS (`ff-ios`)
-- KMP `iosArm64`, `iosSimulatorArm64`, `iosX64` → XCFramework `FeatureFlags.xcframework`; distributed via SPM
-  (binary target) and CocoaPods.
-- Swift facade with SKIE: `suspend` → `async`, `Flow` → `AsyncSequence`, sealed `EvaluationReason` → Swift enum.
-- Thin Swift extension file for idiomatic API (`client.bool("flag", default: false)`), `@MainActor` listener delivery.
-- Observes `UIApplication.didEnterBackgroundNotification` / `willEnterForegroundNotification`, `NWPathMonitor`.
+- KMP `iosArm64`, `iosSimulatorArm64`, `iosX64` → static XCFramework `FeatureFlags.xcframework` exporting
+  `ff-client-common` and `ff-core`; distributed via Swift Package Manager (binary target, `Package.swift` at the repo root).
+- Swift API without SKIE (no release supporting Kotlin 2.4 was resolvable): Kotlin/Native already exports `suspend`
+  functions as Swift `async` (`try await client.identify(newContext:)`). `FeatureFlags` adds Swift-shaped helpers:
+  `start(mobileKey:context:baseUri:)`, `userContext(key:attributes:)` from Swift dictionaries, `observe(client:key:onChange:)`
+  taking a Swift closure (listeners run on the main thread), `jsonVariationText` for `JSONDecoder`.
+- Platform pieces: `UrlSessionTransport` (`NSURLSession`; event payloads are not gzipped), `IosFileStore`
+  (Application Support, excluded from backup, atomic writes), `UIApplication` background/foreground notifications,
+  `NWPathMonitor`, `NSLog` logger.
 
 ### 10.3 Web (`ff-web`)
 - Kotlin/JS IR, `@JsExport` façade, generated `.d.ts`; published as ESM + CJS to npm (`@keshavop/feature-flags`).

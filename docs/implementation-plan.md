@@ -159,6 +159,17 @@ AAR < 300 KB.
 
 **Exit criteria:** XCTest suite + conformance on simulator green; framework < 1.5 MB; Swift API reviewed by iOS lead.
 
+**Status (delivered in one PR, `feat-phase4-ios-sdk`):**
+- `ff-ios`: `UrlSessionTransport`, `IosFileStore`, lifecycle/connectivity observers, `NsLogLogger`, `FeatureFlags`
+  entry point with Swift-shaped helpers; static `FeatureFlags.xcframework`.
+- `Package.swift` (binary target). Releases now run from a manually started workflow that builds the XCFramework, commits
+  `Package.swift` with its checksum, tags, creates the GitHub release and then publishes Maven Central and npm from the
+  tag (see [releasing.md](./releasing.md)).
+- Verification: iOS code type-checks against UIKit/Foundation/Network on Linux (klib cross-compilation); CI on macOS
+  runs all KMP tests on the iOS simulator (including the conformance suite) plus `ff-ios` tests, and links the framework.
+- Deviations: no SKIE (built-in `async` export plus helpers instead); no CocoaPods; no SwiftUI sample app yet;
+  framework size not measured yet.
+
 ## Phase 5 — Web SDK (2 weeks)
 
 | PR | Title | Contents |

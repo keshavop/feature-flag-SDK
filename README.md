@@ -10,7 +10,7 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **Phase 3 (Android SDK)** — server and Android SDKs are usable; iOS and Web follow in Phases 4–5.
+> Status: **Phase 4 (iOS SDK)** — server, Android and iOS SDKs are usable; the Web SDK follows in Phase 5.
 > The design documents below describe the architecture; implementation follows the
 > [implementation plan](docs/implementation-plan.md).
 
@@ -42,6 +42,19 @@ class App : Application() {
 if (FeatureFlags.get().boolVariation("new-checkout", false)) { /* … */ }
 ```
 
+## iOS quick start
+
+```swift
+import FeatureFlags
+
+let flags = FeatureFlags.shared.start(
+    mobileKey: "mob-key",
+    context: FeatureFlags.shared.userContext(key: userId, attributes: ["plan": "pro"]),
+    baseUri: "https://flags.example.com")
+if flags.boolVariation(key: "new-checkout", default: false) { /* … */ }
+let result = try await flags.identify(newContext: FeatureFlags.shared.userContext(key: newUserId, attributes: [:]))
+```
+
 ## Packages
 
 | Platform | Package | Registry |
@@ -49,6 +62,7 @@ if (FeatureFlags.get().boolVariation("new-checkout", false)) { /* … */ }
 | Kotlin Multiplatform / JVM / iOS | `io.github.keshavop:feature-flags-core` | Maven Central |
 | Kotlin/Java server | `io.github.keshavop:feature-flags-server-jvm` | Maven Central |
 | Android | `io.github.keshavop:feature-flags-android` | Maven Central |
+| iOS (Swift) | `https://github.com/keshavop/feature-flag-SDK` (`FeatureFlags` XCFramework) | Swift Package Manager |
 | Web (browser / Node) | `@keshavop/feature-flags` | npm |
 
 ## Building

@@ -1,0 +1,47 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <feature-flag-sdk:ff-ios>
+final class io.github.keshavop.featureflags.ios/IosFileStore : io.github.keshavop.featureflags.client/KeyValueStore { // io.github.keshavop.featureflags.ios/IosFileStore|null[0]
+    constructor <init>(platform.Foundation/NSURL = ...) // io.github.keshavop.featureflags.ios/IosFileStore.<init>|<init>(platform.Foundation.NSURL){}[0]
+
+    final suspend fun delete(kotlin/String) // io.github.keshavop.featureflags.ios/IosFileStore.delete|delete(kotlin.String){}[0]
+    final suspend fun read(kotlin/String): kotlin/String? // io.github.keshavop.featureflags.ios/IosFileStore.read|read(kotlin.String){}[0]
+    final suspend fun write(kotlin/String, kotlin/String) // io.github.keshavop.featureflags.ios/IosFileStore.write|write(kotlin.String;kotlin.String){}[0]
+
+    final object Companion { // io.github.keshavop.featureflags.ios/IosFileStore.Companion|null[0]
+        final fun defaultDirectory(): platform.Foundation/NSURL // io.github.keshavop.featureflags.ios/IosFileStore.Companion.defaultDirectory|defaultDirectory(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.ios/NsLogLogger : io.github.keshavop.featureflags.core.log/FeatureFlagsLogger { // io.github.keshavop.featureflags.ios/NsLogLogger|null[0]
+    constructor <init>() // io.github.keshavop.featureflags.ios/NsLogLogger.<init>|<init>(){}[0]
+
+    final fun debug(kotlin/String) // io.github.keshavop.featureflags.ios/NsLogLogger.debug|debug(kotlin.String){}[0]
+    final fun error(kotlin/String, kotlin/Throwable?) // io.github.keshavop.featureflags.ios/NsLogLogger.error|error(kotlin.String;kotlin.Throwable?){}[0]
+    final fun info(kotlin/String) // io.github.keshavop.featureflags.ios/NsLogLogger.info|info(kotlin.String){}[0]
+    final fun warn(kotlin/String, kotlin/Throwable?) // io.github.keshavop.featureflags.ios/NsLogLogger.warn|warn(kotlin.String;kotlin.Throwable?){}[0]
+}
+
+final class io.github.keshavop.featureflags.ios/UrlSessionTransport : io.github.keshavop.featureflags.sync/HttpTransport { // io.github.keshavop.featureflags.ios/UrlSessionTransport|null[0]
+    constructor <init>(kotlin/String) // io.github.keshavop.featureflags.ios/UrlSessionTransport.<init>|<init>(kotlin.String){}[0]
+
+    final suspend fun execute(io.github.keshavop.featureflags.sync/HttpRequest): io.github.keshavop.featureflags.sync/HttpResponse // io.github.keshavop.featureflags.ios/UrlSessionTransport.execute|execute(io.github.keshavop.featureflags.sync.HttpRequest){}[0]
+    final suspend fun openStream(io.github.keshavop.featureflags.sync/HttpRequest): io.github.keshavop.featureflags.sync/StreamResponse // io.github.keshavop.featureflags.ios/UrlSessionTransport.openStream|openStream(io.github.keshavop.featureflags.sync.HttpRequest){}[0]
+}
+
+final object io.github.keshavop.featureflags.ios/FeatureFlags { // io.github.keshavop.featureflags.ios/FeatureFlags|null[0]
+    final val client // io.github.keshavop.featureflags.ios/FeatureFlags.client|{}client[0]
+        final fun <get-client>(): io.github.keshavop.featureflags.client/FeatureFlagClient // io.github.keshavop.featureflags.ios/FeatureFlags.client.<get-client>|<get-client>(){}[0]
+
+    final fun context(kotlin/String, kotlin/String, kotlin.collections/Map<kotlin/String, kotlin/Any>): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.ios/FeatureFlags.context|context(kotlin.String;kotlin.String;kotlin.collections.Map<kotlin.String,kotlin.Any>){}[0]
+    final fun jsonVariationText(io.github.keshavop.featureflags.client/FeatureFlagClient, kotlin/String, kotlin/String): kotlin/String // io.github.keshavop.featureflags.ios/FeatureFlags.jsonVariationText|jsonVariationText(io.github.keshavop.featureflags.client.FeatureFlagClient;kotlin.String;kotlin.String){}[0]
+    final fun observe(io.github.keshavop.featureflags.client/FeatureFlagClient, kotlin/String, kotlin/Function1<io.github.keshavop.featureflags.client/FlagChange, kotlin/Unit>): io.github.keshavop.featureflags.client/ListenerHandle // io.github.keshavop.featureflags.ios/FeatureFlags.observe|observe(io.github.keshavop.featureflags.client.FeatureFlagClient;kotlin.String;kotlin.Function1<io.github.keshavop.featureflags.client.FlagChange,kotlin.Unit>){}[0]
+    final fun start(kotlin/String, io.github.keshavop.featureflags.core.context/EvaluationContext, io.github.keshavop.featureflags.client/ClientConfig): io.github.keshavop.featureflags.client/FeatureFlagClient // io.github.keshavop.featureflags.ios/FeatureFlags.start|start(kotlin.String;io.github.keshavop.featureflags.core.context.EvaluationContext;io.github.keshavop.featureflags.client.ClientConfig){}[0]
+    final fun start(kotlin/String, io.github.keshavop.featureflags.core.context/EvaluationContext, kotlin/String): io.github.keshavop.featureflags.client/FeatureFlagClient // io.github.keshavop.featureflags.ios/FeatureFlags.start|start(kotlin.String;io.github.keshavop.featureflags.core.context.EvaluationContext;kotlin.String){}[0]
+    final fun userContext(kotlin/String, kotlin.collections/Map<kotlin/String, kotlin/Any>): io.github.keshavop.featureflags.core.context/EvaluationContext // io.github.keshavop.featureflags.ios/FeatureFlags.userContext|userContext(kotlin.String;kotlin.collections.Map<kotlin.String,kotlin.Any>){}[0]
+}
