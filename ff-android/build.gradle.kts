@@ -31,8 +31,9 @@ extensions.getByName("android").withGroovyBuilder {
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
-        freeCompilerArgs.add("-Xexplicit-api=strict")
         optIn.add("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+        // explicit API mode for the library code only, not for its unit tests
+        if (!name.contains("UnitTest")) freeCompilerArgs.add("-Xexplicit-api=strict")
     }
 }
 
