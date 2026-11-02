@@ -1,23 +1,78 @@
-# Publishes a release when a version tag (v1.2.3, v1.2.3-alpha.1) is pushed:
-#   - Kotlin Multiplatform artifacts to Maven Central (io.github.keshavop:feature-flags-*)
-#   - the Web SDK to npm (@keshavop/feature-flags)
+# Publishes one version of every SDK (docs/releasing.md). Run it from the Actions tab with the version to release.
+#   1. builds FeatureFlags.xcframework, commits Package.swift with its checksum, tags v<version>, creates the GitHub release
+#   2. publishes the Kotlin Multiplatform, server and Android artifacts to Maven Central (io.github.keshavop:feature-flags-*)
+#   3. publishes the Web SDK to npm (@keshavop/feature-flags)
 # Required repository secrets are listed in docs/releasing.md.
 name: Release
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. 0.1.0 or 0.2.0-alpha.1"
+        required: true
 
 permissions:
   contents: read
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
+  ios-and-tag:
+    name: Build XCFramework, tag and create release
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      ANDROID_HOME: ""
+    steps:
+      - name: Validate version
+        run: '[[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || { echo "invalid version $VERSION"; exit 1; }'
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Build XCFramework
+        run: ./gradlew :ff-ios:assembleFeatureFlagsReleaseXCFramework -PVERSION_NAME="$VERSION"
+      - name: Zip and checksum
+        id: xcf
+        run: |
+          cd ff-ios/build/XCFrameworks/release
+          zip -qry "$GITHUB_WORKSPACE/FeatureFlags.xcframework.zip" FeatureFlags.xcframework
+          echo "checksum=$(swift package compute-checksum "$GITHUB_WORKSPACE/FeatureFlags.xcframework.zip")" >> "$GITHUB_OUTPUT"
+      - name: Commit Package.swift and tag
+        env:
+          CHECKSUM: ${{ steps.xcf.outputs.checksum }}
+        run: |
+          sed -i '' -E "s/^let version = \".*\"/let version = \"$VERSION\"/; s/^let checksum = \".*\"/let checksum = \"$CHECKSUM\"/" Package.swift
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore(release): v$VERSION"
+          git tag "v$VERSION"
+          git push origin "HEAD:${GITHUB_REF_NAME}" "v$VERSION"
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHECKSUM: ${{ steps.xcf.outputs.checksum }}
+        run: |
+          prerelease=""; [[ "$VERSION" == *-* ]] && prerelease="--prerelease"
+          gh release create "v$VERSION" FeatureFlags.xcframework.zip --title "v$VERSION" $prerelease \
+            --notes "Swift Package Manager: \`.package(url: \"https://github.com/${GITHUB_REPOSITORY}\", exact: \"$VERSION\")\` — XCFramework checksum \`$CHECKSUM\`"
+
   maven-central:
     name: Publish to Maven Central
+    needs: ios-and-tag
     # Apple targets are built and published from a macOS host
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: v${{ inputs.version }}
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -29,16 +84,19 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
-        run: ./gradlew publishToMavenCentral -PVERSION_NAME="${GITHUB_REF_NAME#v}" --no-configuration-cache
+        run: ./gradlew publishToMavenCentral -PVERSION_NAME="${{ inputs.version }}" --no-configuration-cache
 
   npm:
     name: Publish to npm
+    needs: ios-and-tag
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write # npm provenance
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: v${{ inputs.version }}
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -49,13 +107,13 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
       - name: Assemble npm package
-        run: ./gradlew :ff-web:prepareNpmPackage -PVERSION_NAME="${GITHUB_REF_NAME#v}"
+        run: ./gradlew :ff-web:prepareNpmPackage -PVERSION_NAME="${{ inputs.version }}"
       - name: Publish
         working-directory: ff-web/build/npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERSION: ${{ inputs.version }}
         run: |
-          version="${GITHUB_REF_NAME#v}"
           # pre-releases (1.0.0-alpha.1) go to the "next" dist-tag so they never become "latest"
-          if [[ "$version" == *-* ]]; then tag=next; else tag=latest; fi
+          if [[ "$VERSION" == *-* ]]; then tag=next; else tag=latest; fi
           npm publish --provenance --access public --tag "$tag"

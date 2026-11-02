@@ -4,16 +4,23 @@ Every release publishes all SDKs with **one version number**:
 
 | Registry | Artifacts |
 |---|---|
-| Maven Central | `io.github.keshavop:feature-flags-core` (+ `-jvm`, `-js`, `-iosarm64`, `-iossimulatorarm64`, `-iosx64`) |
+| Maven Central | `io.github.keshavop:feature-flags-{core,sync,events,client-common,transport-okhttp,server-jvm,android,ios}` (KMP modules with per-target artifacts) |
 | npm | `@keshavop/feature-flags` |
+| Swift Package Manager | `https://github.com/keshavop/feature-flag-SDK` (binary `FeatureFlags.xcframework` attached to the GitHub release) |
 
 ## How to release
 
 1. Make sure `main` is green.
-2. Tag and push: `git tag v0.1.0 && git push origin v0.1.0`
-3. The [Release workflow](../.github/workflows/release.yml) publishes to Maven Central (from macOS, because of the
-   Apple targets) and npm. The version is taken from the tag (`v0.1.0` → `0.1.0`).
-   Pre-release tags (`v0.2.0-alpha.1`) are published to npm under the `next` dist-tag.
+2. Actions → **Release** → *Run workflow* on `main`, enter the version (e.g. `0.1.0`).
+3. The [workflow](../.github/workflows/release.yml):
+   1. builds `FeatureFlags.xcframework` on macOS, computes its SPM checksum, commits `Package.swift` with the version and
+      checksum (`chore(release): v0.1.0`), tags `v0.1.0` and creates the GitHub release with the zip attached;
+   2. publishes Maven Central (from macOS, because of the Apple targets) and npm from that tag.
+
+   Pre-releases (`0.2.0-alpha.1`) are marked as GitHub pre-releases and go to npm's `next` dist-tag.
+
+The workflow pushes the release commit to `main` with the default `GITHUB_TOKEN`; if `main` is protected, allow
+GitHub Actions to bypass the rule or run the workflow from a release branch.
 
 ## One-time setup
 
