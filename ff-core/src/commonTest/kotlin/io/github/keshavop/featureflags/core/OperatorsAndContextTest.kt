@@ -88,3 +88,26 @@ class OperatorsAndContextTest {
         assertTrue(Variations.string(detail(null), "x").isDefaultValue)
     }
 }
+
+class SerializedReasonTest {
+    @Test
+    fun reasonsRoundTrip() {
+        val reasons =
+            listOf(
+                EvaluationReason.Off,
+                EvaluationReason.TargetMatch,
+                EvaluationReason.RuleMatch(2, "r", inExperiment = true),
+                EvaluationReason.Fallthrough(false),
+                EvaluationReason.PrerequisiteFailed("p"),
+                EvaluationReason.error(ErrorKind.WRONG_TYPE),
+            )
+        for (reason in reasons) {
+            assertEquals(
+                reason,
+                io.github.keshavop.featureflags.core.model.SerializedReason
+                    .of(reason)
+                    .toReason(),
+            )
+        }
+    }
+}

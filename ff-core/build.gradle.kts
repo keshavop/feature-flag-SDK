@@ -75,3 +75,21 @@ val generateConformanceSources =
 kotlin.sourceSets.commonTest {
     kotlin.srcDir(generateConformanceSources)
 }
+
+kotlin.sourceSets.named("jvmTest") {
+    dependencies {
+        implementation(libs.lincheck)
+    }
+}
+
+// lincheck instruments classes at runtime; it needs these opens on recent JDKs
+tasks.named<Test>("jvmTest") {
+    jvmArgs(
+        "--add-opens",
+        "java.base/java.lang=ALL-UNNAMED",
+        "--add-opens",
+        "java.base/jdk.internal.misc=ALL-UNNAMED",
+        "--add-exports",
+        "java.base/jdk.internal.util=ALL-UNNAMED",
+    )
+}

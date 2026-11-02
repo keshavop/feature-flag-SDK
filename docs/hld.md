@@ -242,11 +242,14 @@ rollouts so analytics only counts users actually bucketed.
 
 | Endpoint | Used by | Notes |
 |---|---|---|
-| `GET /sdk/v1/server/{envKey}/snapshot` | Server | Full flags + segments; `ETag`; gzip |
-| `GET /sdk/v1/server/{envKey}/stream` | Server | SSE: `put`, `patch`, `delete`, heartbeat comments every 30 s |
-| `POST /sdk/v1/client/{clientKey}/evaluate` | Client | Body: context; returns evaluated snapshot; `ETag` |
-| `GET /sdk/v1/client/{clientKey}/stream?ctx=` | Client (opt.) | SSE "ping"/"patch" for this context |
+| `GET /sdk/v1/server/snapshot` | Server | Full flags + segments; `ETag`; gzip |
+| `GET /sdk/v1/server/stream` | Server | SSE: `put`, `patch`, `delete`, heartbeat comments every 30 s |
+| `POST /sdk/v1/client/evaluate` | Client | Body: context; returns evaluated snapshot; `ETag` |
+| `GET /sdk/v1/client/stream?ctx=` | Client (opt.) | SSE "ping"/"patch" for this context |
 | `POST /sdk/v1/events/bulk` | All | Batched events, gzip, `X-SDK-Payload-Id` for idempotent retry |
+
+Every request carries the SDK key in the `Authorization` header — never in the URL, so keys do not end up in proxy
+or CDN access logs. The SDK has no built-in service URL: applications pass their delivery endpoints in configuration.
 
 Snapshot envelope (abridged — full schema in the [LLD](./lld.md#5-wire-formats)):
 

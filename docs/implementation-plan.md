@@ -101,6 +101,23 @@ Phases 3–5 can run in parallel once `ff-client-common` lands (first PR of Phas
 **Exit criteria:** JMH p99 < 1 µs for simple flag; ≥ 100k eval/s/core; lincheck passes; propagation < 1 s against
 a mock SSE server; `close()` flushes events.
 
+**Status (delivered in one PR, `feat-phase2-server-sdk`):**
+- `ff-sync`: `HttpTransport` seam, SSE parser, `Backoff` (full jitter), `StoreUpdater` (put/patch/delete with
+  version checks), `PollingDataSource` (ETag), `StreamingDataSource` (reconnect, polling fallback after 3 failures,
+  permanent stop on 401/403/404), `StaticDataSource`, `TestDataSource`.
+- `ff-events`: `EventProcessor` (bounded, drop-and-count), summaries, exposure dedupe, private attribute redaction
+  (incl. nested paths), `HttpEventSender` (gzip, payload id, one retry, disable on 401/403).
+- `ff-server-jvm`: `FeatureFlagServer.create/createAsync`, typed + detail variations, `allFlagsState` (client snapshot
+  format), `track`, `flagTracker`, `dataSourceStatus`, OkHttp transport, SLF4J logger, `FileDataSource`,
+  `MicrometerMetrics` (optional). Java usage covered by a Java test.
+- Verification: MockWebServer integration tests (streaming, patches, polling fallback, 401, events, listeners, file
+  source, hooks); lincheck model checking + stress on `InMemoryFlagStore`; `samples/server-jvm` ramps 1 → 30 → 100 %.
+- JMH (`./gradlew :benchmarks:jmh`, 4-vCPU sandbox, average time): simple flag 36 ns, 30 % rollout 116 ns, segment
+  rule 81 ns, 10 rules 297 ns, simple flag on 8 threads 75 ns — i.e. ≥ 10M evaluations/s per core. These are averages,
+  not p99, and the JMH run is not a CI gate yet.
+- Deviations: the sample uses plain Kotlin + `TestDataSource` instead of Ktor; SSE is parsed in common code over plain
+  HTTP lines (no okhttp-sse), so mobile clients reuse the same parser; endpoints are required configuration.
+
 ## Phase 3 — Android SDK (2 weeks)
 
 | PR | Title | Contents |

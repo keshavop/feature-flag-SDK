@@ -243,7 +243,21 @@ object FeatureFlagServer {
     @JvmStatic fun create(sdkKey: String, config: ServerConfig = ServerConfig.DEFAULT): FeatureFlagServerClient
     @JvmStatic fun createAsync(sdkKey: String, config: ServerConfig): CompletableFuture<FeatureFlagServerClient>
 }
+
+// as implemented in Phase 2
+data class ServerConfig(
+    val endpoints: ServerEndpoints? = null,                 // required for Streaming/Polling
+    val dataSource: ServerDataSource = ServerDataSource.Streaming(),   // | Polling(interval) | Custom(factory)
+    val startWait: Duration = 5.s,
+    val events: ServerEventsConfig = ServerEventsConfig(),
+    val hooks: List<EvaluationHook> = emptyList(),
+    val logger: FeatureFlagsLogger? = null,                 // SLF4J by default
+    val transport: HttpTransport? = null,                   // OkHttp by default
+)
 ```
+
+`ServerDataSource.Custom` takes any `DataSourceFactory`: `TestDataSource` (ff-sync), `FileDataSource.factory(path)`
+(JVM) or `StaticDataSource.offline(snapshot)`.
 
 `allFlagsState` produces a client-bootstrap payload so server-rendered web pages can hydrate the Web SDK with
 zero extra round-trips.

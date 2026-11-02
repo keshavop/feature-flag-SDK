@@ -1,0 +1,289 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <feature-flag-sdk:ff-sync>
+abstract fun interface io.github.keshavop.featureflags.sync/DataSourceFactory { // io.github.keshavop.featureflags.sync/DataSourceFactory|null[0]
+    abstract fun create(io.github.keshavop.featureflags.sync/DataSourceContext): io.github.keshavop.featureflags.sync/DataSource // io.github.keshavop.featureflags.sync/DataSourceFactory.create|create(io.github.keshavop.featureflags.sync.DataSourceContext){}[0]
+}
+
+abstract fun interface io.github.keshavop.featureflags.sync/EpochClock { // io.github.keshavop.featureflags.sync/EpochClock|null[0]
+    abstract fun nowMillis(): kotlin/Long // io.github.keshavop.featureflags.sync/EpochClock.nowMillis|nowMillis(){}[0]
+
+    final object Companion { // io.github.keshavop.featureflags.sync/EpochClock.Companion|null[0]
+        final val SYSTEM // io.github.keshavop.featureflags.sync/EpochClock.Companion.SYSTEM|{}SYSTEM[0]
+            final fun <get-SYSTEM>(): io.github.keshavop.featureflags.sync/EpochClock // io.github.keshavop.featureflags.sync/EpochClock.Companion.SYSTEM.<get-SYSTEM>|<get-SYSTEM>(){}[0]
+    }
+}
+
+abstract interface io.github.keshavop.featureflags.sync/DataSource { // io.github.keshavop.featureflags.sync/DataSource|null[0]
+    abstract val status // io.github.keshavop.featureflags.sync/DataSource.status|{}status[0]
+        abstract fun <get-status>(): kotlinx.coroutines.flow/StateFlow<io.github.keshavop.featureflags.sync/DataSourceStatus> // io.github.keshavop.featureflags.sync/DataSource.status.<get-status>|<get-status>(){}[0]
+
+    abstract fun stop() // io.github.keshavop.featureflags.sync/DataSource.stop|stop(){}[0]
+    abstract suspend fun start(): kotlin/Boolean // io.github.keshavop.featureflags.sync/DataSource.start|start(){}[0]
+}
+
+abstract interface io.github.keshavop.featureflags.sync/HttpTransport { // io.github.keshavop.featureflags.sync/HttpTransport|null[0]
+    abstract suspend fun execute(io.github.keshavop.featureflags.sync/HttpRequest): io.github.keshavop.featureflags.sync/HttpResponse // io.github.keshavop.featureflags.sync/HttpTransport.execute|execute(io.github.keshavop.featureflags.sync.HttpRequest){}[0]
+    abstract suspend fun openStream(io.github.keshavop.featureflags.sync/HttpRequest): io.github.keshavop.featureflags.sync/StreamResponse // io.github.keshavop.featureflags.sync/HttpTransport.openStream|openStream(io.github.keshavop.featureflags.sync.HttpRequest){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/Backoff { // io.github.keshavop.featureflags.sync/Backoff|null[0]
+    constructor <init>(kotlin.time/Duration = ..., kotlin.time/Duration = ..., kotlin.time/Duration = ..., kotlin.random/Random = ...) // io.github.keshavop.featureflags.sync/Backoff.<init>|<init>(kotlin.time.Duration;kotlin.time.Duration;kotlin.time.Duration;kotlin.random.Random){}[0]
+
+    final val attempts // io.github.keshavop.featureflags.sync/Backoff.attempts|{}attempts[0]
+        final fun <get-attempts>(): kotlin/Int // io.github.keshavop.featureflags.sync/Backoff.attempts.<get-attempts>|<get-attempts>(){}[0]
+
+    final fun connectionEnded(kotlin.time/Duration) // io.github.keshavop.featureflags.sync/Backoff.connectionEnded|connectionEnded(kotlin.time.Duration){}[0]
+    final fun nextDelay(): kotlin.time/Duration // io.github.keshavop.featureflags.sync/Backoff.nextDelay|nextDelay(){}[0]
+    final fun reset() // io.github.keshavop.featureflags.sync/Backoff.reset|reset(){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/DataSourceContext { // io.github.keshavop.featureflags.sync/DataSourceContext|null[0]
+    constructor <init>(io.github.keshavop.featureflags.core.store/FlagStore, kotlinx.coroutines/CoroutineScope, io.github.keshavop.featureflags.sync/HttpTransport?, io.github.keshavop.featureflags.core.log/FeatureFlagsLogger, io.github.keshavop.featureflags.sync/EpochClock = ...) // io.github.keshavop.featureflags.sync/DataSourceContext.<init>|<init>(io.github.keshavop.featureflags.core.store.FlagStore;kotlinx.coroutines.CoroutineScope;io.github.keshavop.featureflags.sync.HttpTransport?;io.github.keshavop.featureflags.core.log.FeatureFlagsLogger;io.github.keshavop.featureflags.sync.EpochClock){}[0]
+
+    final val clock // io.github.keshavop.featureflags.sync/DataSourceContext.clock|{}clock[0]
+        final fun <get-clock>(): io.github.keshavop.featureflags.sync/EpochClock // io.github.keshavop.featureflags.sync/DataSourceContext.clock.<get-clock>|<get-clock>(){}[0]
+    final val logger // io.github.keshavop.featureflags.sync/DataSourceContext.logger|{}logger[0]
+        final fun <get-logger>(): io.github.keshavop.featureflags.core.log/FeatureFlagsLogger // io.github.keshavop.featureflags.sync/DataSourceContext.logger.<get-logger>|<get-logger>(){}[0]
+    final val scope // io.github.keshavop.featureflags.sync/DataSourceContext.scope|{}scope[0]
+        final fun <get-scope>(): kotlinx.coroutines/CoroutineScope // io.github.keshavop.featureflags.sync/DataSourceContext.scope.<get-scope>|<get-scope>(){}[0]
+    final val store // io.github.keshavop.featureflags.sync/DataSourceContext.store|{}store[0]
+        final fun <get-store>(): io.github.keshavop.featureflags.core.store/FlagStore // io.github.keshavop.featureflags.sync/DataSourceContext.store.<get-store>|<get-store>(){}[0]
+    final val transport // io.github.keshavop.featureflags.sync/DataSourceContext.transport|{}transport[0]
+        final fun <get-transport>(): io.github.keshavop.featureflags.sync/HttpTransport? // io.github.keshavop.featureflags.sync/DataSourceContext.transport.<get-transport>|<get-transport>(){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/DataSourceStatus { // io.github.keshavop.featureflags.sync/DataSourceStatus|null[0]
+    constructor <init>(io.github.keshavop.featureflags.sync/DataSourceStatus.State, kotlin/Long, io.github.keshavop.featureflags.sync/ErrorInfo? = ...) // io.github.keshavop.featureflags.sync/DataSourceStatus.<init>|<init>(io.github.keshavop.featureflags.sync.DataSourceStatus.State;kotlin.Long;io.github.keshavop.featureflags.sync.ErrorInfo?){}[0]
+
+    final val lastError // io.github.keshavop.featureflags.sync/DataSourceStatus.lastError|{}lastError[0]
+        final fun <get-lastError>(): io.github.keshavop.featureflags.sync/ErrorInfo? // io.github.keshavop.featureflags.sync/DataSourceStatus.lastError.<get-lastError>|<get-lastError>(){}[0]
+    final val sinceMillis // io.github.keshavop.featureflags.sync/DataSourceStatus.sinceMillis|{}sinceMillis[0]
+        final fun <get-sinceMillis>(): kotlin/Long // io.github.keshavop.featureflags.sync/DataSourceStatus.sinceMillis.<get-sinceMillis>|<get-sinceMillis>(){}[0]
+    final val state // io.github.keshavop.featureflags.sync/DataSourceStatus.state|{}state[0]
+        final fun <get-state>(): io.github.keshavop.featureflags.sync/DataSourceStatus.State // io.github.keshavop.featureflags.sync/DataSourceStatus.state.<get-state>|<get-state>(){}[0]
+
+    final fun component1(): io.github.keshavop.featureflags.sync/DataSourceStatus.State // io.github.keshavop.featureflags.sync/DataSourceStatus.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // io.github.keshavop.featureflags.sync/DataSourceStatus.component2|component2(){}[0]
+    final fun component3(): io.github.keshavop.featureflags.sync/ErrorInfo? // io.github.keshavop.featureflags.sync/DataSourceStatus.component3|component3(){}[0]
+    final fun copy(io.github.keshavop.featureflags.sync/DataSourceStatus.State = ..., kotlin/Long = ..., io.github.keshavop.featureflags.sync/ErrorInfo? = ...): io.github.keshavop.featureflags.sync/DataSourceStatus // io.github.keshavop.featureflags.sync/DataSourceStatus.copy|copy(io.github.keshavop.featureflags.sync.DataSourceStatus.State;kotlin.Long;io.github.keshavop.featureflags.sync.ErrorInfo?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.sync/DataSourceStatus.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.sync/DataSourceStatus.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.sync/DataSourceStatus.toString|toString(){}[0]
+
+    final enum class State : kotlin/Enum<io.github.keshavop.featureflags.sync/DataSourceStatus.State> { // io.github.keshavop.featureflags.sync/DataSourceStatus.State|null[0]
+        enum entry INITIALIZING // io.github.keshavop.featureflags.sync/DataSourceStatus.State.INITIALIZING|null[0]
+        enum entry INTERRUPTED // io.github.keshavop.featureflags.sync/DataSourceStatus.State.INTERRUPTED|null[0]
+        enum entry OFF // io.github.keshavop.featureflags.sync/DataSourceStatus.State.OFF|null[0]
+        enum entry VALID // io.github.keshavop.featureflags.sync/DataSourceStatus.State.VALID|null[0]
+
+        final val entries // io.github.keshavop.featureflags.sync/DataSourceStatus.State.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.keshavop.featureflags.sync/DataSourceStatus.State> // io.github.keshavop.featureflags.sync/DataSourceStatus.State.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): io.github.keshavop.featureflags.sync/DataSourceStatus.State // io.github.keshavop.featureflags.sync/DataSourceStatus.State.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.github.keshavop.featureflags.sync/DataSourceStatus.State> // io.github.keshavop.featureflags.sync/DataSourceStatus.State.values|values#static(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.sync/ErrorInfo { // io.github.keshavop.featureflags.sync/ErrorInfo|null[0]
+    constructor <init>(io.github.keshavop.featureflags.sync/ErrorInfo.Kind, kotlin/Int? = ..., kotlin/String? = ..., kotlin/Long) // io.github.keshavop.featureflags.sync/ErrorInfo.<init>|<init>(io.github.keshavop.featureflags.sync.ErrorInfo.Kind;kotlin.Int?;kotlin.String?;kotlin.Long){}[0]
+
+    final val kind // io.github.keshavop.featureflags.sync/ErrorInfo.kind|{}kind[0]
+        final fun <get-kind>(): io.github.keshavop.featureflags.sync/ErrorInfo.Kind // io.github.keshavop.featureflags.sync/ErrorInfo.kind.<get-kind>|<get-kind>(){}[0]
+    final val message // io.github.keshavop.featureflags.sync/ErrorInfo.message|{}message[0]
+        final fun <get-message>(): kotlin/String? // io.github.keshavop.featureflags.sync/ErrorInfo.message.<get-message>|<get-message>(){}[0]
+    final val statusCode // io.github.keshavop.featureflags.sync/ErrorInfo.statusCode|{}statusCode[0]
+        final fun <get-statusCode>(): kotlin/Int? // io.github.keshavop.featureflags.sync/ErrorInfo.statusCode.<get-statusCode>|<get-statusCode>(){}[0]
+    final val timeMillis // io.github.keshavop.featureflags.sync/ErrorInfo.timeMillis|{}timeMillis[0]
+        final fun <get-timeMillis>(): kotlin/Long // io.github.keshavop.featureflags.sync/ErrorInfo.timeMillis.<get-timeMillis>|<get-timeMillis>(){}[0]
+
+    final fun component1(): io.github.keshavop.featureflags.sync/ErrorInfo.Kind // io.github.keshavop.featureflags.sync/ErrorInfo.component1|component1(){}[0]
+    final fun component2(): kotlin/Int? // io.github.keshavop.featureflags.sync/ErrorInfo.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // io.github.keshavop.featureflags.sync/ErrorInfo.component3|component3(){}[0]
+    final fun component4(): kotlin/Long // io.github.keshavop.featureflags.sync/ErrorInfo.component4|component4(){}[0]
+    final fun copy(io.github.keshavop.featureflags.sync/ErrorInfo.Kind = ..., kotlin/Int? = ..., kotlin/String? = ..., kotlin/Long = ...): io.github.keshavop.featureflags.sync/ErrorInfo // io.github.keshavop.featureflags.sync/ErrorInfo.copy|copy(io.github.keshavop.featureflags.sync.ErrorInfo.Kind;kotlin.Int?;kotlin.String?;kotlin.Long){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.sync/ErrorInfo.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.sync/ErrorInfo.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.sync/ErrorInfo.toString|toString(){}[0]
+
+    final enum class Kind : kotlin/Enum<io.github.keshavop.featureflags.sync/ErrorInfo.Kind> { // io.github.keshavop.featureflags.sync/ErrorInfo.Kind|null[0]
+        enum entry HTTP // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.HTTP|null[0]
+        enum entry INVALID_DATA // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.INVALID_DATA|null[0]
+        enum entry NETWORK // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.NETWORK|null[0]
+        enum entry UNKNOWN // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.UNKNOWN|null[0]
+
+        final val entries // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.keshavop.featureflags.sync/ErrorInfo.Kind> // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): io.github.keshavop.featureflags.sync/ErrorInfo.Kind // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.github.keshavop.featureflags.sync/ErrorInfo.Kind> // io.github.keshavop.featureflags.sync/ErrorInfo.Kind.values|values#static(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.sync/HttpRequest { // io.github.keshavop.featureflags.sync/HttpRequest|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin.collections/Map<kotlin/String, kotlin/String> = ..., kotlin/String? = ..., kotlin/Boolean = ...) // io.github.keshavop.featureflags.sync/HttpRequest.<init>|<init>(kotlin.String;kotlin.String;kotlin.collections.Map<kotlin.String,kotlin.String>;kotlin.String?;kotlin.Boolean){}[0]
+
+    final val body // io.github.keshavop.featureflags.sync/HttpRequest.body|{}body[0]
+        final fun <get-body>(): kotlin/String? // io.github.keshavop.featureflags.sync/HttpRequest.body.<get-body>|<get-body>(){}[0]
+    final val gzip // io.github.keshavop.featureflags.sync/HttpRequest.gzip|{}gzip[0]
+        final fun <get-gzip>(): kotlin/Boolean // io.github.keshavop.featureflags.sync/HttpRequest.gzip.<get-gzip>|<get-gzip>(){}[0]
+    final val headers // io.github.keshavop.featureflags.sync/HttpRequest.headers|{}headers[0]
+        final fun <get-headers>(): kotlin.collections/Map<kotlin/String, kotlin/String> // io.github.keshavop.featureflags.sync/HttpRequest.headers.<get-headers>|<get-headers>(){}[0]
+    final val method // io.github.keshavop.featureflags.sync/HttpRequest.method|{}method[0]
+        final fun <get-method>(): kotlin/String // io.github.keshavop.featureflags.sync/HttpRequest.method.<get-method>|<get-method>(){}[0]
+    final val url // io.github.keshavop.featureflags.sync/HttpRequest.url|{}url[0]
+        final fun <get-url>(): kotlin/String // io.github.keshavop.featureflags.sync/HttpRequest.url.<get-url>|<get-url>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.keshavop.featureflags.sync/HttpRequest.component1|component1(){}[0]
+    final fun component2(): kotlin/String // io.github.keshavop.featureflags.sync/HttpRequest.component2|component2(){}[0]
+    final fun component3(): kotlin.collections/Map<kotlin/String, kotlin/String> // io.github.keshavop.featureflags.sync/HttpRequest.component3|component3(){}[0]
+    final fun component4(): kotlin/String? // io.github.keshavop.featureflags.sync/HttpRequest.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean // io.github.keshavop.featureflags.sync/HttpRequest.component5|component5(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin.collections/Map<kotlin/String, kotlin/String> = ..., kotlin/String? = ..., kotlin/Boolean = ...): io.github.keshavop.featureflags.sync/HttpRequest // io.github.keshavop.featureflags.sync/HttpRequest.copy|copy(kotlin.String;kotlin.String;kotlin.collections.Map<kotlin.String,kotlin.String>;kotlin.String?;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.sync/HttpRequest.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.sync/HttpRequest.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.sync/HttpRequest.toString|toString(){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/HttpResponse { // io.github.keshavop.featureflags.sync/HttpResponse|null[0]
+    constructor <init>(kotlin/Int, kotlin.collections/Map<kotlin/String, kotlin/String>, kotlin/String) // io.github.keshavop.featureflags.sync/HttpResponse.<init>|<init>(kotlin.Int;kotlin.collections.Map<kotlin.String,kotlin.String>;kotlin.String){}[0]
+
+    final val body // io.github.keshavop.featureflags.sync/HttpResponse.body|{}body[0]
+        final fun <get-body>(): kotlin/String // io.github.keshavop.featureflags.sync/HttpResponse.body.<get-body>|<get-body>(){}[0]
+    final val headers // io.github.keshavop.featureflags.sync/HttpResponse.headers|{}headers[0]
+        final fun <get-headers>(): kotlin.collections/Map<kotlin/String, kotlin/String> // io.github.keshavop.featureflags.sync/HttpResponse.headers.<get-headers>|<get-headers>(){}[0]
+    final val status // io.github.keshavop.featureflags.sync/HttpResponse.status|{}status[0]
+        final fun <get-status>(): kotlin/Int // io.github.keshavop.featureflags.sync/HttpResponse.status.<get-status>|<get-status>(){}[0]
+
+    final fun header(kotlin/String): kotlin/String? // io.github.keshavop.featureflags.sync/HttpResponse.header|header(kotlin.String){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/InvalidPayloadException : kotlin/Exception { // io.github.keshavop.featureflags.sync/InvalidPayloadException|null[0]
+    constructor <init>(kotlin/String, kotlin/Throwable? = ...) // io.github.keshavop.featureflags.sync/InvalidPayloadException.<init>|<init>(kotlin.String;kotlin.Throwable?){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/PollingDataSource : io.github.keshavop.featureflags.sync/DataSource { // io.github.keshavop.featureflags.sync/PollingDataSource|null[0]
+    constructor <init>(io.github.keshavop.featureflags.sync/HttpTransport, io.github.keshavop.featureflags.sync/HttpRequest, kotlin.time/Duration, kotlin/Function1<kotlin/String, kotlin/Unit>, kotlinx.coroutines/CoroutineScope, io.github.keshavop.featureflags.sync/EpochClock = ..., io.github.keshavop.featureflags.core.log/FeatureFlagsLogger = ...) // io.github.keshavop.featureflags.sync/PollingDataSource.<init>|<init>(io.github.keshavop.featureflags.sync.HttpTransport;io.github.keshavop.featureflags.sync.HttpRequest;kotlin.time.Duration;kotlin.Function1<kotlin.String,kotlin.Unit>;kotlinx.coroutines.CoroutineScope;io.github.keshavop.featureflags.sync.EpochClock;io.github.keshavop.featureflags.core.log.FeatureFlagsLogger){}[0]
+
+    final val status // io.github.keshavop.featureflags.sync/PollingDataSource.status|{}status[0]
+        final fun <get-status>(): kotlinx.coroutines.flow/StateFlow<io.github.keshavop.featureflags.sync/DataSourceStatus> // io.github.keshavop.featureflags.sync/PollingDataSource.status.<get-status>|<get-status>(){}[0]
+
+    final fun stop() // io.github.keshavop.featureflags.sync/PollingDataSource.stop|stop(){}[0]
+    final suspend fun pollOnce(): io.github.keshavop.featureflags.sync/PollingDataSource.PollResult // io.github.keshavop.featureflags.sync/PollingDataSource.pollOnce|pollOnce(){}[0]
+    final suspend fun start(): kotlin/Boolean // io.github.keshavop.featureflags.sync/PollingDataSource.start|start(){}[0]
+
+    final enum class PollResult : kotlin/Enum<io.github.keshavop.featureflags.sync/PollingDataSource.PollResult> { // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult|null[0]
+        enum entry FAILED // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.FAILED|null[0]
+        enum entry NOT_MODIFIED // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.NOT_MODIFIED|null[0]
+        enum entry PERMANENT_FAILURE // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.PERMANENT_FAILURE|null[0]
+        enum entry UPDATED // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.UPDATED|null[0]
+
+        final val entries // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.keshavop.featureflags.sync/PollingDataSource.PollResult> // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): io.github.keshavop.featureflags.sync/PollingDataSource.PollResult // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.github.keshavop.featureflags.sync/PollingDataSource.PollResult> // io.github.keshavop.featureflags.sync/PollingDataSource.PollResult.values|values#static(){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.sync/SseEvent { // io.github.keshavop.featureflags.sync/SseEvent|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String? = ...) // io.github.keshavop.featureflags.sync/SseEvent.<init>|<init>(kotlin.String;kotlin.String;kotlin.String?){}[0]
+
+    final val data // io.github.keshavop.featureflags.sync/SseEvent.data|{}data[0]
+        final fun <get-data>(): kotlin/String // io.github.keshavop.featureflags.sync/SseEvent.data.<get-data>|<get-data>(){}[0]
+    final val event // io.github.keshavop.featureflags.sync/SseEvent.event|{}event[0]
+        final fun <get-event>(): kotlin/String // io.github.keshavop.featureflags.sync/SseEvent.event.<get-event>|<get-event>(){}[0]
+    final val id // io.github.keshavop.featureflags.sync/SseEvent.id|{}id[0]
+        final fun <get-id>(): kotlin/String? // io.github.keshavop.featureflags.sync/SseEvent.id.<get-id>|<get-id>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.keshavop.featureflags.sync/SseEvent.component1|component1(){}[0]
+    final fun component2(): kotlin/String // io.github.keshavop.featureflags.sync/SseEvent.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // io.github.keshavop.featureflags.sync/SseEvent.component3|component3(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String? = ...): io.github.keshavop.featureflags.sync/SseEvent // io.github.keshavop.featureflags.sync/SseEvent.copy|copy(kotlin.String;kotlin.String;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.keshavop.featureflags.sync/SseEvent.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.keshavop.featureflags.sync/SseEvent.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.keshavop.featureflags.sync/SseEvent.toString|toString(){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/SseParser { // io.github.keshavop.featureflags.sync/SseParser|null[0]
+    constructor <init>() // io.github.keshavop.featureflags.sync/SseParser.<init>|<init>(){}[0]
+
+    final fun feed(kotlin/String): io.github.keshavop.featureflags.sync/SseEvent? // io.github.keshavop.featureflags.sync/SseParser.feed|feed(kotlin.String){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/StaticDataSource : io.github.keshavop.featureflags.sync/DataSource { // io.github.keshavop.featureflags.sync/StaticDataSource|null[0]
+    constructor <init>(io.github.keshavop.featureflags.core.store/FlagStore, io.github.keshavop.featureflags.core.model/Snapshot?, io.github.keshavop.featureflags.sync/EpochClock = ...) // io.github.keshavop.featureflags.sync/StaticDataSource.<init>|<init>(io.github.keshavop.featureflags.core.store.FlagStore;io.github.keshavop.featureflags.core.model.Snapshot?;io.github.keshavop.featureflags.sync.EpochClock){}[0]
+
+    final val status // io.github.keshavop.featureflags.sync/StaticDataSource.status|{}status[0]
+        final fun <get-status>(): kotlinx.coroutines.flow/StateFlow<io.github.keshavop.featureflags.sync/DataSourceStatus> // io.github.keshavop.featureflags.sync/StaticDataSource.status.<get-status>|<get-status>(){}[0]
+
+    final fun stop() // io.github.keshavop.featureflags.sync/StaticDataSource.stop|stop(){}[0]
+    final suspend fun start(): kotlin/Boolean // io.github.keshavop.featureflags.sync/StaticDataSource.start|start(){}[0]
+
+    final object Companion { // io.github.keshavop.featureflags.sync/StaticDataSource.Companion|null[0]
+        final fun offline(io.github.keshavop.featureflags.core.model/Snapshot? = ...): io.github.keshavop.featureflags.sync/DataSourceFactory // io.github.keshavop.featureflags.sync/StaticDataSource.Companion.offline|offline(io.github.keshavop.featureflags.core.model.Snapshot?){}[0]
+    }
+}
+
+final class io.github.keshavop.featureflags.sync/StoreUpdater { // io.github.keshavop.featureflags.sync/StoreUpdater|null[0]
+    constructor <init>(io.github.keshavop.featureflags.core.store/FlagStore) // io.github.keshavop.featureflags.sync/StoreUpdater.<init>|<init>(io.github.keshavop.featureflags.core.store.FlagStore){}[0]
+
+    final fun apply(io.github.keshavop.featureflags.sync/SseEvent): kotlin/Boolean // io.github.keshavop.featureflags.sync/StoreUpdater.apply|apply(io.github.keshavop.featureflags.sync.SseEvent){}[0]
+    final fun applyDelete(kotlin/String) // io.github.keshavop.featureflags.sync/StoreUpdater.applyDelete|applyDelete(kotlin.String){}[0]
+    final fun applyPatch(kotlin/String) // io.github.keshavop.featureflags.sync/StoreUpdater.applyPatch|applyPatch(kotlin.String){}[0]
+    final fun applyPut(kotlin/String) // io.github.keshavop.featureflags.sync/StoreUpdater.applyPut|applyPut(kotlin.String){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/StreamResponse { // io.github.keshavop.featureflags.sync/StreamResponse|null[0]
+    constructor <init>(kotlin/Int, kotlinx.coroutines.flow/Flow<kotlin/String>, kotlin/Function0<kotlin/Unit> = ...) // io.github.keshavop.featureflags.sync/StreamResponse.<init>|<init>(kotlin.Int;kotlinx.coroutines.flow.Flow<kotlin.String>;kotlin.Function0<kotlin.Unit>){}[0]
+
+    final val close // io.github.keshavop.featureflags.sync/StreamResponse.close|{}close[0]
+        final fun <get-close>(): kotlin/Function0<kotlin/Unit> // io.github.keshavop.featureflags.sync/StreamResponse.close.<get-close>|<get-close>(){}[0]
+    final val lines // io.github.keshavop.featureflags.sync/StreamResponse.lines|{}lines[0]
+        final fun <get-lines>(): kotlinx.coroutines.flow/Flow<kotlin/String> // io.github.keshavop.featureflags.sync/StreamResponse.lines.<get-lines>|<get-lines>(){}[0]
+    final val status // io.github.keshavop.featureflags.sync/StreamResponse.status|{}status[0]
+        final fun <get-status>(): kotlin/Int // io.github.keshavop.featureflags.sync/StreamResponse.status.<get-status>|<get-status>(){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/StreamingDataSource : io.github.keshavop.featureflags.sync/DataSource { // io.github.keshavop.featureflags.sync/StreamingDataSource|null[0]
+    constructor <init>(io.github.keshavop.featureflags.sync/HttpTransport, io.github.keshavop.featureflags.sync/HttpRequest, kotlin/Function1<io.github.keshavop.featureflags.sync/SseEvent, kotlin/Boolean>, kotlinx.coroutines/CoroutineScope, io.github.keshavop.featureflags.sync/PollingDataSource? = ..., kotlin/Int = ..., kotlin.time/Duration = ..., kotlin.time/Duration = ..., io.github.keshavop.featureflags.sync/Backoff = ..., io.github.keshavop.featureflags.sync/EpochClock = ..., kotlin.time/TimeSource = ..., io.github.keshavop.featureflags.core.log/FeatureFlagsLogger = ...) // io.github.keshavop.featureflags.sync/StreamingDataSource.<init>|<init>(io.github.keshavop.featureflags.sync.HttpTransport;io.github.keshavop.featureflags.sync.HttpRequest;kotlin.Function1<io.github.keshavop.featureflags.sync.SseEvent,kotlin.Boolean>;kotlinx.coroutines.CoroutineScope;io.github.keshavop.featureflags.sync.PollingDataSource?;kotlin.Int;kotlin.time.Duration;kotlin.time.Duration;io.github.keshavop.featureflags.sync.Backoff;io.github.keshavop.featureflags.sync.EpochClock;kotlin.time.TimeSource;io.github.keshavop.featureflags.core.log.FeatureFlagsLogger){}[0]
+
+    final val status // io.github.keshavop.featureflags.sync/StreamingDataSource.status|{}status[0]
+        final fun <get-status>(): kotlinx.coroutines.flow/StateFlow<io.github.keshavop.featureflags.sync/DataSourceStatus> // io.github.keshavop.featureflags.sync/StreamingDataSource.status.<get-status>|<get-status>(){}[0]
+
+    final fun stop() // io.github.keshavop.featureflags.sync/StreamingDataSource.stop|stop(){}[0]
+    final suspend fun start(): kotlin/Boolean // io.github.keshavop.featureflags.sync/StreamingDataSource.start|start(){}[0]
+}
+
+final class io.github.keshavop.featureflags.sync/TestDataSource : io.github.keshavop.featureflags.sync/DataSourceFactory { // io.github.keshavop.featureflags.sync/TestDataSource|null[0]
+    constructor <init>() // io.github.keshavop.featureflags.sync/TestDataSource.<init>|<init>(){}[0]
+
+    final fun create(io.github.keshavop.featureflags.sync/DataSourceContext): io.github.keshavop.featureflags.sync/DataSource // io.github.keshavop.featureflags.sync/TestDataSource.create|create(io.github.keshavop.featureflags.sync.DataSourceContext){}[0]
+    final fun flag(kotlin/String): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.flag|flag(kotlin.String){}[0]
+    final fun update(io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder) // io.github.keshavop.featureflags.sync/TestDataSource.update|update(io.github.keshavop.featureflags.sync.TestDataSource.FlagBuilder){}[0]
+
+    final class FlagBuilder { // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder|null[0]
+        final val key // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.key|{}key[0]
+            final fun <get-key>(): kotlin/String // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.key.<get-key>|<get-key>(){}[0]
+
+        final fun booleanFlag(): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.booleanFlag|booleanFlag(){}[0]
+        final fun fallthroughPercentage(kotlin/Double): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.fallthroughPercentage|fallthroughPercentage(kotlin.Double){}[0]
+        final fun fallthroughVariation(kotlin/Int): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.fallthroughVariation|fallthroughVariation(kotlin.Int){}[0]
+        final fun ifMatch(kotlin/String, kotlin.collections/List<kotlin/String>, kotlin/Int, kotlin/String = ...): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.ifMatch|ifMatch(kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.Int;kotlin.String){}[0]
+        final fun offVariation(kotlin/Int): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.offVariation|offVariation(kotlin.Int){}[0]
+        final fun on(kotlin/Boolean): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.on|on(kotlin.Boolean){}[0]
+        final fun variationForAll(kotlin/Boolean): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.variationForAll|variationForAll(kotlin.Boolean){}[0]
+        final fun variationForKey(kotlin/String, kotlin/String, kotlin/Int): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.variationForKey|variationForKey(kotlin.String;kotlin.String;kotlin.Int){}[0]
+        final fun variationForUser(kotlin/String, kotlin/Boolean): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.variationForUser|variationForUser(kotlin.String;kotlin.Boolean){}[0]
+        final fun variations(kotlin.collections/List<kotlinx.serialization.json/JsonElement>): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.variations|variations(kotlin.collections.List<kotlinx.serialization.json.JsonElement>){}[0]
+        final fun variations(kotlin/Array<out kotlin/String>...): io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder // io.github.keshavop.featureflags.sync/TestDataSource.FlagBuilder.variations|variations(kotlin.Array<out|kotlin.String>...){}[0]
+    }
+}
+
+final fun (kotlin.time/Duration).io.github.keshavop.featureflags.sync/jittered(kotlin/Double = ..., kotlin.random/Random = ...): kotlin.time/Duration // io.github.keshavop.featureflags.sync/jittered|jittered@kotlin.time.Duration(kotlin.Double;kotlin.random.Random){}[0]
+final fun io.github.keshavop.featureflags.sync/isPermanentFailure(kotlin/Int): kotlin/Boolean // io.github.keshavop.featureflags.sync/isPermanentFailure|isPermanentFailure(kotlin.Int){}[0]
