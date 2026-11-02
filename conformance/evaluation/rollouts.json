@@ -1,0 +1,38 @@
+{
+ "description": "Percentage rollouts (ADR-006). Buckets for salt s1: u1=90676 u2=73952 u3=27837 u4=7514 u6=20345 org-1=36073; seed 61: u1=81959 u3=50619 u4=27927 u8=16885",
+ "snapshot": {
+  "schemaVersion": 1,
+  "flags": {
+   "rollout-flag": {"key": "rollout-flag", "version": 1, "on": true, "salt": "s1", "variations": [false, true],
+    "fallthrough": {"rollout": {"weights": [{"variation": 1, "weight": 30000}, {"variation": 0, "weight": 70000}]}}},
+   "rollout-10": {"key": "rollout-flag", "version": 1, "on": true, "salt": "s1", "variations": [false, true],
+    "fallthrough": {"rollout": {"weights": [{"variation": 1, "weight": 10000}, {"variation": 0, "weight": 90000}]}}},
+   "rollout-by-org": {"key": "rollout-flag", "version": 1, "on": true, "salt": "s1", "variations": [false, true],
+    "fallthrough": {"rollout": {"contextKind": "organization", "weights": [{"variation": 1, "weight": 40000}, {"variation": 0, "weight": 60000}]}}},
+   "rollout-by-attr": {"key": "rollout-flag", "version": 1, "on": true, "salt": "s1", "variations": [false, true],
+    "fallthrough": {"rollout": {"bucketBy": "deviceId", "weights": [{"variation": 1, "weight": 30000}, {"variation": 0, "weight": 70000}]}}},
+   "experiment": {"key": "experiment", "version": 1, "on": true, "variations": ["control", "A", "B"],
+    "rules": [{"id": "india", "clauses": [{"attribute": "country", "op": "IN", "values": ["IN"]}],
+     "variationOrRollout": {"rollout": {"kind": "EXPERIMENT", "seed": 61, "weights": [{"variation": 1, "weight": 30000}, {"variation": 2, "weight": 30000}, {"variation": 0, "weight": 40000}]}}}],
+    "fallthrough": {"variation": 0}},
+   "overweight": {"key": "overweight", "version": 1, "on": true, "variations": [false, true],
+    "fallthrough": {"rollout": {"weights": [{"variation": 1, "weight": 60000}, {"variation": 0, "weight": 60000}]}}}
+  }
+ },
+ "cases": [
+  {"name": "30 %: bucket 27837 is treatment", "flag": "rollout-flag", "context": {"key": "u3"}, "expect": {"value": true, "variation": 1, "reason": {"kind": "FALLTHROUGH", "inExperiment": false}}},
+  {"name": "30 %: bucket 7514 is treatment", "flag": "rollout-flag", "context": {"key": "u4"}, "expect": {"value": true}},
+  {"name": "30 %: bucket 90676 is control", "flag": "rollout-flag", "context": {"key": "u1"}, "expect": {"value": false, "variation": 0}},
+  {"name": "10 % (same key/salt): bucket 7514 stays treatment", "flag": "rollout-10", "context": {"key": "u4"}, "expect": {"value": true}},
+  {"name": "10 %: bucket 20345 not yet included", "flag": "rollout-10", "context": {"key": "u6"}, "expect": {"value": false}},
+  {"name": "custom bucketBy attribute", "flag": "rollout-by-attr", "context": {"key": "x", "deviceId": "u3"}, "expect": {"value": true}},
+  {"name": "missing bucketBy attribute serves control", "flag": "rollout-by-attr", "context": {"key": "u3"}, "expect": {"value": false, "variation": 0}},
+  {"name": "organization bucketing: bucket 36073 < 40000", "flag": "rollout-by-org", "context": {"kind": "multi", "user": {"key": "u1"}, "organization": {"key": "org-1"}}, "expect": {"value": true}},
+  {"name": "organization bucketing without organization serves control", "flag": "rollout-by-org", "context": {"key": "u3"}, "expect": {"value": false}},
+  {"name": "experiment A (seed bucket 16885)", "flag": "experiment", "context": {"key": "u8", "country": "IN"}, "expect": {"value": "A", "variation": 1, "reason": {"kind": "RULE_MATCH", "ruleId": "india", "inExperiment": true}}},
+  {"name": "experiment B (seed bucket 50619)", "flag": "experiment", "context": {"key": "u3", "country": "IN"}, "expect": {"value": "B", "variation": 2}},
+  {"name": "experiment control (seed bucket 81959)", "flag": "experiment", "context": {"key": "u1", "country": "IN"}, "expect": {"value": "control", "variation": 0, "reason": {"kind": "RULE_MATCH", "inExperiment": true}}},
+  {"name": "outside the experiment rule", "flag": "experiment", "context": {"key": "u1", "country": "US"}, "expect": {"value": "control", "reason": {"kind": "FALLTHROUGH", "inExperiment": false}}},
+  {"name": "weights above 100 % are malformed", "flag": "overweight", "context": {"key": "u1"}, "expect": {"value": null, "reason": {"kind": "ERROR", "errorKind": "MALFORMED_FLAG"}}}
+ ]
+}

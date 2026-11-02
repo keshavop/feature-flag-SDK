@@ -1,0 +1,37 @@
+{
+ "description": "Flag state, individual targets, fallthrough and error handling",
+ "snapshot": {
+  "schemaVersion": 1,
+  "flags": {
+   "off-with-variation": {"key": "off-with-variation", "version": 1, "on": false, "variations": [false, true], "offVariation": 0, "fallthrough": {"variation": 1}},
+   "off-no-variation": {"key": "off-no-variation", "version": 1, "on": false, "variations": [false, true], "fallthrough": {"variation": 1}},
+   "targeted": {"key": "targeted", "version": 3, "on": true, "variations": ["a", "b", "c"],
+    "targets": [{"values": ["u1", "u2"], "variation": 2}, {"contextKind": "device", "values": ["d-9"], "variation": 1}],
+    "fallthrough": {"variation": 0}},
+   "bad-index": {"key": "bad-index", "version": 1, "on": true, "variations": [true], "fallthrough": {"variation": 4}},
+   "deleted-flag": {"key": "deleted-flag", "version": 9, "deleted": true},
+   "json-flag": {"key": "json-flag", "version": 1, "on": true, "variations": [{"color": "green", "limit": 3}], "fallthrough": {"variation": 0}}
+  }
+ },
+ "cases": [
+  {"name": "off flag serves offVariation", "flag": "off-with-variation", "context": {"key": "u1"},
+   "expect": {"value": false, "variation": 0, "reason": {"kind": "OFF"}}},
+  {"name": "off flag without offVariation serves default", "flag": "off-no-variation", "context": {"key": "u1"},
+   "expect": {"value": null, "variation": null, "reason": {"kind": "OFF"}}},
+  {"name": "missing flag", "flag": "nope", "context": {"key": "u1"},
+   "expect": {"value": null, "variation": null, "reason": {"kind": "ERROR", "errorKind": "FLAG_NOT_FOUND"}}},
+  {"name": "deleted flag is not found", "flag": "deleted-flag", "context": {"key": "u1"},
+   "expect": {"value": null, "variation": null, "reason": {"kind": "ERROR", "errorKind": "FLAG_NOT_FOUND"}}},
+  {"name": "user target", "flag": "targeted", "context": {"key": "u2"},
+   "expect": {"value": "c", "variation": 2, "reason": {"kind": "TARGET_MATCH"}}},
+  {"name": "device target in multi context", "flag": "targeted",
+   "context": {"kind": "multi", "user": {"key": "u9"}, "device": {"key": "d-9"}},
+   "expect": {"value": "b", "variation": 1, "reason": {"kind": "TARGET_MATCH"}}},
+  {"name": "untargeted falls through", "flag": "targeted", "context": {"key": "u3"},
+   "expect": {"value": "a", "variation": 0, "reason": {"kind": "FALLTHROUGH", "inExperiment": false}}},
+  {"name": "variation index out of range", "flag": "bad-index", "context": {"key": "u1"},
+   "expect": {"value": null, "variation": null, "reason": {"kind": "ERROR", "errorKind": "MALFORMED_FLAG"}}},
+  {"name": "json variation", "flag": "json-flag", "context": {"key": "u1"},
+   "expect": {"value": {"color": "green", "limit": 3}, "variation": 0, "reason": {"kind": "FALLTHROUGH"}}}
+ ]
+}

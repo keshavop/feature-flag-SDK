@@ -1,0 +1,59 @@
+{
+ "description": "Clause operators, type strictness, negation, arrays, nested paths and multi-kind contexts",
+ "snapshot": {
+  "schemaVersion": 1,
+  "flags": {
+   "ops": {"key": "ops", "version": 1, "on": true, "variations": ["none", "in", "notin", "contains", "starts", "ends", "regex", "lt", "gte", "before", "after", "semver", "array", "path", "org", "negate", "unknown", "unsafe-regex"],
+    "rules": [
+     {"id": "r-unknown", "clauses": [{"attribute": "email", "op": "SOME_FUTURE_OP", "values": ["x"]}], "variationOrRollout": {"variation": 16}},
+     {"id": "r-unsafe", "clauses": [{"attribute": "unsafe", "op": "MATCHES", "values": ["(?=a)a"]}], "variationOrRollout": {"variation": 17}},
+     {"id": "r-in", "clauses": [{"attribute": "country", "op": "IN", "values": ["IN", "US"]}], "variationOrRollout": {"variation": 1}},
+     {"id": "r-notin", "clauses": [{"attribute": "tier", "op": "NOT_IN", "values": ["free", "trial"]}], "variationOrRollout": {"variation": 2}},
+     {"id": "r-contains", "clauses": [{"attribute": "email", "op": "CONTAINS", "values": ["@corp."]}], "variationOrRollout": {"variation": 3}},
+     {"id": "r-starts", "clauses": [{"attribute": "name", "op": "STARTS_WITH", "values": ["Dr. "]}], "variationOrRollout": {"variation": 4}},
+     {"id": "r-ends", "clauses": [{"attribute": "domain", "op": "ENDS_WITH", "values": [".gov"]}], "variationOrRollout": {"variation": 5}},
+     {"id": "r-regex", "clauses": [{"attribute": "phone", "op": "MATCHES", "values": ["^\\+91[0-9]{10}$"]}], "variationOrRollout": {"variation": 6}},
+     {"id": "r-lt", "clauses": [{"attribute": "age", "op": "LESS_THAN", "values": [18]}], "variationOrRollout": {"variation": 7}},
+     {"id": "r-gte", "clauses": [{"attribute": "score", "op": "GREATER_THAN_OR_EQUAL", "values": [99.5]}], "variationOrRollout": {"variation": 8}},
+     {"id": "r-before", "clauses": [{"attribute": "signupDate", "op": "BEFORE", "values": ["2020-01-01T00:00:00Z"]}], "variationOrRollout": {"variation": 9}},
+     {"id": "r-after", "clauses": [{"attribute": "lastSeen", "op": "AFTER", "values": [1767225600000]}], "variationOrRollout": {"variation": 10}},
+     {"id": "r-semver", "clauses": [{"attribute": "appVersion", "op": "SEMVER_GREATER_THAN", "values": ["2.4.0"]}], "variationOrRollout": {"variation": 11}},
+     {"id": "r-array", "clauses": [{"attribute": "groups", "op": "IN", "values": ["beta"]}], "variationOrRollout": {"variation": 12}},
+     {"id": "r-path", "clauses": [{"attribute": "/address/city", "op": "IN", "values": ["Pune"]}], "variationOrRollout": {"variation": 13}},
+     {"id": "r-org", "clauses": [{"contextKind": "organization", "attribute": "plan", "op": "IN", "values": ["enterprise"]}], "variationOrRollout": {"variation": 14}},
+     {"id": "r-negate", "clauses": [{"attribute": "role", "op": "IN", "values": ["admin"], "negate": true}, {"attribute": "role", "op": "STARTS_WITH", "values": ["ad"]}], "variationOrRollout": {"variation": 15}}
+    ],
+    "fallthrough": {"variation": 0}}
+  }
+ },
+ "cases": [
+  {"name": "unknown operator never matches", "flag": "ops", "context": {"key": "u", "email": "x"}, "expect": {"value": "none", "reason": {"kind": "FALLTHROUGH"}}},
+  {"name": "lookahead regex is rejected", "flag": "ops", "context": {"key": "u", "unsafe": "a"}, "expect": {"value": "none"}},
+  {"name": "in", "flag": "ops", "context": {"key": "u", "country": "IN"}, "expect": {"value": "in", "variation": 1, "reason": {"kind": "RULE_MATCH", "ruleId": "r-in", "ruleIndex": 2}}},
+  {"name": "in is case sensitive", "flag": "ops", "context": {"key": "u", "country": "in"}, "expect": {"value": "none"}},
+  {"name": "not in", "flag": "ops", "context": {"key": "u", "tier": "pro"}, "expect": {"value": "notin"}},
+  {"name": "not in with listed value", "flag": "ops", "context": {"key": "u", "tier": "free"}, "expect": {"value": "none"}},
+  {"name": "contains", "flag": "ops", "context": {"key": "u", "email": "a@corp.example"}, "expect": {"value": "contains"}},
+  {"name": "starts with", "flag": "ops", "context": {"key": "u", "name": "Dr. Rao"}, "expect": {"value": "starts"}},
+  {"name": "ends with", "flag": "ops", "context": {"key": "u", "domain": "x.gov"}, "expect": {"value": "ends"}},
+  {"name": "regex", "flag": "ops", "context": {"key": "u", "phone": "+919876543210"}, "expect": {"value": "regex"}},
+  {"name": "regex no match", "flag": "ops", "context": {"key": "u", "phone": "+9198765"}, "expect": {"value": "none"}},
+  {"name": "less than", "flag": "ops", "context": {"key": "u", "age": 17}, "expect": {"value": "lt"}},
+  {"name": "number as string does not compare", "flag": "ops", "context": {"key": "u", "age": "17"}, "expect": {"value": "none"}},
+  {"name": "greater or equal with decimals", "flag": "ops", "context": {"key": "u", "score": 99.5}, "expect": {"value": "gte"}},
+  {"name": "before (RFC 3339 attribute)", "flag": "ops", "context": {"key": "u", "signupDate": "2019-06-30T10:00:00+05:30"}, "expect": {"value": "before"}},
+  {"name": "before (epoch millis attribute)", "flag": "ops", "context": {"key": "u", "signupDate": 1546300800000}, "expect": {"value": "before"}},
+  {"name": "after", "flag": "ops", "context": {"key": "u", "lastSeen": "2026-03-01T00:00:00Z"}, "expect": {"value": "after"}},
+  {"name": "invalid date never matches", "flag": "ops", "context": {"key": "u", "lastSeen": "yesterday"}, "expect": {"value": "none"}},
+  {"name": "semver greater", "flag": "ops", "context": {"key": "u", "appVersion": "2.10.0"}, "expect": {"value": "semver"}},
+  {"name": "semver release beats pre-release", "flag": "ops", "context": {"key": "u", "appVersion": "2.4.0-rc.1"}, "expect": {"value": "none"}},
+  {"name": "semver short form", "flag": "ops", "context": {"key": "u", "appVersion": "3"}, "expect": {"value": "semver"}},
+  {"name": "array attribute matches any element", "flag": "ops", "context": {"key": "u", "groups": ["alpha", "beta"]}, "expect": {"value": "array"}},
+  {"name": "nested attribute path", "flag": "ops", "context": {"key": "u", "address": {"city": "Pune"}}, "expect": {"value": "path"}},
+  {"name": "organization kind in multi context", "flag": "ops", "context": {"kind": "multi", "user": {"key": "u"}, "organization": {"key": "o1", "plan": "enterprise"}}, "expect": {"value": "org"}},
+  {"name": "missing kind does not match", "flag": "ops", "context": {"key": "u", "plan": "enterprise"}, "expect": {"value": "none"}},
+  {"name": "negated clause", "flag": "ops", "context": {"key": "u", "role": "adviser"}, "expect": {"value": "negate"}},
+  {"name": "negated clause excludes listed value", "flag": "ops", "context": {"key": "u", "role": "admin"}, "expect": {"value": "none"}},
+  {"name": "missing attribute does not match even when negated", "flag": "ops", "context": {"key": "u"}, "expect": {"value": "none"}}
+ ]
+}

@@ -10,7 +10,7 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **Phase 0 (build & release pipeline)**. The documents below describe the architecture; implementation
+> Status: **Phase 1 (evaluation engine)** — `ff-core` evaluates flags, rules, segments and percentage rollouts. The documents below describe the architecture; implementation
 > follows the [implementation plan](docs/implementation-plan.md).
 
 ## Packages

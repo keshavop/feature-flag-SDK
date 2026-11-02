@@ -5,3 +5,763 @@ public final class io/github/keshavop/featureflags/core/SdkInfo {
 	public final fun userAgent (Ljava/lang/String;)Ljava/lang/String;
 }
 
+public final class io/github/keshavop/featureflags/core/context/ContextKind {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;ZLjava/util/Map;Ljava/util/Set;)V
+	public final fun bucketableValue (Ljava/lang/String;)Ljava/lang/String;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Z
+	public final fun component4 ()Ljava/util/Map;
+	public final fun component5 ()Ljava/util/Set;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;ZLjava/util/Map;Ljava/util/Set;)Lio/github/keshavop/featureflags/core/context/ContextKind;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/context/ContextKind;Ljava/lang/String;Ljava/lang/String;ZLjava/util/Map;Ljava/util/Set;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/context/ContextKind;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnonymous ()Z
+	public final fun getAttributes ()Ljava/util/Map;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getKind ()Ljava/lang/String;
+	public final fun getPrivateAttributes ()Ljava/util/Set;
+	public fun hashCode ()I
+	public final fun resolve (Ljava/lang/String;)Lkotlinx/serialization/json/JsonElement;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/context/EvaluationContext {
+	public static final field Companion Lio/github/keshavop/featureflags/core/context/EvaluationContext$Companion;
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFullyQualifiedKey ()Ljava/lang/String;
+	public final fun getKinds ()Ljava/util/Map;
+	public fun hashCode ()I
+	public final fun isMulti ()Z
+	public final fun kind (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/context/ContextKind;
+	public final fun toJson ()Lkotlinx/serialization/json/JsonObject;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/context/EvaluationContext$Builder {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun anonymous (Z)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public static synthetic fun anonymous$default (Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public final fun build ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun buildKind ()Lio/github/keshavop/featureflags/core/context/ContextKind;
+	public final fun private ([Ljava/lang/String;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public final fun set (Ljava/lang/String;Ljava/lang/Number;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public final fun set (Ljava/lang/String;Ljava/lang/String;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public final fun set (Ljava/lang/String;Lkotlinx/serialization/json/JsonElement;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public final fun set (Ljava/lang/String;Z)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+}
+
+public final class io/github/keshavop/featureflags/core/context/EvaluationContext$Companion {
+	public final fun builder (Ljava/lang/String;Ljava/lang/String;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+	public final fun fromJson (Lkotlinx/serialization/json/JsonObject;)Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun multi ([Lio/github/keshavop/featureflags/core/context/EvaluationContext;)Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun user (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/context/EvaluationContext$Builder;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/Bucketer {
+	public static final field BUCKETS I
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/eval/Bucketer;
+	public final fun bucket (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+	public final fun pick (Ljava/util/List;I)I
+}
+
+public final class io/github/keshavop/featureflags/core/eval/BucketerKt {
+	public static final fun percentageRollout (DIILjava/lang/String;Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/Rollout;
+	public static synthetic fun percentageRollout$default (DIILjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Rollout;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/ErrorKind : java/lang/Enum {
+	public static final field CLIENT_NOT_READY Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static final field EXCEPTION Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static final field FLAG_NOT_FOUND Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static final field MALFORMED_FLAG Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static final field USER_NOT_SPECIFIED Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static final field WRONG_TYPE Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public static fun values ()[Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationDetail {
+	public fun <init> (Ljava/lang/Object;Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/eval/EvaluationReason;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()Ljava/lang/Integer;
+	public final fun component3 ()Lio/github/keshavop/featureflags/core/eval/EvaluationReason;
+	public final fun copy (Ljava/lang/Object;Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/eval/EvaluationReason;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;Ljava/lang/Object;Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/eval/EvaluationReason;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getReason ()Lio/github/keshavop/featureflags/core/eval/EvaluationReason;
+	public final fun getValue ()Ljava/lang/Object;
+	public final fun getVariationIndex ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public final fun isDefaultValue ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public static final field Companion Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Companion;
+	public abstract fun getKind ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$Companion {
+	public final fun error (Lio/github/keshavop/featureflags/core/eval/ErrorKind;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Error;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$Error : io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public fun <init> (Lio/github/keshavop/featureflags/core/eval/ErrorKind;)V
+	public final fun component1 ()Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public final fun copy (Lio/github/keshavop/featureflags/core/eval/ErrorKind;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Error;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Error;Lio/github/keshavop/featureflags/core/eval/ErrorKind;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Error;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getErrorKind ()Lio/github/keshavop/featureflags/core/eval/ErrorKind;
+	public fun getKind ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$Fallthrough : io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Fallthrough;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Fallthrough;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Fallthrough;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInExperiment ()Z
+	public fun getKind ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$Off : io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/eval/EvaluationReason$Off;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getKind ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$PrerequisiteFailed : io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$PrerequisiteFailed;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/eval/EvaluationReason$PrerequisiteFailed;Ljava/lang/String;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$PrerequisiteFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getKind ()Ljava/lang/String;
+	public final fun getPrerequisiteKey ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$RuleMatch : io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public fun <init> (ILjava/lang/String;Z)V
+	public synthetic fun <init> (ILjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Z
+	public final fun copy (ILjava/lang/String;Z)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$RuleMatch;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/eval/EvaluationReason$RuleMatch;ILjava/lang/String;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/eval/EvaluationReason$RuleMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInExperiment ()Z
+	public fun getKind ()Ljava/lang/String;
+	public final fun getRuleId ()Ljava/lang/String;
+	public final fun getRuleIndex ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/EvaluationReason$TargetMatch : io/github/keshavop/featureflags/core/eval/EvaluationReason {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/eval/EvaluationReason$TargetMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getKind ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/FlagEvaluator {
+	public static final field MAX_SEGMENT_DEPTH I
+	public fun <init> ()V
+	public fun <init> (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;)V
+	public synthetic fun <init> (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun evaluate (Lio/github/keshavop/featureflags/core/model/Snapshot;Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public final fun evaluateAll (Lio/github/keshavop/featureflags/core/model/Snapshot;Lio/github/keshavop/featureflags/core/context/EvaluationContext;)Ljava/util/Map;
+}
+
+public final class io/github/keshavop/featureflags/core/eval/Murmur3 {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/eval/Murmur3;
+	public final fun hash32x86 (Ljava/lang/String;I)I
+	public final fun hash32x86 ([BI)I
+	public static synthetic fun hash32x86$default (Lio/github/keshavop/featureflags/core/eval/Murmur3;Ljava/lang/String;IILjava/lang/Object;)I
+	public static synthetic fun hash32x86$default (Lio/github/keshavop/featureflags/core/eval/Murmur3;[BIILjava/lang/Object;)I
+}
+
+public final class io/github/keshavop/featureflags/core/eval/Percent {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/eval/Percent;
+	public static final field SCALE I
+	public final fun toWeight (D)I
+}
+
+public final class io/github/keshavop/featureflags/core/eval/Variations {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/eval/Variations;
+	public final fun bool (Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;Z)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public final fun double (Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;D)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public final fun int (Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;I)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public final fun json (Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;Lkotlinx/serialization/json/JsonElement;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+	public final fun string (Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;Ljava/lang/String;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+}
+
+public abstract interface class io/github/keshavop/featureflags/core/hooks/EvaluationHook {
+	public fun afterEvaluation (Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/util/Map;Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;)Ljava/util/Map;
+	public fun beforeEvaluation (Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/util/Map;)Ljava/util/Map;
+	public abstract fun getName ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/hooks/EvaluationHook$DefaultImpls {
+	public static fun afterEvaluation (Lio/github/keshavop/featureflags/core/hooks/EvaluationHook;Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/util/Map;Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;)Ljava/util/Map;
+	public static fun beforeEvaluation (Lio/github/keshavop/featureflags/core/hooks/EvaluationHook;Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/util/Map;)Ljava/util/Map;
+}
+
+public final class io/github/keshavop/featureflags/core/hooks/HookContext {
+	public fun <init> (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lkotlinx/serialization/json/JsonElement;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun component3 ()Lkotlinx/serialization/json/JsonElement;
+	public final fun copy (Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lkotlinx/serialization/json/JsonElement;)Lio/github/keshavop/featureflags/core/hooks/HookContext;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/lang/String;Lio/github/keshavop/featureflags/core/context/EvaluationContext;Lkotlinx/serialization/json/JsonElement;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/hooks/HookContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContext ()Lio/github/keshavop/featureflags/core/context/EvaluationContext;
+	public final fun getDefaultValue ()Lkotlinx/serialization/json/JsonElement;
+	public final fun getFlagKey ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/hooks/HookRunner {
+	public fun <init> (Ljava/util/List;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;)V
+	public synthetic fun <init> (Ljava/util/List;Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun run (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;
+}
+
+public abstract interface class io/github/keshavop/featureflags/core/log/FeatureFlagsLogger {
+	public abstract fun debug (Ljava/lang/String;)V
+	public abstract fun error (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public static synthetic fun error$default (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)V
+	public abstract fun info (Ljava/lang/String;)V
+	public abstract fun warn (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public static synthetic fun warn$default (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)V
+}
+
+public final class io/github/keshavop/featureflags/core/log/FeatureFlagsLogger$DefaultImpls {
+	public static synthetic fun error$default (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)V
+	public static synthetic fun warn$default (Lio/github/keshavop/featureflags/core/log/FeatureFlagsLogger;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)V
+}
+
+public final class io/github/keshavop/featureflags/core/log/LogOnce {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun run (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class io/github/keshavop/featureflags/core/log/NoOpLogger : io/github/keshavop/featureflags/core/log/FeatureFlagsLogger {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/log/NoOpLogger;
+	public fun debug (Ljava/lang/String;)V
+	public fun error (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun info (Ljava/lang/String;)V
+	public fun warn (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class io/github/keshavop/featureflags/core/model/Clause {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Clause$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/keshavop/featureflags/core/model/Operator;Ljava/util/List;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/keshavop/featureflags/core/model/Operator;Ljava/util/List;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/keshavop/featureflags/core/model/Operator;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/keshavop/featureflags/core/model/Operator;Ljava/util/List;Z)Lio/github/keshavop/featureflags/core/model/Clause;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Clause;Ljava/lang/String;Ljava/lang/String;Lio/github/keshavop/featureflags/core/model/Operator;Ljava/util/List;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Clause;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAttribute ()Ljava/lang/String;
+	public final fun getContextKind ()Ljava/lang/String;
+	public final fun getNegate ()Z
+	public final fun getOp ()Lio/github/keshavop/featureflags/core/model/Operator;
+	public final fun getValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Clause$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Clause$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Clause;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Clause;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Clause$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/ContextKinds {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/ContextKinds;
+	public static final field MULTI Ljava/lang/String;
+	public static final field USER Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/core/model/FlagConfig {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/FlagConfig$Companion;
+	public fun <init> (Ljava/lang/String;JZLjava/util/List;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;Ljava/lang/String;ZZ)V
+	public synthetic fun <init> (Ljava/lang/String;JZLjava/util/List;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;Ljava/lang/String;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component11 ()Z
+	public final fun component12 ()Z
+	public final fun component2 ()J
+	public final fun component3 ()Z
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Ljava/util/List;
+	public final fun component9 ()Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public final fun copy (Ljava/lang/String;JZLjava/util/List;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;Ljava/lang/String;ZZ)Lio/github/keshavop/featureflags/core/model/FlagConfig;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/FlagConfig;Ljava/lang/String;JZLjava/util/List;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;Ljava/lang/String;ZZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/FlagConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDeleted ()Z
+	public final fun getFallthrough ()Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getOffVariation ()Ljava/lang/Integer;
+	public final fun getOn ()Z
+	public final fun getPrerequisites ()Ljava/util/List;
+	public final fun getRules ()Ljava/util/List;
+	public final fun getSalt ()Ljava/lang/String;
+	public final fun getTargets ()Ljava/util/List;
+	public final fun getTrackEvents ()Z
+	public final fun getVariations ()Ljava/util/List;
+	public final fun getVersion ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/FlagConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/FlagConfig$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/FlagConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/FlagConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/FlagConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Operator : java/lang/Enum {
+	public static final field AFTER Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field BEFORE Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field CONTAINS Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Operator$Companion;
+	public static final field ENDS_WITH Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field GREATER_THAN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field GREATER_THAN_OR_EQUAL Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field IN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field LESS_THAN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field LESS_THAN_OR_EQUAL Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field MATCHES Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field NOT_IN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field SEGMENT_MATCH Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field SEMVER_EQUAL Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field SEMVER_GREATER_THAN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field SEMVER_LESS_THAN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field STARTS_WITH Lio/github/keshavop/featureflags/core/model/Operator;
+	public static final field UNKNOWN Lio/github/keshavop/featureflags/core/model/Operator;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/Operator;
+	public static fun values ()[Lio/github/keshavop/featureflags/core/model/Operator;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Operator$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Prerequisite {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Prerequisite$Companion;
+	public fun <init> (Ljava/lang/String;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun copy (Ljava/lang/String;I)Lio/github/keshavop/featureflags/core/model/Prerequisite;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Prerequisite;Ljava/lang/String;IILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Prerequisite;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getVariation ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Prerequisite$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Prerequisite$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Prerequisite;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Prerequisite;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Prerequisite$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Rollout {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Rollout$Companion;
+	public fun <init> (Lio/github/keshavop/featureflags/core/model/RolloutKind;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Lio/github/keshavop/featureflags/core/model/RolloutKind;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/keshavop/featureflags/core/model/RolloutKind;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun copy (Lio/github/keshavop/featureflags/core/model/RolloutKind;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;)Lio/github/keshavop/featureflags/core/model/Rollout;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Rollout;Lio/github/keshavop/featureflags/core/model/RolloutKind;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Rollout;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBucketBy ()Ljava/lang/String;
+	public final fun getContextKind ()Ljava/lang/String;
+	public final fun getKind ()Lio/github/keshavop/featureflags/core/model/RolloutKind;
+	public final fun getSeed ()Ljava/lang/Integer;
+	public final fun getWeights ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Rollout$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Rollout$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Rollout;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Rollout;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Rollout$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/RolloutKind : java/lang/Enum {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/RolloutKind$Companion;
+	public static final field EXPERIMENT Lio/github/keshavop/featureflags/core/model/RolloutKind;
+	public static final field ROLLOUT Lio/github/keshavop/featureflags/core/model/RolloutKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/RolloutKind;
+	public static fun values ()[Lio/github/keshavop/featureflags/core/model/RolloutKind;
+}
+
+public final class io/github/keshavop/featureflags/core/model/RolloutKind$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Rule {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Rule$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;)Lio/github/keshavop/featureflags/core/model/Rule;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Rule;Ljava/lang/String;Ljava/util/List;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Rule;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClauses ()Ljava/util/List;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getVariationOrRollout ()Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Rule$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Rule$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Rule;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Rule;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Rule$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Segment {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Segment$Companion;
+	public fun <init> (Ljava/lang/String;JLjava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/List;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;JLjava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/List;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/Set;
+	public final fun component5 ()Ljava/util/Set;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Z
+	public final fun copy (Ljava/lang/String;JLjava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/List;Ljava/lang/String;Z)Lio/github/keshavop/featureflags/core/model/Segment;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Segment;Ljava/lang/String;JLjava/lang/String;Ljava/util/Set;Ljava/util/Set;Ljava/util/List;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Segment;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContextKind ()Ljava/lang/String;
+	public final fun getDeleted ()Z
+	public final fun getExcluded ()Ljava/util/Set;
+	public final fun getIncluded ()Ljava/util/Set;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getRules ()Ljava/util/List;
+	public final fun getSalt ()Ljava/lang/String;
+	public final fun getVersion ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Segment$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Segment$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Segment;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Segment;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Segment$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/SegmentRule {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/SegmentRule$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/SegmentRule;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/SegmentRule;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/SegmentRule;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBucketBy ()Ljava/lang/String;
+	public final fun getClauses ()Ljava/util/List;
+	public final fun getContextKind ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getWeight ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/SegmentRule$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/SegmentRule$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/SegmentRule;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/SegmentRule;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/SegmentRule$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Snapshot {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Snapshot$Companion;
+	public static final field SCHEMA_VERSION I
+	public fun <init> ()V
+	public fun <init> (ILjava/lang/String;JLjava/util/Map;Ljava/util/Map;)V
+	public synthetic fun <init> (ILjava/lang/String;JLjava/util/Map;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/util/Map;
+	public final fun component5 ()Ljava/util/Map;
+	public final fun copy (ILjava/lang/String;JLjava/util/Map;Ljava/util/Map;)Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Snapshot;ILjava/lang/String;JLjava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun flag (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/FlagConfig;
+	public final fun getEnvironment ()Ljava/lang/String;
+	public final fun getFlags ()Ljava/util/Map;
+	public final fun getSchemaVersion ()I
+	public final fun getSegments ()Ljava/util/Map;
+	public final fun getVersion ()J
+	public fun hashCode ()I
+	public final fun segment (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/Segment;
+	public fun toString ()Ljava/lang/String;
+	public final fun withFlag (Lio/github/keshavop/featureflags/core/model/FlagConfig;)Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public final fun withSegment (Lio/github/keshavop/featureflags/core/model/Segment;)Lio/github/keshavop/featureflags/core/model/Snapshot;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Snapshot$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Snapshot$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Snapshot;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Snapshot$Companion {
+	public final fun getEMPTY ()Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/SnapshotCodec {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/SnapshotCodec;
+	public final fun decode (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public final fun decodeFlag (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/FlagConfig;
+	public final fun decodeSegment (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/model/Segment;
+	public final fun encode (Lio/github/keshavop/featureflags/core/model/Snapshot;)Ljava/lang/String;
+	public final fun getJson ()Lkotlinx/serialization/json/Json;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Target {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/Target$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;I)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Set;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()I
+	public final fun copy (Ljava/lang/String;Ljava/util/Set;I)Lio/github/keshavop/featureflags/core/model/Target;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/Target;Ljava/lang/String;Ljava/util/Set;IILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/Target;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContextKind ()Ljava/lang/String;
+	public final fun getValues ()Ljava/util/Set;
+	public final fun getVariation ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/Target$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/Target$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/Target;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/Target;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/Target$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/VariationOrRollout {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/VariationOrRollout$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/model/Rollout;)V
+	public synthetic fun <init> (Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/model/Rollout;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Integer;
+	public final fun component2 ()Lio/github/keshavop/featureflags/core/model/Rollout;
+	public final fun copy (Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/model/Rollout;)Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/VariationOrRollout;Ljava/lang/Integer;Lio/github/keshavop/featureflags/core/model/Rollout;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRollout ()Lio/github/keshavop/featureflags/core/model/Rollout;
+	public final fun getVariation ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/VariationOrRollout$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/VariationOrRollout$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/VariationOrRollout;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/VariationOrRollout;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/VariationOrRollout$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/WeightedVariation {
+	public static final field Companion Lio/github/keshavop/featureflags/core/model/WeightedVariation$Companion;
+	public fun <init> (II)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun copy (II)Lio/github/keshavop/featureflags/core/model/WeightedVariation;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/model/WeightedVariation;IIILjava/lang/Object;)Lio/github/keshavop/featureflags/core/model/WeightedVariation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getVariation ()I
+	public final fun getWeight ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/keshavop/featureflags/core/model/WeightedVariation$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/keshavop/featureflags/core/model/WeightedVariation$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/keshavop/featureflags/core/model/WeightedVariation;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/keshavop/featureflags/core/model/WeightedVariation;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/model/WeightedVariation$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/keshavop/featureflags/core/store/ChangeSet {
+	public fun <init> (Ljava/util/Set;)V
+	public final fun component1 ()Ljava/util/Set;
+	public final fun copy (Ljava/util/Set;)Lio/github/keshavop/featureflags/core/store/ChangeSet;
+	public static synthetic fun copy$default (Lio/github/keshavop/featureflags/core/store/ChangeSet;Ljava/util/Set;ILjava/lang/Object;)Lio/github/keshavop/featureflags/core/store/ChangeSet;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFlagKeys ()Ljava/util/Set;
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/keshavop/featureflags/core/store/FlagStore {
+	public abstract fun delete (Lio/github/keshavop/featureflags/core/store/ItemKind;Ljava/lang/String;J)Z
+	public abstract fun init (Lio/github/keshavop/featureflags/core/model/Snapshot;)V
+	public abstract fun isInitialized ()Z
+	public abstract fun snapshot ()Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public abstract fun upsertFlag (Lio/github/keshavop/featureflags/core/model/FlagConfig;)Z
+	public abstract fun upsertSegment (Lio/github/keshavop/featureflags/core/model/Segment;)Z
+}
+
+public final class io/github/keshavop/featureflags/core/store/InMemoryFlagStore : io/github/keshavop/featureflags/core/store/FlagStore {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun delete (Lio/github/keshavop/featureflags/core/store/ItemKind;Ljava/lang/String;J)Z
+	public fun init (Lio/github/keshavop/featureflags/core/model/Snapshot;)V
+	public fun isInitialized ()Z
+	public fun snapshot ()Lio/github/keshavop/featureflags/core/model/Snapshot;
+	public fun upsertFlag (Lio/github/keshavop/featureflags/core/model/FlagConfig;)Z
+	public fun upsertSegment (Lio/github/keshavop/featureflags/core/model/Segment;)Z
+}
+
+public final class io/github/keshavop/featureflags/core/store/ItemKind : java/lang/Enum {
+	public static final field FLAG Lio/github/keshavop/featureflags/core/store/ItemKind;
+	public static final field SEGMENT Lio/github/keshavop/featureflags/core/store/ItemKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/keshavop/featureflags/core/store/ItemKind;
+	public static fun values ()[Lio/github/keshavop/featureflags/core/store/ItemKind;
+}
+
