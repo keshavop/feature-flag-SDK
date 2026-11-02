@@ -1,0 +1,30 @@
+{
+ "description": "Prerequisite chains and cycles",
+ "snapshot": {
+  "schemaVersion": 1,
+  "flags": {
+   "base": {"key": "base", "version": 1, "on": true, "variations": [false, true],
+    "rules": [{"id": "pro", "clauses": [{"attribute": "plan", "op": "IN", "values": ["pro"]}], "variationOrRollout": {"variation": 1}}],
+    "fallthrough": {"variation": 0}},
+   "base-off": {"key": "base-off", "version": 1, "on": false, "variations": [false, true], "offVariation": 1, "fallthrough": {"variation": 1}},
+   "child": {"key": "child", "version": 1, "on": true, "variations": ["off", "on"], "offVariation": 0,
+    "prerequisites": [{"key": "base", "variation": 1}], "fallthrough": {"variation": 1}},
+   "grandchild": {"key": "grandchild", "version": 1, "on": true, "variations": ["off", "on"], "offVariation": 0,
+    "prerequisites": [{"key": "child", "variation": 1}], "fallthrough": {"variation": 1}},
+   "needs-off-flag": {"key": "needs-off-flag", "version": 1, "on": true, "variations": ["off", "on"], "offVariation": 0,
+    "prerequisites": [{"key": "base-off", "variation": 1}], "fallthrough": {"variation": 1}},
+   "needs-missing": {"key": "needs-missing", "version": 1, "on": true, "variations": ["off", "on"], "offVariation": 0,
+    "prerequisites": [{"key": "ghost", "variation": 0}], "fallthrough": {"variation": 1}},
+   "cycle-a": {"key": "cycle-a", "version": 1, "on": true, "variations": [false, true], "prerequisites": [{"key": "cycle-b", "variation": 1}], "fallthrough": {"variation": 1}},
+   "cycle-b": {"key": "cycle-b", "version": 1, "on": true, "variations": [false, true], "prerequisites": [{"key": "cycle-a", "variation": 1}], "fallthrough": {"variation": 1}}
+  }
+ },
+ "cases": [
+  {"name": "prerequisite met", "flag": "child", "context": {"key": "u", "plan": "pro"}, "expect": {"value": "on", "variation": 1, "reason": {"kind": "FALLTHROUGH"}}},
+  {"name": "prerequisite not met", "flag": "child", "context": {"key": "u", "plan": "free"}, "expect": {"value": "off", "variation": 0, "reason": {"kind": "PREREQUISITE_FAILED", "prerequisiteKey": "base"}}},
+  {"name": "transitive prerequisite", "flag": "grandchild", "context": {"key": "u", "plan": "free"}, "expect": {"value": "off", "reason": {"kind": "PREREQUISITE_FAILED", "prerequisiteKey": "child"}}},
+  {"name": "prerequisite that is off fails even if its off variation matches", "flag": "needs-off-flag", "context": {"key": "u"}, "expect": {"value": "off", "reason": {"kind": "PREREQUISITE_FAILED", "prerequisiteKey": "base-off"}}},
+  {"name": "missing prerequisite fails", "flag": "needs-missing", "context": {"key": "u"}, "expect": {"value": "off", "reason": {"kind": "PREREQUISITE_FAILED", "prerequisiteKey": "ghost"}}},
+  {"name": "cycle is malformed", "flag": "cycle-a", "context": {"key": "u"}, "expect": {"value": null, "variation": null, "reason": {"kind": "ERROR", "errorKind": "MALFORMED_FLAG"}}}
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "description": "Segment membership: excluded, included, rules, weighted rules and nesting",
+ "snapshot": {
+  "schemaVersion": 1,
+  "flags": {
+   "seg-flag": {"key": "seg-flag", "version": 1, "on": true, "variations": [false, true],
+    "rules": [{"id": "in-beta", "clauses": [{"attribute": "key", "op": "SEGMENT_MATCH", "values": ["beta"]}], "variationOrRollout": {"variation": 1}}],
+    "fallthrough": {"variation": 0}},
+   "weighted-flag": {"key": "weighted-flag", "version": 1, "on": true, "variations": [false, true],
+    "rules": [{"id": "in-beta-30", "clauses": [{"attribute": "key", "op": "SEGMENT_MATCH", "values": ["beta-30"]}], "variationOrRollout": {"variation": 1}}],
+    "fallthrough": {"variation": 0}},
+   "nested-flag": {"key": "nested-flag", "version": 1, "on": true, "variations": [false, true],
+    "rules": [{"id": "in-outer", "clauses": [{"attribute": "key", "op": "SEGMENT_MATCH", "values": ["outer"]}], "variationOrRollout": {"variation": 1}}],
+    "fallthrough": {"variation": 0}}
+  },
+  "segments": {
+   "beta": {"key": "beta", "version": 2, "included": ["u1", "u2"], "excluded": ["u3"],
+    "rules": [{"id": "staff", "clauses": [{"attribute": "email", "op": "ENDS_WITH", "values": ["@example.com"]}]}]},
+   "beta-30": {"key": "beta-30", "version": 1, "salt": "sg",
+    "rules": [{"id": "pro-30", "clauses": [{"attribute": "plan", "op": "IN", "values": ["pro"]}], "weight": 30000}]},
+   "outer": {"key": "outer", "version": 1, "rules": [{"id": "via-inner", "clauses": [{"attribute": "key", "op": "SEGMENT_MATCH", "values": ["beta"]}]}]}
+  }
+ },
+ "cases": [
+  {"name": "included key", "flag": "seg-flag", "context": {"key": "u1"}, "expect": {"value": true, "reason": {"kind": "RULE_MATCH", "ruleId": "in-beta"}}},
+  {"name": "excluded wins over rules", "flag": "seg-flag", "context": {"key": "u3", "email": "u3@example.com"}, "expect": {"value": false}},
+  {"name": "segment rule", "flag": "seg-flag", "context": {"key": "u9", "email": "u9@example.com"}, "expect": {"value": true}},
+  {"name": "not a member", "flag": "seg-flag", "context": {"key": "u9", "email": "u9@gmail.com"}, "expect": {"value": false}},
+  {"name": "weighted rule includes bucket 1952 < 30000", "flag": "weighted-flag", "context": {"key": "u4", "plan": "pro"}, "expect": {"value": true}},
+  {"name": "weighted rule excludes bucket 40176", "flag": "weighted-flag", "context": {"key": "u1", "plan": "pro"}, "expect": {"value": false}},
+  {"name": "weighted rule still needs its clauses", "flag": "weighted-flag", "context": {"key": "u4", "plan": "free"}, "expect": {"value": false}},
+  {"name": "nested segment", "flag": "nested-flag", "context": {"key": "u2"}, "expect": {"value": true}}
+ ]
+}

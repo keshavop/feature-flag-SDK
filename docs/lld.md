@@ -138,11 +138,21 @@ data class Rollout(
 data class Segment(
     val key: String,
     val version: Long,
+    val contextKind: String = "user",          // kind whose key is checked against included/excluded
     val included: Set<String> = emptySet(),
     val excluded: Set<String> = emptySet(),
-    val rules: List<Rule> = emptyList(),
+    val rules: List<SegmentRule> = emptyList(),
     val salt: String,
     val deleted: Boolean = false,
+)
+
+@Serializable
+data class SegmentRule(                       // segment rules include a context, they don't pick a variation
+    val id: String,
+    val clauses: List<Clause>,
+    val weight: Int? = null,                  // e.g. 30_000 → only 30 % of matching contexts (bucketed on segment key + salt)
+    val bucketBy: String = "key",
+    val contextKind: String = "user",
 )
 ```
 

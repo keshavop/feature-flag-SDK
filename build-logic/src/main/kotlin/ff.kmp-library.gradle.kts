@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
+    id("org.jetbrains.kotlin.plugin.serialization")
     id("ff.lint")
 }
 
@@ -20,7 +21,12 @@ kotlin {
         browser {
             testTask { enabled = false }
         }
-        nodejs()
+        nodejs {
+            testTask {
+                // the bucketing distribution tests hash 1M keys, which can exceed mocha's 2 s default on a busy CI runner
+                useMocha { timeout = "60s" }
+            }
+        }
     }
 
     iosArm64()
@@ -28,6 +34,9 @@ kotlin {
     iosX64()
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+        }
         commonTest.dependencies {
             implementation(kotlin("test"))
         }

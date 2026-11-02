@@ -73,6 +73,18 @@ Phases 3–5 can run in parallel once `ff-client-common` lands (first PR of Phas
 **Exit criteria:** conformance suite passes identically on JVM, JS and iOS simulator; ≥ 90 % line coverage on `ff-core`;
 1 % / 30 % rollouts serve within ±0.05 % / ±0.3 % over 1M keys and ramping up never drops a previously included key.
 
+**Status (delivered in one PR, `feat-phase1-core-engine`):**
+- Models + `SnapshotCodec` (unknown operators decode to `UNKNOWN`), `EvaluationContext` (multi-kind, JSON wire form),
+  `Murmur3`/`Bucketer`/`Percent`/`percentageRollout`, operators (type-strict; RE2-like regex subset compiled once per
+  snapshot), `FlagEvaluator`, typed `Variations`, `InMemoryFlagStore` with dependency-aware `ChangeSet`, hooks, logger.
+- Conformance suite in `conformance/`: 65 evaluation cases + 260 bucketing vectors generated with the reference
+  `mmh3` (`conformance/tools/gen_bucketing.py`), embedded into `commonTest` so JVM, JS and iOS run the same cases.
+- Rollout property tests: 1 % within ±0.05 % and deciles within ±0.3 % over 1M keys; 20k keys ramped 1→5→30→50→100 %
+  never drop out. JVM stress test: 64 readers + 1 writer, no torn reads.
+- Deviations: atomics come from the Kotlin stdlib (`kotlin.concurrent.atomics`) instead of atomicfu; segments use a
+  dedicated `SegmentRule` (LLD §2 updated); line coverage is not measured yet (no coverage tool in the build); the JS
+  bundle-size spike moves to Phase 5, where `ff-web` first ships the evaluator.
+
 ## Phase 2 — Server JVM SDK (3 weeks)
 
 | PR | Title | Contents |
