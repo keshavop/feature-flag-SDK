@@ -1,0 +1,22 @@
+public final class io/github/keshavop/featureflags/otel/OpenTelemetryHook : io/github/keshavop/featureflags/core/hooks/EvaluationHook {
+	public static final field Companion Lio/github/keshavop/featureflags/otel/OpenTelemetryHook$Companion;
+	public static final field EVENT_NAME Ljava/lang/String;
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun afterEvaluation (Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/util/Map;Lio/github/keshavop/featureflags/core/eval/EvaluationDetail;)Ljava/util/Map;
+	public fun beforeEvaluation (Lio/github/keshavop/featureflags/core/hooks/HookContext;Ljava/util/Map;)Ljava/util/Map;
+	public fun getName ()Ljava/lang/String;
+}
+
+public final class io/github/keshavop/featureflags/otel/OpenTelemetryHook$Companion {
+	public final fun getCONTEXT_ID ()Lio/opentelemetry/api/common/AttributeKey;
+	public final fun getERROR_TYPE ()Lio/opentelemetry/api/common/AttributeKey;
+	public final fun getKEY ()Lio/opentelemetry/api/common/AttributeKey;
+	public final fun getPROVIDER ()Lio/opentelemetry/api/common/AttributeKey;
+	public final fun getREASON ()Lio/opentelemetry/api/common/AttributeKey;
+	public final fun getVALUE ()Lio/opentelemetry/api/common/AttributeKey;
+	public final fun getVARIANT ()Lio/opentelemetry/api/common/AttributeKey;
+}
+

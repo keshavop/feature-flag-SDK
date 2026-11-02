@@ -10,7 +10,8 @@ A universal feature-flag SDK for **Web, Android, iOS and Kotlin backends**, buil
 - **Server SDK (Kotlin / JVM):** full rule set in memory, lock-free thread-safe evaluation for high throughput,
   real-time updates via SSE with polling fallback.
 
-> Status: **Phase 5 (Web SDK)** — server, Android, iOS and Web SDKs are usable; Phase 6 hardening is next.
+> Status: **all six phases implemented** — server, Android, iOS and Web SDKs, observability and release tooling. Not yet
+> released; see the [implementation plan](docs/implementation-plan.md) for what is still open.
 > The design documents below describe the architecture; implementation follows the
 > [implementation plan](docs/implementation-plan.md).
 
@@ -95,7 +96,10 @@ Releases are cut by pushing a `v*` tag; see [docs/releasing.md](docs/releasing.m
 |---|---|
 | [High-Level Design](docs/hld.md) | Requirements, system context, SDK profiles, data flows, resilience, security |
 | [Low-Level Design](docs/lld.md) | Modules, domain model, public APIs, evaluation algorithm, concurrency, sync, events, testing |
-| [Implementation Plan](docs/implementation-plan.md) | Phased roadmap, PR breakdown, exit criteria, risks |
+| [Implementation Plan](docs/implementation-plan.md) | Phased roadmap, PR breakdown, exit criteria, risks, per-phase status |
+| [Getting started](docs/getting-started.md) | Server, Android, iOS and Web usage |
+| [Threat model](docs/threat-model.md) | Keys, personal data, payload handling, residual risks |
+| [Releasing](docs/releasing.md) | One-click release to Maven Central, npm and Swift Package Manager |
 
 ### Architecture Decision Records
 

@@ -208,6 +208,20 @@ AAR < 300 KB.
 
 **Exit criteria:** 1.0.0 published on all registries; docs site live; all NFRs in [HLD §4](./hld.md#4-non-functional-requirements) verified.
 
+**Status (delivered in one PR, `feat-phase6-hardening`):**
+- 6.1: data source status is available on every SDK (`dataSourceStatus` on the server, `status` on clients, Micrometer
+  gauge). Separate diagnostic events are **not** implemented yet.
+- 6.2: `ff-otel` — `OpenTelemetryHook` records `feature_flag.evaluation` span events with the semantic-convention
+  attributes; values and context ids are opt-in.
+- 6.3: release pipeline for Maven Central, npm and SPM (Phase 4 rework, see [releasing.md](./releasing.md)).
+- 6.4: [getting-started.md](./getting-started.md) for all four platforms; Dokka API reference (`./gradlew :dokkaGenerate`)
+  published to GitHub Pages by `.github/workflows/docs.yml`.
+- 6.5: [threat-model.md](./threat-model.md).
+- Not done yet (exit criteria): no 1.0.0 release has been cut (needs the registry secrets); the Web bundle-size issue from
+  Phase 5 is open; HLD NFRs are measured for the server (JMH) but not for client init time, AAR or framework size.
+- Build notes from Phase 3: the Android module uses AGP 9.0 with its legacy variant API and the Kotlin Android plugin,
+  and OkHttp 4.12 (OkHttp 5.5's Android artifact needs compileSdk 37, beyond AGP 9.0).
+
 ## Cross-cutting definition of done (every PR)
 
 - [ ] CI green on all affected targets; no public API change without `apiDump` update.
