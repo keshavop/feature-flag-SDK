@@ -9,20 +9,22 @@ plugins {
     id("ff.maven-publish")
 }
 
-android {
-    namespace = "io.github.keshavop.featureflags.android"
-    compileSdk = 35
-    defaultConfig {
-        minSdk = 21
-        consumerProguardFiles("consumer-rules.pro")
+// AGP is loaded through build-logic (only where an Android SDK exists), so its types are not on this script's classpath:
+// configure the `android` extension dynamically instead of through the typed accessor.
+extensions.getByName("android").withGroovyBuilder {
+    "setNamespace"("io.github.keshavop.featureflags.android")
+    "setCompileSdk"(35)
+    "defaultConfig" {
+        "setMinSdk"(21)
+        "consumerProguardFiles"("consumer-rules.pro")
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    "compileOptions" {
+        "setSourceCompatibility"(JavaVersion.VERSION_11)
+        "setTargetCompatibility"(JavaVersion.VERSION_11)
     }
-    lint {
-        abortOnError = true
-        warningsAsErrors = false
+    "lint" {
+        "setAbortOnError"(true)
+        "setWarningsAsErrors"(false)
     }
 }
 
