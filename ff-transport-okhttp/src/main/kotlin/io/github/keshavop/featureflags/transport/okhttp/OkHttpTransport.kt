@@ -51,7 +51,7 @@ public class OkHttpTransport(
     override suspend fun execute(request: HttpRequest): HttpResponse {
         val call = client.newCall(request.toOkHttp())
         val response = call.await()
-        return response.use { HttpResponse(it.code, it.headers.toMap(), withContext(Dispatchers.IO) { it.body.string() }) }
+        return response.use { HttpResponse(it.code, it.headers.toMap(), withContext(Dispatchers.IO) { it.body?.string().orEmpty() }) }
     }
 
     override suspend fun openStream(request: HttpRequest): StreamResponse {
@@ -61,7 +61,7 @@ public class OkHttpTransport(
             response.close()
             return StreamResponse(response.code, flow { })
         }
-        val source = response.body.source()
+        val source = response.body?.source() ?: return StreamResponse(response.code, flow { }).also { response.close() }
         val lines =
             flow {
                 while (true) {
