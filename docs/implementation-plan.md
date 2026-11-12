@@ -215,7 +215,9 @@ AAR < 300 KB.
   attributes; values and context ids are opt-in.
 - 6.3: release pipeline for Maven Central, npm and SPM (Phase 4 rework, see [releasing.md](./releasing.md)).
 - 6.4: [getting-started.md](./getting-started.md) for all four platforms; Dokka API reference (`./gradlew :dokkaGenerate`)
-  published to GitHub Pages by `.github/workflows/docs.yml`.
+  published to GitHub Pages by `.github/workflows/docs.yml`. Follow-up: a Next.js docs site in `website/` with per-platform
+  integration guides, a percentage-rollout playground (bucketing checked against `conformance/bucketing.json`) and every
+  doc in this folder; Pages serves it at the root with the API reference under `/api/`.
 - 6.5: [threat-model.md](./threat-model.md).
 - Not done yet (exit criteria): no 1.0.0 release has been cut (needs the registry secrets); the Web bundle-size issue from
   Phase 5 is open; HLD NFRs are measured for the server (JMH) but not for client init time, AAR or framework size.

@@ -90,6 +90,21 @@ Requires JDK 17+ (CI uses 21). iOS targets compile on any host; iOS tests run on
 
 Releases are cut by pushing a `v*` tag; see [docs/releasing.md](docs/releasing.md).
 
+## Documentation site
+
+`website/` is a Next.js site with step-by-step integration guides for every platform (including Next.js server-side
+rendering), an interactive percentage-rollout playground and all the documents below. It renders `docs/` at build time,
+so editing a Markdown file here updates the site. On every push to `main`, `.github/workflows/docs.yml` publishes it to
+GitHub Pages at `https://keshavop.github.io/feature-flag-SDK/`, with the Dokka API reference under `/api/`.
+
+```sh
+cd website
+npm ci
+npm run dev    # http://localhost:3000
+npm test       # bucketing conformance vectors and doc link rewriting
+npm run build  # static export in website/out
+```
+
 ## Design documents
 
 | Document | Description |
