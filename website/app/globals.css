@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/*
+ * Tokens. "on" is the colour of a flag that is serving its feature: the one accent on the site.
+ * "off" is the colour of a user outside a rollout. Everything else stays in the slate ink/paper range.
+ */
+:root {
+  --paper: #eef1f5;
+  --surface: #ffffff;
+  --ink: #18202f;
+  --muted: #586276;
+  --rule: #d3d9e3;
+  --on: #2945e8;
+  --on-ink: #ffffff;
+  --on-soft: #dfe5ff;
+  --off: #cbd2dd;
+  --code-bg: #f6f8fb;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10151f;
+    --surface: #171e2b;
+    --ink: #e4e9f2;
+    --muted: #99a3b6;
+    --rule: #2a3345;
+    --on: #8099ff;
+    --on-ink: #0d1430;
+    --on-soft: #232d58;
+    --off: #2a3244;
+    --code-bg: #131a27;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #10151f;
+  --surface: #171e2b;
+  --ink: #e4e9f2;
+  --muted: #99a3b6;
+  --rule: #2a3345;
+  --on: #8099ff;
+  --on-ink: #0d1430;
+  --on-soft: #232d58;
+  --off: #2a3244;
+  --code-bg: #131a27;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-on: var(--on);
+  --color-on-ink: var(--on-ink);
+  --color-on-soft: var(--on-soft);
+  --color-off: var(--off);
+  --color-code: var(--code-bg);
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--on);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--on-soft);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-stretch: 85%;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* Shiki dual theme: colours come from CSS variables so the theme toggle needs no re-render. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: transparent !important;
+}
+:root[data-theme="dark"] .shiki,
+:root[data-theme="dark"] .shiki span {
+  color: var(--shiki-dark);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .shiki,
+  :root:not([data-theme="light"]) .shiki span {
+    color: var(--shiki-dark);
+  }
+}
+.shiki {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  tab-size: 4;
+}
+.shiki code {
+  display: block;
+  min-width: max-content;
+}
+
+/* Long-form docs rendered from ../docs. */
+.prose {
+  max-width: 72ch;
+}
+.prose > * + * {
+  margin-top: 1rem;
+}
+.prose h2 {
+  font-family: var(--font-display);
+  font-stretch: 90%;
+  font-size: 1.625rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  scroll-margin-top: 5rem;
+}
+.prose h3 {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 2rem;
+  scroll-margin-top: 5rem;
+}
+.prose h4 {
+  font-weight: 600;
+  margin-top: 1.5rem;
+  scroll-margin-top: 5rem;
+}
+.prose a {
+  color: var(--on);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose a:hover {
+  text-decoration-thickness: 2px;
+}
+.prose strong {
+  font-weight: 600;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li {
+  margin-top: 0.25rem;
+}
+.prose li::marker {
+  color: var(--muted);
+}
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+  overflow-wrap: anywhere;
+}
+.prose blockquote {
+  border-left: 3px solid var(--on);
+  padding-left: 1rem;
+  color: var(--muted);
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.prose th {
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1.5px solid var(--ink);
+}
+.prose th,
+.prose td {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  vertical-align: top;
+}
+.prose td {
+  border-bottom: 1px solid var(--rule);
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Docs open with a header-less key/value table ("| | |"); drop its empty header row. */
+.prose thead tr:not(:has(th:not(:empty))) {
+  display: none;
+}
+.prose hr + h2 {
+  border-top: 0;
+  padding-top: 0;
+}

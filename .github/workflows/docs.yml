@@ -1,4 +1,4 @@
-# Publishes the Dokka API reference to GitHub Pages on every push to main.
+# Publishes the docs website (website/) and the Dokka API reference (under /api/) to GitHub Pages on every push to main.
 # One-time setup: repository Settings → Pages → Source: "GitHub Actions".
 name: API docs
 
@@ -30,9 +30,23 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5
       - name: Generate API reference
         run: ./gradlew :dokkaGenerate
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Build the website
+        working-directory: website
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+        run: |
+          npm ci
+          npm run build
+          cp -r ../build/dokka/html out/api
+          touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: build/dokka/html
+          path: website/out
 
   deploy:
     needs: build
